@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SOAP Journal - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/UserJournal.css' %}">
+{% endblock %}
+{% block content %}
+<div class="journalpage-container">
+
+  <div class="journalpage-topbar">
+    <a href="{% url 'home' %}" class="journalpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="journalpage-menu-btn" id="jr-menu-btn" aria-label="Open menu"><span class="journalpage-menu-icon"></span></button>
+    <div id="jr-menu" class="journalpage-dropdown-menu hidden">
+      <ul class="list-reset">
+        <li><a href="{% url 'profile' %}">Profile</a></li>
+        <li><a href="{% url 'journal' %}">Journal</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="journalpage-header-bg" style="position:relative;width:100%;height:170px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
+    <img src="{% static 'pictures/JTVCF/for background picture/dating bg sa canva.jpg' %}"
+         alt="Journal Header Background"
+         style="width:100%;height:220px;object-fit:cover;object-position:top;filter:brightness(0.92);position:absolute;top:0;left:0;z-index:1;">
+    <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}"
+      alt="DailyVotion Logo"
+      style="position:absolute;right:20px;top:-60px;z-index:2;height:300px;width:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.10));background:transparent;border-radius:0;padding:0;">
+    <div style="position:relative;z-index:2;width:100%;max-width:700px;margin-top:38px;text-align:center;">
+      <h1 class="journalpage-title" style="color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.25),0 1px 2px #008b8b;letter-spacing:1px;">SOAP Journal</h1>
+      <p class="journalpage-guide-main" style="color:#fff;font-size:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,0.18);margin:0.5rem 0 1.2rem;">Do your devotion using the SOAP method: Scripture, Observation, Application, Prayer.</p>
+      <div class="journalpage-date" style="justify-content:center;display:flex;align-items:center;gap:1.2rem;">
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <label for="id_date" style="color:#fff;text-shadow:0 1px 4px #008b8b;font-weight:600;">Date:</label>
+          {{ form.date }}
+        </div>
+        <a href="{% url 'journalentries' %}" class="journalpage-entries-btn" style="background:#fff;color:#008b8b;font-weight:600;padding:.5rem 1.1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,139,139,0.13);text-decoration:none;transition:background .18s;white-space:nowrap;">Journal Entries</a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="journalpage-soap-grid" style="width:100%;max-width:1200px;margin:40px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:2.2rem;">
+  <div class="journalpage-soap-box" style="background:#fff;border-radius:18px;padding:2rem 1.2rem 1.5rem;display:flex;flex-direction:column;align-items:stretch;min-height:370px;">
+      <label for="soap-scripture" class="soap-label-toggle" style="font-weight:700;color:#008b8b;font-size:1.13rem;margin-bottom:.3rem;cursor:pointer;" onclick="toggleSoapBox('soap-scripture')">Scripture:</label>
+      <div style="color:#4a5568;font-size:.98rem;margin-bottom:.7rem;">Write the scripture or verse that inspires you today.</div>
+      <div id="soap-scripture-box" style="display:block;">
+  <textarea id="soap-scripture" name="scripture" rows="10" class="soap-textarea"></textarea>
+        <button type="button" class="journalpage-clear-btn" data-target="soap-scripture" style="margin-top:8px;">Clear</button>
+      </div>
+    </div>
+  <div class="journalpage-soap-box" style="background:#fff;border-radius:18px;padding:2rem 1.2rem 1.5rem;display:flex;flex-direction:column;align-items:stretch;min-height:370px;">
+      <label for="soap-observation" class="soap-label-toggle" style="font-weight:700;color:#008b8b;font-size:1.13rem;margin-bottom:.3rem;cursor:pointer;" onclick="toggleSoapBox('soap-observation')">Observation:</label>
+      <div style="color:#4a5568;font-size:.98rem;margin-bottom:.7rem;">What is God teaching you in this passage? Write your observations here.</div>
+      <div id="soap-observation-box" style="display:block;">
+  <textarea id="soap-observation" name="observation" rows="10" class="soap-textarea"></textarea>
+        <button type="button" class="journalpage-clear-btn" data-target="soap-observation" style="margin-top:8px;">Clear</button>
+      </div>
+    </div>
+  <div class="journalpage-soap-box" style="background:#fff;border-radius:18px;padding:2rem 1.2rem 1.5rem;display:flex;flex-direction:column;align-items:stretch;min-height:370px;">
+      <label for="soap-application" class="soap-label-toggle" style="font-weight:700;color:#008b8b;font-size:1.13rem;margin-bottom:.3rem;cursor:pointer;" onclick="toggleSoapBox('soap-application')">Application:</label>
+      <div style="color:#4a5568;font-size:.98rem;margin-bottom:.7rem;">How can you apply this lesson to your life? Write your application here.</div>
+      <div id="soap-application-box" style="display:block;">
+  <textarea id="soap-application" name="application" rows="10" class="soap-textarea"></textarea>
+        <button type="button" class="journalpage-clear-btn" data-target="soap-application" style="margin-top:8px;">Clear</button>
+      </div>
+    </div>
+  <div class="journalpage-soap-box" style="background:#fff;border-radius:18px;padding:2rem 1.2rem 1.5rem;display:flex;flex-direction:column;align-items:stretch;min-height:370px;">
+      <label for="soap-prayer" class="soap-label-toggle" style="font-weight:700;color:#008b8b;font-size:1.13rem;margin-bottom:.3rem;cursor:pointer;" onclick="toggleSoapBox('soap-prayer')">Prayer:</label>
+      <div style="color:#4a5568;font-size:.98rem;margin-bottom:.7rem;">Write a prayer in response to what you learned today.</div>
+      <div id="soap-prayer-box" style="display:block;">
+  <textarea id="soap-prayer" name="prayer" rows="10" class="soap-textarea"></textarea>
+        <button type="button" class="journalpage-clear-btn" data-target="soap-prayer" style="margin-top:8px;">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  // Toggle SOAP box visibility
+  function toggleSoapBox(id) {
+    const box = document.getElementById(id + '-box');
+    if (box) {
+      box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+    }
+  }
+
+  const jmb=document.getElementById('jr-menu-btn');
+  const jm=document.getElementById('jr-menu');
+  if(jmb&&jm){
+    jm.classList.add('hidden');
+    jmb.addEventListener('click',(e)=>{e.stopPropagation();jm.classList.toggle('hidden');});
+    document.addEventListener('click',(e)=>{ if(!jm.classList.contains('hidden') && !jm.contains(e.target) && !jmb.contains(e.target)){ jm.classList.add('hidden'); }});
+  }
+  // Clear buttons: clear corresponding textarea by data-target
+  document.querySelectorAll('.journalpage-clear-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const id = btn.getAttribute('data-target');
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) { el.value = ''; el.focus(); }
+    });
+  });
+  
+  // Entry toggle buttons
+  document.querySelectorAll('.entry-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const entryId = btn.getAttribute('data-entry-id');
+      if (!entryId) return;
+      
+      const detailsEl = document.getElementById(`entry-${entryId}-details`);
+      if (detailsEl) {
+        detailsEl.classList.toggle('hidden');
+        
+        if (detailsEl.classList.contains('hidden')) {
+          btn.textContent = 'View Full Entry';
+          btn.classList.remove('active');
+        } else {
+          btn.textContent = 'Hide Details';
+          btn.classList.add('active');
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

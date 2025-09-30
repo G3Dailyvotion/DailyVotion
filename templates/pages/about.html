@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/About.css' %}">
+<style>
+  html, body {
+    overflow-x: hidden !important;
+    scrollbar-width: none;
+    background: #f7f7f7 !important;
+  }
+  body::-webkit-scrollbar, html::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="aboutpage-container" style="max-width:100vw;width:100vw;overflow-x:hidden;margin:0 auto;">
+  <div class="aboutpage-topbar" style="position: relative">
+    <a href="/" class="aboutpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="aboutpage-menu-btn" id="about-menu-btn" aria-label="Open menu">
+      <span class="aboutpage-menu-icon"></span>
+    </button>
+    <div id="about-menu" class="aboutpage-dropdown-menu" style="display:none">
+      <ul class="list-reset">
+        <li><a class="aboutpage-link-btn" href="{% url 'home' %}">Home</a></li>
+        <li><a class="aboutpage-link-btn" href="{% url 'login' %}">Login</a></li>
+        <li><a class="aboutpage-link-btn" href="{% url 'admin_login' %}">Admin</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="aboutpage-gallery-flex" style="display:flex;flex-direction:row;gap:2.5rem;max-width:1100px;width:100%;margin:2.5rem auto 0;align-items:center;justify-content:center;">
+    <div class="aboutpage-collage-flex" style="display:flex;flex-direction:column;gap:0.7rem;max-width:520px;">
+      <div style="display:flex;gap:0.7rem;">
+        <img src="{% static 'pictures/JTVCF/gallery/about us/1.jpg' %}" alt="About Collage 1" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/1.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/2.jpg' %}" alt="About Collage 2" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/2.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/3.jpg' %}" alt="About Collage 3" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/3.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+      </div>
+  <div style="display:flex;gap:0.7rem;">
+        <img src="{% static 'pictures/JTVCF/gallery/about us/4.jpg' %}" alt="About Collage 4" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/4.jpg' %}" style="width:120px;height:100px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/5.jpg' %}" alt="About Collage 5" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/5.jpg' %}" style="width:120px;height:100px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/6.jpg' %}" alt="About Collage 6" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/6.jpg' %}" style="width:120px;height:100px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/7.jpg' %}" alt="About Collage 7" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/7.jpg' %}" style="width:120px;height:100px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+      </div>
+  <div style="display:flex;gap:0.7rem;">
+        <img src="{% static 'pictures/JTVCF/gallery/about us/8.jpg' %}" alt="About Collage 8" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/8.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/9.jpg' %}" alt="About Collage 9" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/9.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/10.jpg' %}" alt="About Collage 10" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/10.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+      </div>
+  <div style="display:flex;gap:0.7rem;">
+        <img src="{% static 'pictures/JTVCF/gallery/about us/11.jpg' %}" alt="About Collage 11" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/11.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/12.jpg' %}" alt="About Collage 12" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/12.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+        <img src="{% static 'pictures/JTVCF/gallery/about us/13.jpg' %}" alt="About Collage 13" class="about-collage-img" data-img="{% static 'pictures/JTVCF/gallery/about us/13.jpg' %}" style="width:160px;height:120px;object-fit:cover;border-radius:14px;box-shadow:0 2px 10px rgba(0,139,139,0.10);cursor:pointer;" />
+      </div>
+<!-- Fullscreen image modal -->
+<div id="about-img-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+  <img id="about-img-modal-img" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:18px;box-shadow:0 4px 32px rgba(0,0,0,0.25);" />
+  <button id="about-img-modal-close" style="position:absolute;top:32px;right:48px;font-size:2.2rem;background:none;border:none;color:#fff;cursor:pointer;z-index:10001;">&times;</button>
+</div>
+    </div>
+    <div class="aboutpage-text" id="about-text-box" style="flex:0 0 340px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,139,139,0.10);padding:1.2rem 1.2rem;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:340px;">
+      <h2 style="color:#008b8b;margin-bottom:1rem;">About Us</h2>
+      <p style="font-size:1.05rem;color:#333;margin-bottom:1rem;">At Daily Votion, we believe that spiritual growth should be personal, accessible, and rooted in community. Our platform offers an interactive space where individuals can engage with daily devotionals, share personal prayers, and connect with others in faith. Whether you're starting your spiritual journey or deepening your walk with God, Daily Votion provides tools to reflect, pray, and grow every day. With features like guided devotionals, prayer walls, and community support, we aim to inspire and encourage you—one day, one prayer, one step at a time.</p>
+      <p style="font-size:1.05rem;color:#333;">Join us in making faith a daily habit and building a stronger spiritual life through connection and devotion.</p>
+    </div>
+
+    <!-- Gallery button outside, right side -->
+    <a href="{% url 'gallery' %}" class="aboutpage-gallery-btn" style="position:absolute;top:50%;right:40px;transform:translate(0, -50%);background:#008b8b;color:#fff;border:none;border-radius:8px;padding:0.5rem 1.4rem;font-weight:600;box-shadow:0 2px 8px rgba(0,139,139,0.13);cursor:pointer;z-index:10;" tabindex="0">Gallery &rarr;</a>
+
+    <!-- Gallery slider (hidden by default) -->
+    <div id="gallery-slider" style="display:none;width:100%;align-items:center;justify-content:center;gap:2.5rem;max-width:1100px;margin:2.5rem auto 0;">
+      <button id="back-to-about-btn" style="background:#008b8b;color:#fff;border:none;border-radius:8px;padding:0.5rem 1.2rem;font-weight:600;box-shadow:0 2px 8px rgba(0,139,139,0.13);cursor:pointer;position:relative;left:0;">&larr; About Us</button>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+        <div id="gallery-images" style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;min-height:260px;"></div>
+        <div style="margin-top:1.2rem;display:flex;gap:1.2rem;justify-content:center;">
+          <button id="gallery-prev-btn" style="background:#00b3b3;color:#fff;border:none;border-radius:8px;padding:0.4rem 1.1rem;font-weight:600;box-shadow:0 2px 8px rgba(0,139,139,0.13);cursor:pointer;">&larr; Prev</button>
+          <button id="gallery-next-btn" style="background:#00b3b3;color:#fff;border:none;border-radius:8px;padding:0.4rem 1.1rem;font-weight:600;box-shadow:0 2px 8px rgba(0,139,139,0.13);cursor:pointer;">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Collage image click to fullscreen modal
+  document.querySelectorAll('.about-collage-img').forEach(img => {
+    img.addEventListener('click', function() {
+      const modal = document.getElementById('about-img-modal');
+      const modalImg = document.getElementById('about-img-modal-img');
+      modalImg.src = this.getAttribute('data-img');
+      modal.style.display = 'flex';
+    });
+  });
+  document.getElementById('about-img-modal-close').onclick = function() {
+    document.getElementById('about-img-modal').style.display = 'none';
+    document.getElementById('about-img-modal-img').src = '';
+  };
+  document.getElementById('about-img-modal').onclick = function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+      document.getElementById('about-img-modal-img').src = '';
+    }
+  };
+  // basic toggle for the dropdown
+  const abtn = document.getElementById('about-menu-btn');
+  const menu = document.getElementById('about-menu');
+  if (abtn && menu) {
+    menu.style.display = 'none';
+    abtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', (e)=>{ if (menu.style.display === 'block' && !menu.contains(e.target) && !abtn.contains(e.target)) menu.style.display = 'none'; });
+  }
+});
+</script>
+{% endblock %}

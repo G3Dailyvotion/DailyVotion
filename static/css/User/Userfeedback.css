@@ -1,0 +1,150 @@
+/* Copied Userfeedback.css */
+/* User Feedback Styles */
+.userfeedback-container {
+  min-height: 100vh;
+  background: #f7f9fc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.userfeedback-topbar {
+  background-color: #008b8b;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  width: 100vw;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.userfeedback-logo {
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+.userfeedback-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.userfeedback-menu-icon {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  position: relative;
+}
+.userfeedback-menu-icon span {
+  position: absolute;
+  left: 0;
+  width: 28px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+}
+.userfeedback-menu-icon span:first-child {
+  top: -8px;
+}
+.userfeedback-menu-icon span:last-child {
+  top: 8px;
+}
+.userfeedback-dropdown-menu {
+  position: absolute;
+  top: 54px;
+  right: 32px;
+  background: #008b8b;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,139,139,0.18);
+  z-index: 100;
+  min-width: 180px;
+  }
+.position-relative { position: relative; }
+.btn-reset { background:none; border:none; cursor:pointer; padding:8px; margin-left:auto; display:flex; align-items:center; }
+.userfeedback-dropdown-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column }
+.hidden { display:none !important; }
+
+  .userfeedback-dropdown-menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.userfeedback-link-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 2px 0;
+  transition: background 0.2s, text-shadow 0.2s, text-decoration 0.2s;
+}
+.userfeedback-link-btn:hover {
+  background: #006d6d;
+  text-decoration: underline;
+  text-shadow: 0 0 8px #fff, 0 0 16px #008b8b;
+}
+
+.userfeedback-main {
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(60,60,60,0.12), 0 1px 4px rgba(60,60,60,0.10);
+  padding: 2rem 1.5rem;
+  border: 1.5px solid #e0f7fa;
+}
+.userfeedback-title {
+  color: #008b8b;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.userfeedback-explanation {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.userfeedback-textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #cce4e4;
+  font-size: 1rem;
+  min-height: 80px;
+  resize: vertical;
+}
+.userfeedback-btns {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+.userfeedback-btn {
+  background: #008b8b;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.userfeedback-btn:hover {
+  background: #006d6d;
+}

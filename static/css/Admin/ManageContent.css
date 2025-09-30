@@ -1,0 +1,41 @@
+/* Copied from React src/css/Admin/ManageContent.css */
+.managecontent-link-btn { background:none; border:none; color:#fff; font-size:1rem; cursor:pointer; width:100%; text-align:left; padding:0; transition:text-shadow 0.2s, text-decoration 0.2s; }
+.managecontent-link-btn:hover { text-decoration: underline; text-shadow: 0 0 8px #fff, 0 0 16px #008b8b; }
+body { margin:0; padding:0; }
+.managecontent-container { min-height:100vh; background:#f7f9fc; font-family:'Segoe UI', Arial, sans-serif; padding:0rem 0; }
+.managecontent-main { display:flex; gap:2rem; justify-content:center; align-items:center; min-height:80vh; }
+.managecontent-users { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(60,60,60,0.12), 0 1px 4px rgba(60,60,60,0.10); padding:2rem 1.5rem; min-width:280px; max-width:350px; border:1.5px solid #e0f7fa; max-height:70vh; overflow-y:auto; transition: box-shadow 0.3s, border-color 0.3s; }
+.managecontent-users:hover { box-shadow: 0 0 16px 2px rgba(60,60,60,0.18), 0 0 8px 2px rgba(60,60,60,0.12); border-color:#e0e0e0; }
+.managecontent-users h2 { color:#008b8b; margin-bottom:1rem; }
+.managecontent-user-item { margin-bottom:1rem; padding:0.7rem; border-radius:6px; background:#f0f6fa; box-shadow:0 1px 4px rgba(0,139,139,0.06); font-size:1rem; }
+.managecontent-delivery { background:#fff; border-radius:16px; box-shadow:0 4px 16px rgba(60,60,60,0.12), 0 1px 4px rgba(60,60,60,0.10); padding:2rem 1.5rem; min-width:320px; max-width:400px; border:1.5px solid #e0f7fa; transition: box-shadow 0.3s, border-color 0.3s; }
+.managecontent-delivery:hover { box-shadow: 0 0 16px 2px rgba(60,60,60,0.18), 0 0 8px 2px rgba(60,60,60,0.12); border-color:#e0e0e0; }
+.managecontent-delivery h2 { color:#008b8b; margin-bottom:1rem; }
+.managecontent-form label { display:block; margin-bottom:1rem; color:#008b8b; font-weight:500; }
+.managecontent-select { width:100%; margin-top:0.3rem; margin-bottom:0.7rem; padding:0.5rem; border-radius:5px; border:1px solid #cce4e4; font-size:1rem; }
+.managecontent-textarea { width:100%; margin-top:0.3rem; margin-bottom:0.7rem; padding:0.5rem; border-radius:5px; border:1px solid #cce4e4; font-size:1rem; min-height:80px; resize:vertical; }
+.managecontent-btn { background:#008b8b; color:#fff; border:none; padding:0.5rem 1.2rem; border-radius:5px; font-size:1rem; cursor:pointer; margin-top:0.5rem; transition:background 0.2s; }
+.managecontent-btn:hover { background:#006d6d; }
+.managecontent-status { margin-top:1rem; color:#008b8b; font-weight:bold; }
+.managecontent-topbar { background-color:#008b8b; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; }
+.position-relative { position: relative; }
+.btn-reset { background:none; border:none; cursor:pointer; padding:8px; margin-left:auto; display:flex; align-items:center; }
+.managecontent-menu-icon { display:block; width:28px; height:4px; background:#fff; border-radius:2px; position:relative; }
+.managecontent-menu-icon-line { position:absolute; left:0; width:28px; height:4px; background:#fff; border-radius:2px; }
+.managecontent-menu-icon-line:first-child { top:-8px; }
+.managecontent-menu-icon-line:last-child { top:8px; }
+.hidden { display:none; }
+.managecontent-dropdown-menu { position:absolute; top:54px; right:32px; background:#008b8b; border-radius:8px; box-shadow:0 4px 16px rgba(0,139,139,0.18); z-index:100; min-width:180px; }
+.managecontent-dropdown-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+.managecontent-dropdown-item { padding:12px 20px; color:#fff; cursor:pointer; border-bottom:1px solid #006d6d; width:100%; box-sizing:border-box; }
+.managecontent-dropdown-item:last-child { border-bottom:none; }
+.ml-8 { margin-left:8px; }
+.ml-28 { margin-left:28px; }
+.managecontent-reflection-item { background:#e0f7fa; border-radius:8px; padding:1rem; margin-bottom:1rem; box-shadow:0 2px 8px rgba(0,139,139,0.08); }
+.managecontent-reflection-date { float:right; color:#888; font-size:0.95rem; }
+.managecontent-logo { color:white; font-weight:bold; font-size:20px; }
+.managecontent-topbar ul { list-style:none; display:flex; gap:20px; margin:0; padding:0; }
+.managecontent-topbar li { color:white; cursor:pointer; transition: all 0.3s ease; }
+.managecontent-topbar li a, .managecontent-back-btn { color:#fff; font-weight:500; font-size:1rem; text-decoration:none; background:none; border:none; cursor:pointer; padding:0; transition: all 0.3s ease; }
+.managecontent-topbar li a:hover, .managecontent-back-btn:hover { text-decoration: underline; text-shadow: 0 0 8px #fff; }
+.managecontent-back-btn:focus, .managecontent-back-btn:active { background:none; outline:none; }

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage Content - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/ManageContent.css' %}">
+{% endblock %}
+{% block content %}
+<div class="managecontent-container">
+  <div class="managecontent-topbar position-relative">
+    <div class="managecontent-logo">DailyVotion</div>
+    <button class="managecontent-menu-btn btn-reset" id="mc-menu-btn" aria-label="Open menu">
+      <span class="managecontent-menu-icon">
+        <span class="managecontent-menu-icon-line"></span>
+        <span class="managecontent-menu-icon-line"></span>
+      </span>
+    </button>
+    <div id="mc-menu" class="managecontent-dropdown-menu hidden">
+      <ul class="managecontent-dropdown-list list-reset">
+        <li class="managecontent-dropdown-item">
+          <a class="managecontent-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a>
+        </li>
+        <li class="managecontent-dropdown-item">
+          <a class="managecontent-link-btn" href="{% url 'home' %}">Logout</a>
+        </li>
+        <li class="managecontent-dropdown-item">
+          <a class="managecontent-link-btn" href="{% url 'about' %}">About</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="managecontent-main">
+    <form method="post" id="deliver-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="deliver" />
+
+      <div class="managecontent-users">
+        <h2>User Accounts</h2>
+        <div class="managecontent-selectall"><label><input type="checkbox" id="mc-select-all" /> Select All</label></div>
+  <ul class="list-reset">
+          {% for u in users %}
+          <li class="managecontent-user-item">
+            <label>
+              <input type="checkbox" name="user_ids" value="{{ u.id }}" />
+              <strong class="ml-8">{{ u.get_full_name|default:u.username }}</strong><br />
+              <span class="ml-28">{{ u.email }}</span>
+            </label>
+          </li>
+          {% empty %}
+          <li class="managecontent-user-item">No users to show.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="managecontent-delivery">
+        <h2>Reflection & Journal</h2>
+          <div class="managecontent-recipients">Selected recipients: <span id="mc-count">0</span></div>
+          <label>Content:
+            <textarea class="managecontent-textarea" name="content" placeholder="Enter content here..."></textarea>
+          </label>
+          <button type="submit" class="managecontent-btn">Deliver</button>
+        <div class="managecontent-status"></div>
+      </div>
+    </form>
+    <div class="managecontent-reflections">
+      <h2>User Reflections</h2>
+  <ul class="list-reset">
+          {% for r in recent_reflections %}
+          <li class="managecontent-reflection-item"><strong>{{ r.user.get_full_name|default:r.user.username }}:</strong> {{ r.text }}<span class="managecontent-reflection-date">{{ r.created_at|date:'Y-m-d H:i' }}</span></li>
+          {% empty %}
+          <li class="managecontent-reflection-item">No reflections yet.</li>
+          {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const mbtn = document.getElementById('mc-menu-btn');
+  const mmenu = document.getElementById('mc-menu');
+  if (mbtn && mmenu) mbtn.addEventListener('click', ()=>{ mmenu.style.display = mmenu.style.display==='none'?'block':'none'; });
+    const selectAll = document.getElementById('mc-select-all');
+    const form = document.getElementById('deliver-form');
+    const countEl = document.getElementById('mc-count');
+    function updateCount(){
+      if(!form||!countEl) return;
+      const boxes = form.querySelectorAll('input[name="user_ids"]:checked');
+      countEl.textContent = boxes.length.toString();
+    }
+    if (form) form.addEventListener('change', updateCount);
+    if (selectAll && form) {
+      selectAll.addEventListener('change', ()=>{
+        const boxes = form.querySelectorAll('input[name="user_ids"]');
+        boxes.forEach(b=>{ b.checked = selectAll.checked; });
+        updateCount();
+      });
+    }
+</script>
+{% endblock %}

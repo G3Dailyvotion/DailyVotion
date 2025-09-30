@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Profile - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/UserEditProfile.css' %}">
+{% endblock %}
+{% block content %}
+<div class="editprofile-container" style="display:flex;justify-content:center;align-items:center;min-height:80vh;width:100vw;">
+  <div class="editprofile-paper" style="margin:auto;max-width:480px;width:100%;background:#fff;border:1.5px solid #e0e0e0;box-shadow:0 8px 32px rgba(0,139,139,0.12);border-radius:18px;padding:2.5rem 2rem;">
+    <h2 class="editprofile-title">Edit Profile</h2>
+    <form style="align-items:center;">
+      <label>Change Name:</label>
+        <input type="text" placeholder="New Name" class="editprofile-input" />
+      <label>Change Username:</label>
+        <input type="text" placeholder="New Username" class="editprofile-input" />
+      <label>Change Password:</label>
+      <div class="editprofile-password-field" style="width:100%;display:block;">
+        <input type="password" placeholder="New Password" class="editprofile-input" />
+        <span class="editprofile-eye">👁️‍🗨️</span>
+      </div>
+      <label>Confirm New Password:</label>
+      <div class="editprofile-password-field" style="width:100%;display:block;">
+        <input type="password" placeholder="Confirm Password" class="editprofile-input" />
+        <span class="editprofile-eye">👁️‍🗨️</span>
+      </div>
+      <label>Upload Profile Picture:</label>
+        <input type="file" accept="image/*" class="editprofile-input" />
+      <div class="editprofile-btn-row">
+        <button type="submit" class="editprofile-save-btn">Save Changes</button>
+        <a href="{% url 'profile' %}" class="editprofile-cancel-btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage Users - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/ManageUser.css' %}">
+{% endblock %}
+{% block content %}
+<div class="manageuser-container-fresh">
+  <div class="manageuser-topbar" style="position: relative">
+    <div class="manageuser-logo-fresh">DailyVotion</div>
+    <button class="manageuser-menu-btn" id="mu-menu-btn" aria-label="Open menu">
+      <span class="manageuser-menu-icon">
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+    <div id="mu-menu" class="manageuser-dropdown-menu" style="display:none">
+      <ul class="list-reset" style="display:flex;flex-direction:column">
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'admin_dashboard' %}">&#8592; Back</a></li>
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'home' %}">Logout</a></li>
+        <li style="padding:12px 20px"><a class="manageuser-link-btn" href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="manageuser-main-fresh">
+    <h1 class="manageuser-title">Manage Users</h1>
+    <div class="manageuser-sections">
+      <div class="manageuser-admins-fresh">
+        <h2>Admin Accounts</h2>
+  <ul class="list-reset">
+          {% for u in admins %}
+          <li class="manageuser-user-item-fresh">
+            <div style="display:flex;align-items:center;gap:.7rem"><strong>{{ u.get_full_name|default:u.username }}</strong></div>
+            <div style="margin-top:.3rem">{{ u.email }}</div>
+            <div>Role: Admin</div>
+            <div class="manageuser-actions-fresh">
+              <form method="post" style="display:inline-block">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="toggle_role"/>
+                <input type="hidden" name="user_id" value="{{ u.id }}"/>
+                <button type="submit">Change to User</button>
+              </form>
+              <form method="post" style="display:inline-block" onsubmit="return confirm('Delete this admin account?');">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete_user"/>
+                <input type="hidden" name="user_id" value="{{ u.id }}"/>
+                <button type="submit">Delete Admin Account</button>
+              </form>
+            </div>
+          </li>
+          {% empty %}
+          <li class="manageuser-user-item-fresh">No admin accounts yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="manageuser-users-fresh">
+        <h2>User Accounts</h2>
+  <ul class="list-reset">
+          {% for u in users %}
+          <li class="manageuser-user-item-fresh">
+            <div style="display:flex;align-items:center;gap:.7rem"><strong>{{ u.get_full_name|default:u.username }}</strong></div>
+            <div style="margin-top:.3rem">{{ u.email }}</div>
+            <div>Role: User</div>
+            <div class="manageuser-actions-fresh">
+              <form method="post" style="display:inline-block">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="toggle_role"/>
+                <input type="hidden" name="user_id" value="{{ u.id }}"/>
+                <button type="submit">Make Admin</button>
+              </form>
+              <form method="post" style="display:inline-block" onsubmit="return confirm('Delete this user account?');">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete_user"/>
+                <input type="hidden" name="user_id" value="{{ u.id }}"/>
+                <button type="submit">Delete Account</button>
+              </form>
+            </div>
+          </li>
+          {% empty %}
+          <li class="manageuser-user-item-fresh">No user accounts yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const mbtn=document.getElementById('mu-menu-btn');const mm=document.getElementById('mu-menu');if(mbtn&&mm){mbtn.addEventListener('click',()=>{mm.style.display=mm.style.display==='none'?'block':'none';});}
+</script>
+{% endblock %}

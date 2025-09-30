@@ -1,0 +1,7 @@
+/* Global base styles extracted from base.html */
+html, body { margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+/* Utilities */
+.hidden { display: none !important; }
+.list-reset { list-style: none; margin: 0; padding: 0; }

@@ -1,0 +1,29 @@
+/* Copied from React src/css/Admin/AdminDashboard.css */
+body, #root { margin: 0; padding: 0; }
+body { overflow: hidden; }
+.admindash-container { min-height: 100vh; background: #e0f7fa; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.admindash-topbar { background-color: #008b8b; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; }
+.admindash-logo { color: #fff; font-weight: bold; font-size: 1.3rem; }
+.admindash-menu { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.admindash-menu li a, .admindash-back-btn { color: #fff; text-decoration: none; font-weight: 500; font-size: 1rem; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+.admindash-menu li a:hover, .admindash-back-btn:hover { color: #e0f7fa; text-decoration: underline; }
+.admindash-main { flex: 1; padding: 2.5rem 0; display: flex; flex-direction: column; align-items: center; overflow-y: auto; width: 100%; height: 100%; scrollbar-width: none; }
+.admindash-main::-webkit-scrollbar { display: none; }
+.admindash-title { color: #008b8b; font-size: 2rem; font-weight: bold; margin-bottom: 2rem; text-align: center; }
+.admindash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; width: 90%; max-width: 1100px; margin: 0 auto; }
+.admindash-card { background: #fff; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,139,139,0.10); padding: 1.2rem 1rem; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; min-height: 220px; position: relative; }
+.admindash-card h2 { color: #008b8b; font-size: 1.2rem; margin-bottom: 0.7rem; }
+.admindash-card p { color: #444; font-size: 1rem; margin-bottom: 1.2rem; }
+.admindash-btn { background: #008b8b; color: #fff; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; align-self: flex-start; margin-top: auto; min-width: 160px; }
+.admindash-btn:hover { background: #006d6d; }
+.admindash-menu-btn { background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; display: flex; align-items: center; }
+.admindash-menu-icon { display: block; width: 28px; height: 4px; background: #fff; border-radius: 2px; position: relative; }
+.admindash-menu-icon::before, .admindash-menu-icon::after { content: ''; display: block; width: 28px; height: 4px; background: #fff; border-radius: 2px; position: absolute; left: 0; transition: 0.2s; }
+.admindash-menu-icon::before { top: -10px; }
+.admindash-menu-icon::after { top: 10px; }
+.admindash-dropdown-menu { position: absolute; top: 54px; right: 32px; background: #008b8b; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,139,139,0.18); z-index: 100; min-width: 180px; }
+.admindash-dropdown-menu ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.admindash-dropdown-menu li { padding: 12px 20px; color: #fff; cursor: pointer; border-bottom: 1px solid #006d6d; transition: background 0.2s; width: 100%; box-sizing: border-box; }
+.admindash-dropdown-menu li:last-child { border-bottom: none; }
+.admindash-dropdown-menu li:hover { background: #006d6d; }
+.admindash-link-btn, .admindash-back-btn { background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; width: 100%; text-align: left; padding: 0; }

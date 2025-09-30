@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/UserProfile.css' %}">
+{% endblock %}
+{% block content %}
+<div class="profilepage-container">
+  <div class="profilepage-topbar">
+    <a href="{% url 'home' %}" class="profilepage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="profilepage-menu-btn" id="profile-menu-btn" aria-label="Open menu">
+      <span class="profilepage-menu-icon"></span>
+    </button>
+    <div id="profile-menu" class="profilepage-dropdown-menu-vertical hidden">
+      <ul class="profilepage-dropdown-list list-reset">
+        <li><a href="{% url 'profile' %}">Profile</a></li>
+        <li><a href="{% url 'journal' %}">Journal</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+      <div class="profilepage-dropdown-logout"><a class="logout-link" href="{% url 'logout' %}">Logout</a></div>
+    </div>
+  </div>
+
+  <div class="profilepage-main-vertical">
+  <div class="profilepage-content-paper" style="box-shadow:0 8px 32px 0 rgba(0,0,0,0.22),0 2px 8px 0 rgba(0,0,0,0.14);">
+      <div class="profilepage-user-vertical">
+  <img src="{% static 'pictures/Profilepic.jpg' %}" alt="" class="profilepage-avatar" />
+        <h2 class="profilepage-username">{{ request.user.get_full_name|default:request.user.username }}</h2>
+        <p class="profilepage-userid">@{{ request.user.username }}</p>
+      </div>
+
+      <div class="profilepage-buttons-grid profilepage-buttons-spaced">
+        <a href="{% url 'edit_profile' %}"><button>Edit Profile</button></a>
+        <a href="{% url 'journal' %}"><button>Journal</button></a>
+        <a href="{% url 'user_prayer_request' %}"><button>Add Prayer Request</button></a>
+      </div>
+      <div class="profilepage-buttons-grid" style="margin-bottom:2.2rem; grid-template-columns:repeat(2,minmax(0,1fr));">
+        <a href="{% url 'user_reflection' %}"><button>Reflection</button></a>
+        <a href="{% url 'user_feedback' %}"><button>App Feedback</button></a>
+      </div>
+
+      <div class="profilepage-section">
+        <!-- Bible Verse of the Day -->
+        <div class="profilepage-section" style="margin-bottom:1.2rem;">
+          <div id="verse-of-day" class="profilepage-post" style="background:#e0f7fa;color:#008b8b;font-size:1.1rem;font-weight:500;text-align:center;cursor:pointer;box-shadow:none;" tabindex="0">
+            <span style="display:block;margin-bottom:0.3rem;">Verse of the Day</span>
+            <span style="font-style:italic;">"Philippians 4:13 - I can do all things through Christ who strengthens me."</span>
+          </div>
+        </div>
+        <!-- Verse of the Day Modal -->
+        <div id="verse-modal" class="profilepage-modal hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;">
+          <div style="background:#fff;padding:2rem 2.5rem;border-radius:16px;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,0.18);text-align:center;">
+            <h3 style="margin-top:0;">Verse of the Day</h3>
+            <div style="font-style:italic;color:#008b8b;font-size:1.1rem;">"Philippians 4:13 - I can do all things through Christ who strengthens me."</div>
+            <button onclick="document.getElementById('verse-modal').classList.add('hidden');" style="margin-top:1.5rem;padding:0.5rem 1.2rem;background:#008b8b;color:#fff;border:none;border-radius:6px;cursor:pointer;">Close</button>
+          </div>
+        </div>
+
+          <a href="{% url 'journalentries' %}" style="text-decoration:none;color:inherit;">
+            <div id="recent-journal-box" class="profilepage-post profilepage-post-clickable" style="box-shadow:none;transition:box-shadow 0.2s;cursor:pointer;" tabindex="0">
+              <h3 style="margin-top:0;">Recent Journal</h3>
+              {% if recent_post %}
+                <p class="profilepage-date">{{ recent_post.date|date:'M j, Y' }}</p>
+                {% if recent_post.scripture %}<p class="profilepage-content">{{ recent_post.scripture }}</p>{% endif %}
+                {% if recent_post.observation %}<p class="profilepage-content">{{ recent_post.observation|truncatechars:160 }}</p>{% endif %}
+              {% else %}
+                <p class="profilepage-date">Sep 29, 2025</p>
+                <p class="profilepage-content"><strong>Scripture:</strong> John 3:16</p>
+                <p class="profilepage-content"><strong>Observation:</strong> For God so loved the world that He gave His one and only Son...</p>
+                <p class="profilepage-content"><strong>Application:</strong> I am reminded to love others selflessly and share kindness every day.</p>
+                <p class="profilepage-content"><strong>Prayer:</strong> Lord, help me to live out Your love and be a blessing to those around me. Amen.</p>
+              {% endif %}
+            </div>
+          </a>
+      </div>
+
+      <div class="profilepage-section">
+        <a href="#" style="text-decoration:none;color:inherit;" onclick="document.getElementById('mock-prayer-modal').classList.remove('hidden');return false;">
+
+      <!-- Recent Reflections: Only show user's recent reflections, no click/modal -->
+          <div class="profilepage-post profilepage-post-clickable" style="cursor:pointer;box-shadow:none;transition:box-shadow 0.2s;">
+            <h3 style="margin-top:0;">Recent Prayer Requests</h3>
+            {% if recent_prayers %}
+              <ul class="list-reset">
+                {% for p in recent_prayers %}
+                <li>
+                  <span class="profilepage-date">{{ p.created_at|date:'Y-m-d' }}</span>
+                  <div>{{ p.text|truncatechars:140 }}</div>
+                  {% if p.admin_response %}
+                    <div class="profilepage-post" style="margin-top:.5rem">
+                      <strong>Admin Response</strong>
+                      <div class="profilepage-date">{{ p.responded_at|date:'Y-m-d H:i' }}</div>
+                      <div>{{ p.admin_response|truncatechars:160 }}</div>
+                    </div>
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="profilepage-date">Sep 29, 2025</span>
+              <div><strong>Prayer Request:</strong> Please pray for my upcoming exams and for peace in my family.</div>
+              <div class="profilepage-post" style="margin-top:.5rem">
+                <strong>Admin Response</strong>
+                <div class="profilepage-date">Sep 29, 2025 10:00</div>
+                <div>We are praying for your exams and your family. Trust in God and do your best!</div>
+              </div>
+            {% endif %}
+          </div>
+        </a>
+        <div id="mock-prayer-modal" class="profilepage-modal hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;">
+          <div style="background:#fff;padding:2rem 2.5rem;border-radius:16px;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,0.18);text-align:left;">
+            <h3 style="margin-top:0;">Prayer Request</h3>
+            <div><strong>Date:</strong> Sep 29, 2025</div>
+            <div><strong>Request:</strong> Please pray for my upcoming exams and for peace in my family.</div>
+            <hr style="margin:1.2rem 0;">
+            <h4 style="margin-bottom:0.5rem;">Admin Response</h4>
+            <div><strong>Date:</strong> Sep 29, 2025 10:00</div>
+            <div>We are praying for your exams and your family. Trust in God and do your best!</div>
+            <button onclick="document.getElementById('mock-prayer-modal').classList.add('hidden');" style="margin-top:1.5rem;padding:0.5rem 1.2rem;background:#008b8b;color:#fff;border:none;border-radius:6px;cursor:pointer;">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profilepage-section">
+        {% if recent_reflections %}
+        <div class="profilepage-post">
+          <h3 style="margin-top:0;">Recent Reflections</h3>
+          <ul class="list-reset" style="padding-left:0; margin-bottom:0;">
+            {% for r in recent_reflections %}
+            <li style="display:flex;align-items:flex-start;gap:1.2rem;margin-bottom:0.7rem;">
+              <span class="profilepage-date" style="min-width:90px;text-align:left;">{{ r.created_at|date:'Y-m-d' }}</span>
+              <div class="profilepage-content" style="flex:1;">{{ r.text|truncatechars:160 }}</div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% else %}
+        <div class="profilepage-post"><h3 style="margin-top:0;">Recent Reflections</h3><p>No reflections yet.</p></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  // Burger menu logic
+  const pbtn = document.getElementById('profile-menu-btn');
+  const pmenu = document.getElementById('profile-menu');
+  if (pbtn && pmenu) {
+    pmenu.classList.add('hidden');
+    pbtn.setAttribute('aria-expanded', 'false');
+    const toggleMenu = (e) => {
+      e.stopPropagation();
+      const nowHidden = pmenu.classList.toggle('hidden');
+      pbtn.setAttribute('aria-expanded', (!nowHidden).toString());
+    };
+    pbtn.addEventListener('click', toggleMenu);
+    document.addEventListener('click', (e) => {
+      if (!pmenu.classList.contains('hidden')) {
+        if (!pmenu.contains(e.target) && !pbtn.contains(e.target)) {
+          pmenu.classList.add('hidden');
+          pbtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+  }
+  // Verse of the Day modal logic
+  const verseBox = document.getElementById('verse-of-day');
+  const verseModal = document.getElementById('verse-modal');
+  if (verseBox && verseModal) {
+    verseBox.addEventListener('click', () => {
+      verseModal.classList.remove('hidden');
+    });
+    verseBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        verseModal.classList.remove('hidden');
+      }
+    });
+  }
+  // Recent Journal modal logic
+  const journalBox = document.getElementById('recent-journal-box');
+  const journalModal = document.getElementById('journal-modal');
+  if (journalBox && journalModal) {
+    journalBox.addEventListener('click', () => {
+      journalModal.classList.remove('hidden');
+    });
+    journalBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        journalModal.classList.remove('hidden');
+      }
+    });
+  }
+</script>
+{% endblock %}
+

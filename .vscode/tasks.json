@@ -1,0 +1,95 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Django: system check",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"check"
+			],
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: runserver",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"runserver"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Django: migrate",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"migrate"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: collectstatic (local)",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"collectstatic",
+				"--noinput"
+			],
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: check --deploy",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"check",
+				"--deploy"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: collectstatic (retry)",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"collectstatic",
+				"--noinput"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: run smoke tests (auth)",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"check"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Django: check (auth + templates)",
+			"type": "shell",
+			"command": "C:/Python313/python.exe",
+			"args": [
+				"c:\\Users\\Shiro\\Desktop\\DailyVotion\\manage.py",
+				"check"
+			],
+			"group": "build"
+		}
+	]
+}

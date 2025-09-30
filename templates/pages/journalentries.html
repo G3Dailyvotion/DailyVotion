@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SOAP Journal Entries - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/journalentries.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="journalpage-container" style="position:relative;">
+  <!-- Floating logo above the bar -->
+  <a href="{% url 'home' %}" class="journalentries-logo-float">
+    <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" />
+  </a>
+  <!-- Cyan topbar with burger only -->
+  <div class="journalentries-topbar">
+    <button class="journalentries-menu-btn" id="jr-menu-btn" aria-label="Open menu"><span class="journalentries-menu-icon"></span></button>
+    <div id="jr-menu" class="journalentries-dropdown-menu hidden">
+      <ul class="list-reset">
+        <li><a href="{% url 'profile' %}">Profile</a></li>
+        <li><a href="{% url 'journal' %}">Journal</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="journalpage-header-bg" style="position:relative;width:100%;height:170px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
+    <img src="{% static 'pictures/JTVCF/for background picture/dating bg sa canva.jpg' %}"
+         alt="Journal Header Background"
+         style="width:100%;height:220px;object-fit:cover;object-position:top;filter:brightness(0.92);position:absolute;top:0;left:0;z-index:1;">
+    <div style="position:relative;z-index:2;width:100%;max-width:700px;margin-top:38px;text-align:center;">
+      <h1 class="journalpage-title" style="color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.25),0 1px 2px #008b8b;letter-spacing:1px;">SOAP Journal Entries</h1>
+      <p class="journalpage-guide-main" style="color:#fff;font-size:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,0.18);margin:0.5rem 0 1.2rem;">This is your history of devotion entries.</p>
+      <div style="margin-top:1.2rem;text-align:center;">
+        <a href="{% url 'journal' %}" class="journalpage-back-btn" style="background:#fff;color:#008b8b;font-weight:600;padding:.5rem 1.1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,139,139,0.13);text-decoration:none;transition:background .18s;white-space:nowrap;">&larr; Back to Journal</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="journalentries-list" style="width:100%;max-width:1100px;margin:40px auto 0;display:flex;flex-direction:column;gap:2.2rem;">
+    <!-- Mock data for previous SOAP entries -->
+    {% for entry in entries %}
+    <div class="journalentries-entry">
+      <div class="journalentries-entry-header">
+        <span class="journalentries-entry-date">{{ entry.date }}</span>
+      </div>
+      <div class="journalentries-entry-soapgrid">
+        <div class="journalentries-soapbox">
+          <div class="journalentries-soaplabel">Scripture:</div>
+          <div class="journalentries-soapcontent">{{ entry.scripture }}</div>
+        </div>
+        <div class="journalentries-soapbox">
+          <div class="journalentries-soaplabel">Observation:</div>
+          <div class="journalentries-soapcontent">{{ entry.observation }}</div>
+        </div>
+        <div class="journalentries-soapbox">
+          <div class="journalentries-soaplabel">Application:</div>
+          <div class="journalentries-soapcontent">{{ entry.application }}</div>
+        </div>
+        <div class="journalentries-soapbox">
+          <div class="journalentries-soaplabel">Prayer:</div>
+          <div class="journalentries-soapcontent">{{ entry.prayer }}</div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center;color:#888;font-size:1.1rem;">No journal entries found.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const jmb=document.getElementById('jr-menu-btn');
+  const jm=document.getElementById('jr-menu');
+  if(jmb&&jm){
+    jm.classList.add('hidden');
+    jmb.addEventListener('click',(e)=>{e.stopPropagation();jm.classList.toggle('hidden');});
+    document.addEventListener('click',(e)=>{ if(!jm.classList.contains('hidden') && !jm.contains(e.target) && !jmb.contains(e.target)){ jm.classList.add('hidden'); }});
+  }
+</script>
+{% endblock %}

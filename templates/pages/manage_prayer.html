@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage Prayer - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Manageprayer.css' %}">
+{% endblock %}
+{% block content %}
+<div class="manageprayer-container">
+  <div class="manageprayer-topbar position-relative">
+    <div class="manageprayer-logo">DailyVotion</div>
+  <button class="manageprayer-menu-btn btn-reset" id="mp-menu-btn" aria-label="Open menu">
+      <span class="manageprayer-menu-icon"><span></span><span></span></span>
+    </button>
+  <div id="mp-menu" class="manageprayer-dropdown-menu hidden">
+      <ul class="manageprayer-dropdown-list list-reset">
+        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'admin_dashboard' %}">&#8592; Back</a></li>
+        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'home' %}">Logout</a></li>
+        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <h1 style="color:#008b8b;margin:2rem 0 1rem 0">Manage Prayer Requests</h1>
+  <div class="manageprayer-main">
+    <div class="manageprayer-requests">
+      <h2>Prayer Requests</h2>
+  <ul class="manageprayer-list list-reset">
+        {% for r in requests %}
+        <li class="manageprayer-request-item" data-request-id="{{ r.id }}">
+          <strong>{{ r.user.get_full_name|default:r.user.username }}</strong><br>
+          <span>{{ r.text }}</span>
+        </li>
+        {% empty %}
+        <li class="manageprayer-request-item">No pending prayer requests.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="manageprayer-response">
+      <h2>Respond to Request</h2>
+      <form class="manageprayer-response-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="respond" />
+        <input type="hidden" id="req-id" name="request_id" />
+        <label>
+          Response:
+          <textarea class="manageprayer-response-textarea" name="response" placeholder="Type your prayer response here..."></textarea>
+        </label>
+        <div class="manageprayer-actions">
+          <button class="manageprayer-btn" type="submit" id="mp-send" disabled>Send Response</button>
+          <a class="manageprayer-btn" href="{% url 'manage_prayer_history' %}">View History</a>
+        </div>
+      </form>
+      <div class="manageprayer-status"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const mpb=document.getElementById('mp-menu-btn');
+  const mpm=document.getElementById('mp-menu');
+  if(mpb&&mpm){
+    mpm.classList.add('hidden');
+    mpb.addEventListener('click',()=>{mpm.classList.toggle('hidden');});
+  }
+  // Click request to set it active for response
+  const items = document.querySelectorAll('.manageprayer-request-item[data-request-id]');
+  const hiddenId = document.getElementById('req-id');
+  const sendBtn = document.getElementById('mp-send');
+  items.forEach(it=>{
+    it.addEventListener('click', ()=>{
+      items.forEach(n=>n.classList.remove('active'));
+      it.classList.add('active');
+      if(hiddenId) hiddenId.value = it.getAttribute('data-request-id');
+      if(sendBtn) sendBtn.disabled = false;
+    });
+  });
+</script>
+{% endblock %}

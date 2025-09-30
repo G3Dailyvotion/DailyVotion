@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Authentication - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Adminauth.css' %}">
+{% endblock %}
+{% block content %}
+<div class="adminauth-container">
+  <div class="adminauth-paper">
+    <h2 class="adminauth-title">Admin Code Authentication</h2>
+    <p class="adminauth-warning">Please, if you are not an admin and do not have an admin code, exit this page.</p>
+    <p class="adminauth-guide">Enter the Admin Authentication Code to continue</p>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next|default:'admin_login' }}" />
+      {% if created %}
+        <input type="hidden" name="created" value="1" />
+      {% endif %}
+      <input type="password" class="adminauth-input" name="code" required />
+      <button type="submit" class="adminauth-btn">Verify</button>
+    </form>
+  </div>
+{% endblock %}

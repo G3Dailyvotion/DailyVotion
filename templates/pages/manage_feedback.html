@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage Feedback - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Managefeedback.css' %}">
+{% endblock %}
+{% block content %}
+<div class="managefeedback-container">
+  <div class="managefeedback-topbar" style="position: relative;">
+    <div class="managefeedback-logo">DailyVotion</div>
+    <button class="managefeedback-menu-btn" id="mf-menu-btn" aria-label="Open menu">
+      <span class="managefeedback-menu-icon"><span></span><span></span></span>
+    </button>
+    <div id="mf-menu" class="managefeedback-dropdown-menu" style="display:none">
+      <ul class="list-reset">
+        <li><a class="managefeedback-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li><a class="managefeedback-link-btn" href="{% url 'home' %}">Logout</a></li>
+        <li><a class="managefeedback-link-btn" href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="managefeedback-main">
+    <div class="managefeedback-title">User Feedback & Reports</div>
+    <div class="managefeedback-list">
+      {% for f in feedbacks %}
+      <div class="managefeedback-item">
+        <div class="managefeedback-user">{{ f.user.get_full_name|default:f.user.username if f.user else 'Anonymous' }}</div>
+        <div class="managefeedback-text">{{ f.text }}</div>
+        <div class="managefeedback-date">{{ f.created_at|date:'Y-m-d H:i' }}</div>
+      </div>
+      {% empty %}
+      <div class="managefeedback-item">No feedback yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const fbtn = document.getElementById('mf-menu-btn');
+  const fmenu = document.getElementById('mf-menu');
+  if (fbtn && fmenu) fbtn.addEventListener('click', ()=>{ fmenu.style.display = fmenu.style.display==='none'?'block':'none'; });
+</script>
+{% endblock %}

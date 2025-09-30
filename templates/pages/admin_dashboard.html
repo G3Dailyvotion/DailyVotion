@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Dashboard - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+{% endblock %}
+{% block content %}
+<div class="admindash-container">
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion</div>
+    <button class="admindash-menu-btn" id="adm-menu-btn" aria-label="Open menu">
+      <span class="admindash-menu-icon"></span>
+    </button>
+    <div id="adm-menu" class="admindash-dropdown-menu" style="display:none">
+      <ul class="list-reset">
+        <li><a class="admindash-link-btn" href="{% url 'home' %}">Logout</a></li>
+        <li><a class="admindash-link-btn" href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="admindash-main">
+    <h1 class="admindash-title">Admin Dashboard</h1>
+    <div class="admindash-grid">
+      <div class="admindash-card">
+        <h2>User Account Management</h2>
+        <p>Manage user accounts, including registration, roles, and access control.</p>
+  <a class="admindash-btn" href="{% url 'manage_user' %}">Manage Users</a>
+      </div>
+      <div class="admindash-card">
+        <h2>Devotional Content Delivery</h2>
+        <p>Schedule and deliver daily devotionals, scriptures, and reflections to users.</p>
+  <a class="admindash-btn" href="{% url 'manage_content' %}">Manage Content</a>
+      </div>
+      <div class="admindash-card">
+        <h2>Interactive Prayer</h2>
+        <p>Oversee prayer requests, inspirational quotes, responses, and interactive features.</p>
+  <a class="admindash-btn" href="{% url 'manage_prayer' %}">Manage Prayers</a>
+      </div>
+      <div class="admindash-card">
+        <h2>Attendance Management</h2>
+        <p>Monitor and manage user attendance records and related activities.</p>
+        <button class="admindash-btn">Manage Attendance</button>
+      </div>
+      <div class="admindash-card">
+        <h2>Application Feedback</h2>
+        <p>Users can rate and provide feedback about their experience using the app.</p>
+  <a class="admindash-btn" href="{% url 'manage_feedback' %}">Manage Feedback</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const admbtn = document.getElementById('adm-menu-btn');
+  const admmenu = document.getElementById('adm-menu');
+  if (admbtn && admmenu) admbtn.addEventListener('click', ()=>{ admmenu.style.display = admmenu.style.display==='none'?'block':'none'; });
+</script>
+{% endblock %}

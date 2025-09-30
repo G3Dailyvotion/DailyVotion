@@ -1,0 +1,203 @@
+.userreflection-menu-btn {
+  margin-top: -6px;
+}
+/* Logo image fix: force circular, remove border/background, add shadow */
+.userreflection-logo img {
+  width: 48px;
+  height: 48px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  display: block;
+}
+/* Copied Userreflection.css */
+.userreflection-container {
+  min-height: 100vh;
+  background: #e0f7fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.userreflection-topbar {
+  background-color: #008b8b;
+  padding: 0.5rem 1rem 0.05rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: unset;
+  position: relative;
+}
+
+.userreflection-logo {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.userreflection-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.userreflection-menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  gap: 6px;
+}
+.userreflection-menu-icon span {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  transition: 0.2s;
+}
+
+.userreflection-dropdown-menu {
+  position: absolute;
+  top: 54px;
+  right: 32px;
+  background: #008b8b;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,139,139,0.18);
+  z-index: 100;
+  min-width: 180px;
+}
+
+.userreflection-dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.userreflection-dropdown-menu li {
+  padding: 12px 20px;
+  color: #fff;
+  cursor: pointer;
+  border-bottom: 1px solid #006d6d;
+  transition: background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.userreflection-dropdown-menu li:last-child {
+  border-bottom: none;
+}
+
+.userreflection-dropdown-menu li:hover {
+  background: #006d6d;
+}
+
+.userreflection-link-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+
+.userreflection-paper {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,139,139,0.10);
+  padding: 2rem 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.userreflection-verse {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #008b8b;
+}
+
+.userreflection-admin {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userreflection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.userreflection-textarea {
+  border: 1px solid #008b8b;
+  border-radius: 8px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.userreflection-btn {
+  background: #008b8b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-end;
+}
+
+.userreflection-btn:hover {
+  background: #006d6d;
+}
+
+.userreflection-responses {
+  margin-top: 1.5rem;
+}
+
+.userreflection-responses h3 {
+  color: #008b8b;
+  margin-bottom: 0.7rem;
+}
+
+.userreflection-response-item {
+  background: #e0f7fa;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.7rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userreflection-response-date {
+  color: #555;
+  font-size: 0.9rem;
+  margin-left: 1.5rem;
+}
+
+.hidden { display: none !important; }

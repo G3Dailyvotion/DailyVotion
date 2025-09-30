@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/UserRegister.css' %}">
+{% endblock %}
+{% block content %}
+<div class="registerpage-container">
+  <div class="registerpage-topbar">
+    <div class="registerpage-logo">DailyVotion</div>
+    <button class="registerpage-menu-btn" id="reg-menu-btn" aria-label="Open menu">
+      <span class="registerpage-menu-icon"></span>
+    </button>
+    <div id="reg-menu" class="registerpage-dropdown-menu hidden">
+      <ul class="list-reset">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="registerpage-main">
+    <div class="registerpage-paper" style="box-shadow:0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);">
+      <h2 class="registerpage-title">Create Your Account</h2>
+      <form method="post" id="register-form">
+        {% csrf_token %}
+        {% if messages %}
+          <ul class="form-messages">
+            {% for m in messages %}<li>{{ m }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+        <input type="text" name="full_name" placeholder="Full Name" />
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" />
+        <input type="text" name="mobile" placeholder="Mobile Number (optional)" />
+        <div class="registerpage-password-field">
+          <input type="password" name="password1" placeholder="Password" id="rpwd" required />
+          <span class="registerpage-eye" id="rpwd-eye" role="button">👁️‍🗨️</span>
+        </div>
+        <div class="registerpage-password-field">
+          <input type="password" name="password2" placeholder="Confirm Password" id="rcpwd" required />
+          <span class="registerpage-eye" id="rcpwd-eye" role="button">👁️‍🗨️</span>
+        </div>
+        <button class="registerpage-registerbtn" type="button" id="open-terms">Sign Up</button>
+      </form>
+      <div class="registerpage-divider"></div>
+      <div class="registerpage-login">
+        <span>Already have an account?</span>
+        <a class="registerpage-loginbtn" href="{% url 'login' %}">Login</a>
+      </div>
+    </div>
+  </div>
+  <div id="terms-modal" class="registerpage-modal-overlay hidden">
+    <div class="registerpage-modal-box">
+      <h3>Terms and Conditions</h3>
+      <div class="registerpage-modal-content">
+        <p>By creating an account on DailyVotion, you agree to the following terms:</p>
+        <ul class="list-reset">
+          <li>We will never ask for your password outside this form.</li>
+          <li>Your personal information will not be shared with third parties.</li>
+          <li>You are responsible for keeping your credentials secure.</li>
+          <li>Any misuse may result in account suspension.</li>
+          <li>You agree to abide by the community guidelines.</li>
+        </ul>
+        <label class="registerpage-modal-checkbox">
+          <input type="checkbox" id="agree" /> I agree to the terms and conditions
+        </label>
+      </div>
+      <div class="registerpage-modal-actions">
+        <button type="button" class="registerpage-modal-close registerpage-modal-cancel">Cancel</button>
+        <button type="button" class="registerpage-modal-registerbtn" disabled>Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Menu dropdown
+  const menuBtn = document.getElementById('reg-menu-btn');
+  const menu = document.getElementById('reg-menu');
+  menuBtn.addEventListener('click', function() {
+    menu.classList.toggle('hidden');
+    menuBtn.setAttribute('aria-expanded', !menu.classList.contains('hidden'));
+  });
+  document.addEventListener('click', function(e) {
+    if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !menuBtn.contains(e.target)) {
+      menu.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Modal logic
+  const regBtn = document.getElementById('open-terms');
+  const modal = document.getElementById('terms-modal');
+  const agree = document.getElementById('agree');
+  const confirmBtn = modal.querySelector('.registerpage-modal-registerbtn');
+  const cancelBtn = modal.querySelector('.registerpage-modal-close');
+  if (regBtn && modal) {
+    regBtn.addEventListener('click', function() {
+      modal.classList.remove('hidden');
+    });
+    if (agree && confirmBtn) {
+      agree.addEventListener('change', function() {
+        confirmBtn.disabled = !agree.checked;
+      });
+      confirmBtn.addEventListener('click', function() {
+        if (!confirmBtn.disabled) {
+          document.getElementById('register-form').submit();
+        }
+      });
+    }
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+      });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') modal.classList.add('hidden');
+    });
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  }
+
+  // Password show/hide
+  const rpwdEye = document.getElementById('rpwd-eye');
+  const rpwd = document.getElementById('rpwd');
+  if (rpwdEye && rpwd) {
+    rpwdEye.addEventListener('click', function() {
+      if (rpwd.type === 'password') {
+        rpwd.type = 'text';
+        rpwdEye.textContent = '👁️';
+      } else {
+        rpwd.type = 'password';
+        rpwdEye.textContent = '👁️‍🗨️';
+      }
+    });
+  }
+  const rcpwdEye = document.getElementById('rcpwd-eye');
+  const rcpwd = document.getElementById('rcpwd');
+  if (rcpwdEye && rcpwd) {
+    rcpwdEye.addEventListener('click', function() {
+      if (rcpwd.type === 'password') {
+        rcpwd.type = 'text';
+        rcpwdEye.textContent = '👁️';
+      } else {
+        rcpwd.type = 'password';
+        rcpwdEye.textContent = '👁️‍🗨️';
+      }
+    });
+  }
+});
+</script>
+{% endblock %}

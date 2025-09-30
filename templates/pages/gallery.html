@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gallery - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+{% endblock %}
+{% block content %}
+<div class="gallerypage-container">
+  <div class="aboutpage-topbar" style="position: relative">
+    <a href="/" class="aboutpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="aboutpage-menu-btn" id="about-menu-btn" aria-label="Open menu">
+      <span class="aboutpage-menu-icon"></span>
+    </button>
+    <div id="about-menu" class="aboutpage-dropdown-menu" style="display:none">
+      <ul class="list-reset">
+        <li><a class="aboutpage-link-btn" href="{% url 'home' %}">Home</a></li>
+        <li><a class="aboutpage-link-btn" href="{% url 'login' %}">Login</a></li>
+        <li><a class="aboutpage-link-btn" href="{% url 'admin_login' %}">Admin</a></li>
+      </ul>
+    </div>
+  </div>
+  <a href="/about" class="gallery-about-btn center-left-btn">&lt; - about</a>
+<style>
+.center-left-btn {
+  position: fixed;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  z-index: 20;
+  background: #008b8b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.6rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,139,139,0.13);
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.center-left-btn:hover {
+  background: #006d6d;
+}
+</style>
+  <div class="gallerypage-grid">
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/1.jpg' %}" alt="Gallery Image 1" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/1.jpg' %}" />
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/2.jpg' %}" alt="Gallery Image 2" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/2.jpg' %}" />
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/3.jpg' %}" alt="Gallery Image 3" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/3.jpg' %}" />
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/4.jpg' %}" alt="Gallery Image 4" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/4.jpg' %}" />
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/5.jpg' %}" alt="Gallery Image 5" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/5.jpg' %}" />
+  <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/6.jpg' %}" alt="Gallery Image 6" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/6.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/7.jpg' %}" alt="Gallery Image 7" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/7.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/8.jpg' %}" alt="Gallery Image 8" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/8.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/9.jpg' %}" alt="Gallery Image 9" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/9.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/10.jpg' %}" alt="Gallery Image 10" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/10.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/11.jpg' %}" alt="Gallery Image 11" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/11.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/12.jpg' %}" alt="Gallery Image 12" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/12.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/13.jpg' %}" alt="Gallery Image 13" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/13.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/14.jpg' %}" alt="Gallery Image 14" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/14.jpg' %}" />
+      <img src="{% static 'pictures/JTVCF/gallery/ministry or organization/15.jpg' %}" alt="Gallery Image 15" class="gallery-img-modal" data-img="{% static 'pictures/JTVCF/gallery/ministry or organization/15.jpg' %}" />
+  </div>
+
+    <!-- Fullscreen image modal for gallery -->
+    <div id="gallery-img-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+      <img id="gallery-img-modal-img" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:18px;box-shadow:0 4px 32px rgba(0,0,0,0.25);" />
+      <button id="gallery-img-modal-close" style="position:absolute;top:32px;right:48px;font-size:2.2rem;background:none;border:none;color:#fff;cursor:pointer;z-index:10001;">&times;</button>
+    </div>
+
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // About-style burger menu logic
+  const abtn = document.getElementById('about-menu-btn');
+  const menu = document.getElementById('about-menu');
+  if (abtn && menu) {
+    menu.style.display = 'none';
+    abtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', (e)=>{ if (menu.style.display === 'block' && !menu.contains(e.target) && !abtn.contains(e.target)) menu.style.display = 'none'; });
+  }
+});
+// Gallery image modal logic
+document.addEventListener('DOMContentLoaded', function() {
+  // About-style burger menu logic
+  const abtn = document.getElementById('about-menu-btn');
+  const menu = document.getElementById('about-menu');
+  if (abtn && menu) {
+    menu.style.display = 'none';
+    abtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', (e)=>{ if (menu.style.display === 'block' && !menu.contains(e.target) && !abtn.contains(e.target)) menu.style.display = 'none'; });
+  }
+
+  // Gallery image click to fullscreen modal
+  document.querySelectorAll('.gallery-img-modal').forEach(img => {
+    img.addEventListener('click', function() {
+      const modal = document.getElementById('gallery-img-modal');
+      const modalImg = document.getElementById('gallery-img-modal-img');
+      modalImg.src = this.getAttribute('data-img');
+      modal.style.display = 'flex';
+    });
+  });
+  document.getElementById('gallery-img-modal-close').onclick = function() {
+    document.getElementById('gallery-img-modal').style.display = 'none';
+    document.getElementById('gallery-img-modal-img').src = '';
+  };
+  document.getElementById('gallery-img-modal').onclick = function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+      document.getElementById('gallery-img-modal-img').src = '';
+    }
+  };
+});
+</script>
+{% endblock %}

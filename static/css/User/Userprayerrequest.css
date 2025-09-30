@@ -1,0 +1,250 @@
+.userprayerrequest-menu-btn {
+  margin-top: -6px;
+}
+/* Logo image fix: force circular, remove border/background, add shadow */
+.userprayerrequest-logo img {
+  width: 48px;
+  height: 48px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  display: block;
+}
+/* Copied Userprayerrequest.css */
+/* Topbar styles for Userprayerrequest */
+.userprayerrequest-topbar {
+  background-color: #008b8b;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+.userprayerrequest-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem 0.05rem 1rem;
+  background: #008b8b;
+  color: #fff;
+  min-height: unset;
+  position: relative;
+}
+
+.userprayerrequest-logo {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.userprayerrequest-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.userprayerrequest-menu-icon {
+  display: block;
+  width: 28px;
+  height: 22px;
+  position: relative;
+}
+
+.userprayerrequest-menu-icon span {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  transition: 0.2s;
+}
+.userprayerrequest-menu-icon span:nth-child(1) {
+  top: 0;
+}
+.userprayerrequest-menu-icon span:nth-child(2) {
+  top: 9px;
+}
+.userprayerrequest-menu-icon span:nth-child(3) {
+  top: 18px;
+}
+
+
+.userprayerrequest-dropdown-menu {
+  position: absolute;
+  top: 54px;
+  right: 32px;
+  background: #008b8b;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,139,139,0.18);
+  z-index: 100;
+  min-width: 180px;
+}
+
+.userprayerrequest-dropdown-menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.userprayerrequest-link-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 2px 0;
+  transition: background 0.2s, text-shadow 0.2s, text-decoration 0.2s;
+}
+
+.userprayerrequest-link-btn:hover {
+  background: #006d6d;
+  text-decoration: underline;
+  text-shadow: 0 0 8px #fff, 0 0 16px #008b8b;
+}
+/* Unique styles for Userprayerrequest */
+.userprayerrequest-container {
+  min-height: 100vh;
+  background: #f7f9fc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.userprayerrequest-main {
+  margin-top: 2.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.userprayerrequest-content-paper {
+  flex: 1 1 0;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(60,60,60,0.12), 0 1px 4px rgba(60,60,60,0.10);
+  padding: 2rem 1.5rem;
+  border: 1.5px solid #e0f7fa;
+}
+
+.userprayerrequest-title {
+  color: #008b8b;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.userprayerrequest-explanation {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.userprayerrequest-textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #cce4e4;
+  font-size: 1rem;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.userprayerrequest-btns {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.userprayerrequest-btn {
+  background: #008b8b;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.userprayerrequest-btn:hover {
+  background: #006d6d;
+}
+
+.userprayerrequest-list {
+  margin-top: 2rem;
+}
+
+.userprayerrequest-item {
+  background: #e0f7fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,139,139,0.08);
+}
+
+.userprayerrequest-date {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.userprayerrequest-response-btn {
+  background: #006d6d;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.userprayerrequest-response-btn:hover {
+  background: #008b8b;
+}
+
+.userprayerrequest-response {
+  background: #fffbe6;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  margin-top: 0.7rem;
+  color: #333;
+  font-size: 1rem;
+  box-shadow: 0 1px 4px rgba(60,60,60,0.10);
+}
+
+/* Utilities for menu behavior and resets on this page */
+.position-relative { position: relative; }
+.btn-reset { background:none; border:none; cursor:pointer; padding:8px; margin-left:auto; display:flex; align-items:center }
+.userprayerrequest-dropdown-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column }
+.hidden { display:none !important; }

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Reflection - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/Userreflection.css' %}">
+{% endblock %}
+{% block content %}
+<div class="userreflection-container">
+  <div class="userreflection-topbar" style="position: relative">
+    <a href="{% url 'home' %}" class="userreflection-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="userreflection-menu-btn" id="urf-menu-btn" aria-label="Open menu">
+      <span class="userreflection-menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+  <div id="urf-menu" class="userreflection-dropdown-menu hidden">
+      <ul class="list-reset">
+        <li><button class="userreflection-link-btn" onclick="history.back()">&#8592; Back</button></li>
+        <li><a class="userreflection-link-btn" href="{% url 'profile' %}">Profile</a></li>
+        <li><a class="userreflection-link-btn" href="{% url 'journal' %}">Journal</a></li>
+        <li><a class="userreflection-link-btn" href="{% url 'about' %}">About</a></li>
+        <li><a class="userreflection-link-btn" href="{% url 'home' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="userreflection-paper">
+    <h2>Reflection &amp; Journal</h2>
+    <div class="userreflection-verse"><strong>Philippians 4:13 - I can do all things through Christ who strengthens me.</strong></div>
+    <div class="userreflection-admin"><span>Sent by: Admin</span><span>Date: 2025-09-15</span></div>
+    <form class="userreflection-form" method="post">
+      {% csrf_token %}
+      {{ form.text }}
+      <button type="submit" class="userreflection-btn">Submit Reflection</button>
+    </form>
+    <div class="userreflection-responses">
+      <h3>Previous Reflections</h3>
+      {% if reflections %}
+      <ul class="list-reset">
+        {% for r in reflections %}
+        <li class="userreflection-response-item"><strong>{{ request.user.get_full_name|default:request.user.username }}:</strong> {{ r.text }}<span class="userreflection-response-date">{{ r.created_at|date:'Y-m-d' }}</span></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const urfb=document.getElementById('urf-menu-btn');
+  const urfm=document.getElementById('urf-menu');
+  if(urfb&&urfm){
+    urfm.classList.add('hidden');
+    urfb.addEventListener('click',(e)=>{e.stopPropagation();urfm.classList.toggle('hidden');});
+    document.addEventListener('click',(e)=>{ if(!urfm.classList.contains('hidden') && !urfm.contains(e.target) && !urfb.contains(e.target)){ urfm.classList.add('hidden'); }});
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Login - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Adminlogin.css' %}">
+{% endblock %}
+{% block content %}
+<div class="adminlogin-container">
+  <div class="adminlogin-topbar">
+    <div class="adminlogin-logo">DailyVotion Admin</div>
+    <button class="adminlogin-menu-btn" id="admin-menu-btn" aria-label="Open menu">
+      <span class="adminlogin-menu-icon"></span>
+    </button>
+    <div id="admin-menu" class="adminlogin-dropdown-menu" style="display:none">
+      <ul class="list-reset">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="adminlogin-main">
+    <div class="adminlogin-paper">
+      <h2 class="adminlogin-title">Admin Login</h2>
+  <p class="adminlogin-note">For security, you must pass Admin Authentication before accessing this page.</p>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Email" required />
+        <div class="adminlogin-password-field">
+          <input type="password" name="password" placeholder="Password" id="apwd" required />
+          <span class="adminlogin-eye" id="apwd-eye" role="button">👁️‍🗨️</span>
+        </div>
+        <div class="adminlogin-options">
+          <label><input type="checkbox" name="remember" /> Remember me</label>
+          <button type="button" class="adminlogin-forgot">Forgot password?</button>
+        </div>
+        <button type="submit" class="adminlogin-loginbtn">Login</button>
+      </form>
+      <div class="adminlogin-divider"></div>
+      <div class="adminlogin-register">
+        <span class="adminlogin-register-title">New administrator account?</span><br />
+        <a class="adminlogin-createbtn" href="{% url 'admin_register' %}">Create Admin Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const abtn = document.getElementById('admin-menu-btn');
+  const amenu = document.getElementById('admin-menu');
+  if (abtn && amenu) abtn.addEventListener('click', ()=>{ amenu.style.display = amenu.style.display==='none'?'block':'none'; });
+  const eye = document.getElementById('apwd-eye');
+  const pwd = document.getElementById('apwd');
+  if (eye && pwd) eye.addEventListener('click', ()=>{ if (pwd.type==='password'){pwd.type='text'; eye.textContent='👁️';} else {pwd.type='password'; eye.textContent='👁️‍🗨️';} });
+</script>
+{% endblock %}

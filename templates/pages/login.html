@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/UserLogin.css' %}">
+{% endblock %}
+{% block content %}
+<div class="loginpage-container">
+  <div class="loginpage-topbar">
+  <a href="{% url 'home' %}" class="loginpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="loginpage-menu-btn" id="login-menu-btn" aria-label="Open menu">
+      <span class="loginpage-menu-icon"></span>
+    </button>
+  <div id="login-menu" class="loginpage-dropdown-menu hidden">
+      <ul class="list-reset">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'admin_login' %}">Admin</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="loginpage-main">
+  <div class="loginpage-paper" style="box-shadow:0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);">
+      <h2 class="loginpage-title">Login to DailyVotion</h2>
+      <form method="post">
+        {% csrf_token %}
+        {# Show only auth-related messages to avoid leaks from other pages #}
+        {% if messages %}
+          {% with auth_msgs=messages|dictsort:"tags" %}
+            <ul class="form-messages">
+              {% for m in messages %}
+                {% if not m.tags or 'auth' in m.tags or 'login' in m.tags %}
+                  <li>{{ m }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endwith %}
+        {% endif %}
+        <input type="text" name="identifier" placeholder="Email or Username" required />
+        <div class="loginpage-password-field">
+          <input type="password" name="password" placeholder="Password" id="pwd" required />
+          <span class="loginpage-eye" id="pwd-eye" role="button">👁️‍🗨️</span>
+        </div>
+        <div class="loginpage-options">
+          <label><input type="checkbox" /> Remember me</label>
+          <button type="button" class="loginpage-forgot">Forgot password?</button>
+        </div>
+        <button type="submit" class="loginpage-loginbtn">Login</button>
+      </form>
+      <div class="loginpage-divider"></div>
+      <div class="loginpage-register">
+        <span>New to DailyVotion?</span>
+        <a class="loginpage-createbtn" href="{% url 'register' %}">Create Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  // Dropdown
+  const lbtn = document.getElementById('login-menu-btn');
+  const lmenu = document.getElementById('login-menu');
+  if (lbtn && lmenu) {
+    lmenu.classList.add('hidden');
+    lbtn.setAttribute('aria-expanded', 'false');
+    const toggle = (e) => {
+      e.stopPropagation();
+      const nowHidden = lmenu.classList.toggle('hidden');
+      lbtn.setAttribute('aria-expanded', (!nowHidden).toString());
+    };
+    lbtn.addEventListener('click', toggle);
+    document.addEventListener('click', (e) => {
+      if (!lmenu.classList.contains('hidden') && !lmenu.contains(e.target) && !lbtn.contains(e.target)) {
+        lmenu.classList.add('hidden');
+        lbtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+  // Eye toggle
+  const eye = document.getElementById('pwd-eye');
+  const pwd = document.getElementById('pwd');
+  if (eye && pwd) {
+    eye.addEventListener('click', ()=>{
+      if (pwd.type === 'password') { pwd.type = 'text'; eye.textContent = '👁️'; }
+      else { pwd.type = 'password'; eye.textContent = '👁️‍🗨️'; }
+    });
+  }
+</script>
+{% endblock %}

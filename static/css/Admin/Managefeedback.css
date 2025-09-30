@@ -1,0 +1,20 @@
+/* Copied from React src/css/Admin/Managefeedback.css */
+.managefeedback-container { min-height: 100vh; background: #f7f9fc; font-family: 'Segoe UI', Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 0; }
+.managefeedback-topbar { background-color: #008b8b; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; width: 100vw; left: 0; right: 0; box-sizing: border-box; margin: 0; position: relative; }
+.managefeedback-logo { color: white; font-weight: bold; font-size: 20px; }
+.managefeedback-menu-btn { background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; display: flex; align-items: center; }
+.managefeedback-menu-icon { display: block; width: 28px; height: 4px; background: #fff; border-radius: 2px; position: relative; }
+.managefeedback-menu-icon span { position: absolute; left: 0; width: 28px; height: 4px; background: #fff; border-radius: 2px; }
+.managefeedback-menu-icon span:first-child { top: -8px; }
+.managefeedback-menu-icon span:last-child { top: 8px; }
+.managefeedback-dropdown-menu { position: absolute; top: 54px; right: 32px; background: #008b8b; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,139,139,0.18); z-index: 100; min-width: 180px; }
+.managefeedback-dropdown-menu ul { display: flex; flex-direction: column; gap: 8px; }
+.managefeedback-link-btn { background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; width: 100%; text-align: left; padding: 10px 16px; border-radius: 6px; margin: 2px 0; transition: background 0.2s, text-shadow 0.2s, text-decoration 0.2s; }
+.managefeedback-link-btn:hover { background: #006d6d; text-decoration: underline; text-shadow: 0 0 8px #fff, 0 0 16px #008b8b; }
+.managefeedback-main { margin-top: 2.5rem; width: 100%; max-width: 600px; background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(60,60,60,0.12), 0 1px 4px rgba(60,60,60,0.10); padding: 2rem 1.5rem; border: 1.5px solid #e0f7fa; }
+.managefeedback-title { color: #008b8b; font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; }
+.managefeedback-list { width: 100%; margin-top: 1rem; }
+.managefeedback-item { background: #e0f7fa; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,139,139,0.08); }
+.managefeedback-user { font-weight: bold; color: #006d6d; margin-bottom: 0.5rem; }
+.managefeedback-text { color: #333; font-size: 1rem; margin-bottom: 0.5rem; }
+.managefeedback-date { color: #888; font-size: 0.9rem; }

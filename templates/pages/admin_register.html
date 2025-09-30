@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Register - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Adminregister.css' %}">
+{% endblock %}
+{% block content %}
+<div class="adminregister-container">
+  <div class="adminregister-paper">
+    <h2 class="adminregister-title">Create Admin Account</h2>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post" id="admin-register-form">
+      {% csrf_token %}
+      <input type="text" name="full_name" placeholder="Full Name" class="adminregister-input" value="{{ prefill.full_name|default:'' }}" />
+      <input type="text" name="username" placeholder="Username" class="adminregister-input" value="{{ prefill.username|default:'' }}" required />
+      <input type="email" name="email" placeholder="Email" class="adminregister-input" value="{{ prefill.email|default:'' }}" required />
+      <input type="text" name="mobile" placeholder="Mobile Number (optional)" class="adminregister-input" value="{{ prefill.mobile|default:'' }}" />
+      <div class="adminregister-password-field">
+        <input type="password" name="password1" placeholder="Password" class="adminregister-input" required />
+        <span class="adminregister-eye" role="button" aria-label="Show password">👁️‍🗨️</span>
+      </div>
+      <div class="adminregister-password-field">
+        <input type="password" name="password2" placeholder="Confirm Password" class="adminregister-input" required />
+        <span class="adminregister-eye" role="button" aria-label="Show password">👁️‍🗨️</span>
+      </div>
+      <button type="button" class="adminregister-btn" id="ar-open-terms">Register</button>
+      <a href="{% url 'admin_login' %}" class="adminregister-cancel-btn">Cancel</a>
+    </form>
+  </div>
+  <div id="ar-terms" class="adminregister-modal-overlay" style="display:none">
+    <div class="adminregister-modal-box">
+      <h3>Terms and Agreements</h3>
+      <div class="adminregister-modal-content">
+        <p style="color:#d9534f;font-weight:bold">Warning: Admin accounts have elevated privileges!</p>
+        <ul style="margin-left:1.2em;margin-bottom:1em">
+          <li>Admin accounts can manage users, content, and sensitive data.</li>
+          <li>Only trusted members of the organization should have admin access.</li>
+          <li>Never share your admin credentials with anyone outside the organization.</li>
+          <li>Misuse of admin privileges may result in account suspension or legal action.</li>
+          <li>You are responsible for all actions taken using your admin account.</li>
+          <li>By registering, you agree to follow all organizational guidelines and policies.</li>
+        </ul>
+        <label class="adminregister-modal-checkbox"><input type="checkbox" id="ar-agree"/> I have read and agree to the terms and agreements</label>
+      </div>
+      <div class="adminregister-modal-actions">
+        <button class="adminregister-modal-registerbtn" id="ar-register" disabled>Register</button>
+        <button class="adminregister-modal-cancelbtn" id="ar-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const terms = document.getElementById('ar-terms');
+  const openBtn = document.getElementById('ar-open-terms');
+  const cancelBtn = document.getElementById('ar-cancel');
+  const agree = document.getElementById('ar-agree');
+  const reg = document.getElementById('ar-register');
+  if(openBtn&&terms){openBtn.addEventListener('click',()=>terms.style.display='flex');}
+  if(cancelBtn&&terms){cancelBtn.addEventListener('click',()=>terms.style.display='none');}
+  if(agree&&reg){agree.addEventListener('change',()=>{reg.disabled=!agree.checked;});}
+  if(reg){reg.addEventListener('click',()=>{const form=document.getElementById('admin-register-form'); if(form){form.submit();} });}
+</script>
+{% endblock %}

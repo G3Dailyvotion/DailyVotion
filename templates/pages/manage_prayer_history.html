@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Prayer Request History - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/Manageprayerhistory.css' %}">
+{% endblock %}
+{% block content %}
+<div class="manageprayerhistory-container">
+  <div class="manageprayerhistory-topbar" style="position: relative">
+    <div class="manageprayerhistory-logo">DailyVotion</div>
+    <button class="manageprayerhistory-menu-btn" id="mph-menu-btn" aria-label="Open menu" style="background:none;border:none;cursor:pointer;padding:8px;margin-left:auto;display:flex;align-items:center">
+      <span class="manageprayerhistory-menu-icon"><span></span><span></span></span>
+    </button>
+    <div id="mph-menu" class="manageprayerhistory-dropdown-menu" style="display:none">
+      <ul class="list-reset" style="display:flex;flex-direction:column">
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'manage_prayer' %}">&#8592; Back</a></li>
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'home' %}">Logout</a></li>
+        <li style="padding:12px 20px"><a class="manageprayerhistory-link-btn" href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <h1 class="manageprayerhistory-title">Prayer Request History</h1>
+  <ul class="manageprayerhistory-list list-reset">
+    {% for r in requests %}
+      <li class="manageprayerhistory-item">
+        <strong>Sender:</strong> {{ r.user.get_full_name|default:r.user.username }}<br>
+        <strong>Request:</strong> {{ r.text }}<br>
+        <strong>Response:</strong> {{ r.admin_response }}<br>
+        <small>{{ r.responded_at|date:'Y-m-d H:i' }}</small>
+      </li>
+    {% empty %}
+      <li class="manageprayerhistory-item">No responded requests yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const mphb=document.getElementById('mph-menu-btn');const mphm=document.getElementById('mph-menu');if(mphb&&mphm){mphb.addEventListener('click',()=>{mphm.style.display=mphm.style.display==='none'?'block':'none';});}
+</script>
+{% endblock %}

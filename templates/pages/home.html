@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}DailyVotion - Home{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/HomePage.css' %}">
+{% endblock %}
+{% block content %}
+<div class="homepage-split">
+  <div class="homepage-left">
+    <h1 class="homepage-welcome">Welcome to DailyVotion</h1>
+    <p class="homepage-quote">
+      "When the time is right, I the Lord will make it happen"<br />
+      <span class="homepage-verse">Isaiah 60:22</span>
+    </p>
+    <a class="homepage-getstarted" href="{% url 'login' %}">Get Started</a>
+  </div>
+  <div class="homepage-right">
+    <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="Logo" class="homepage-logo-overlay" />
+  </div>
+  <div class="homepage-bottombar">&copy; {{ now|date:'Y' }} DailyVotion</div>
+</div>
+{% endblock %}

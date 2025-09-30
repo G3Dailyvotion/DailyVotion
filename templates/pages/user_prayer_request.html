@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Prayer Request - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/Userprayerrequest.css' %}">
+{% endblock %}
+{% block content %}
+<div class="userprayerrequest-container">
+  <div class="userprayerrequest-topbar position-relative">
+    <a href="{% url 'home' %}" class="userprayerrequest-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
+      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
+    </a>
+    <button class="userprayerrequest-menu-btn btn-reset" id="upr-menu-btn" aria-label="Open menu">
+  <span class="userprayerrequest-menu-icon">
+  <span></span>
+  <span></span>
+  <span></span>
+</span>
+    </button>
+    <div id="upr-menu" class="userprayerrequest-dropdown-menu hidden">
+      <ul class="userprayerrequest-dropdown-list list-reset">
+        <li><a class="userprayerrequest-link-btn" href="{% url 'profile' %}">Profile</a></li>
+        <li><a class="userprayerrequest-link-btn" href="{% url 'journal' %}">Journal</a></li>
+        <li><a class="userprayerrequest-link-btn" href="{% url 'about' %}">About</a></li>
+        <li><a class="userprayerrequest-link-btn" href="{% url 'home' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="userprayerrequest-main">
+    <div class="userprayerrequest-content-paper">
+      <div class="userprayerrequest-title">Add Prayer Request</div>
+      <div class="userprayerrequest-explanation">Type your prayer request below. It will be sent to the admin for review and response.</div>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.text }}
+        <div class="userprayerrequest-btns">
+          <button class="userprayerrequest-btn" type="submit">Submit</button>
+        </div>
+      </form>
+      {% if requests %}
+      <div class="userprayerrequest-list">
+        {% for r in requests %}
+        <div class="userprayerrequest-item">
+          <div class="userprayerrequest-date">{{ r.created_at|date:'Y-m-d' }}</div>
+          <div>{{ r.text }}</div>
+          {% if r.admin_response %}
+            <button class="userprayerrequest-response-btn" type="button" onclick="this.nextElementSibling.classList.toggle('open')">View Admin Response</button>
+            <div class="userprayerrequest-response">
+              <div class="userprayerrequest-response-meta">Responded {{ r.responded_at|date:'Y-m-d H:i' }}</div>
+              <div>{{ r.admin_response }}</div>
+            </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const uprb=document.getElementById('upr-menu-btn');
+  const uprm=document.getElementById('upr-menu');
+  if(uprb&&uprm){
+    uprm.classList.add('hidden');
+    uprb.addEventListener('click',(e)=>{e.stopPropagation();uprm.classList.toggle('hidden');});
+    document.addEventListener('click',(e)=>{ if(!uprm.classList.contains('hidden') && !uprm.contains(e.target) && !uprb.contains(e.target)){ uprm.classList.add('hidden'); }});
+  }
+  // Prevent double submission by disabling submit button on submit
+  const uprForm = document.querySelector('.userprayerrequest-content-paper form');
+  if (uprForm) {
+    uprForm.addEventListener('submit', (e) => {
+      const btn = uprForm.querySelector('.userprayerrequest-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
+    });
+  }
+</script>
+{% endblock %}

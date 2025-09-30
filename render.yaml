@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: dailyvotion
+    env: python
+    plan: free
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: gunicorn dailyvotion_django.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: DJANGO_SETTINGS_MODULE
+        value: dailyvotion_django.settings
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: RENDER
+        value: true
+      - key: ALLOWED_HOSTS
+        value: dailyvotion.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://dailyvotion.onrender.com
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: dailyvotion
+          property: url
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dailyvotion-db
+          property: connectionString
+    healthCheckPath: /healthz
+    autoDeploy: true
+    preDeployCommand: python manage.py migrate
+
+databases:
+  - name: dailyvotion-db
+    databaseName: dailyvotion
+    user: dailyvotion
+    plan: free

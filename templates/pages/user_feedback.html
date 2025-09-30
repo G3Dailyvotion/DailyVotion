@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Feedback - DailyVotion{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/User/Userfeedback.css' %}">
+{% endblock %}
+{% block content %}
+<div class="userfeedback-container">
+  <div class="userfeedback-topbar position-relative">
+    <div class="userfeedback-logo">DailyVotion</div>
+    <button class="userfeedback-menu-btn btn-reset" id="ufb-menu-btn" aria-label="Open menu">
+      <span class="userfeedback-menu-icon"><span></span><span></span></span>
+    </button>
+    <div id="ufb-menu" class="userfeedback-dropdown-menu hidden">
+      <ul class="userfeedback-dropdown-list list-reset">
+        <li><button class="userfeedback-link-btn" onclick="history.back()">&#8592; Back</button></li>
+        <li><a class="userfeedback-link-btn" href="{% url 'profile' %}">Profile</a></li>
+        <li><a class="userfeedback-link-btn" href="{% url 'journal' %}">Journal</a></li>
+        <li><a class="userfeedback-link-btn" href="{% url 'about' %}">About</a></li>
+        <li><a class="userfeedback-link-btn" href="{% url 'home' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="userfeedback-main">
+    <div class="userfeedback-title">App Feedback &amp; Report</div>
+    <div class="userfeedback-explanation">You can share your feedback or report any issues you encounter. Your input helps us improve the app experience for everyone.</div>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.text }}
+      <div class="userfeedback-btns">
+        <button class="userfeedback-btn" type="submit">Save</button>
+        <a class="userfeedback-btn" href="{% url 'profile' %}">Cancel</a>
+      </div>
+    </form>
+    {# Recent feedback removed for regular users; only admins can see them in admin panel #}
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  const ufbb=document.getElementById('ufb-menu-btn');
+  const ufbm=document.getElementById('ufb-menu');
+  if(ufbb&&ufbm){
+    ufbm.classList.add('hidden');
+    ufbb.addEventListener('click',(e)=>{e.stopPropagation();ufbm.classList.toggle('hidden');});
+    document.addEventListener('click',(e)=>{ if(!ufbm.classList.contains('hidden') && !ufbm.contains(e.target) && !ufbb.contains(e.target)){ ufbm.classList.add('hidden'); }});
+  }
+</script>
+{% endblock %}
