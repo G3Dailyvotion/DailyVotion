@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="userprayerrequest-container">
+<<<<<<< HEAD
   <div class="userprayerrequest-topbar position-relative">
     <a href="{% url 'home' %}" class="userprayerrequest-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
       <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
@@ -26,6 +27,8 @@
       </ul>
     </div>
   </div>
+=======
+>>>>>>> d39b26a (Commit)
   <div class="userprayerrequest-main">
     <div class="userprayerrequest-content-paper">
       <div class="userprayerrequest-title">Add Prayer Request</div>
@@ -60,13 +63,6 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-  const uprb=document.getElementById('upr-menu-btn');
-  const uprm=document.getElementById('upr-menu');
-  if(uprb&&uprm){
-    uprm.classList.add('hidden');
-    uprb.addEventListener('click',(e)=>{e.stopPropagation();uprm.classList.toggle('hidden');});
-    document.addEventListener('click',(e)=>{ if(!uprm.classList.contains('hidden') && !uprm.contains(e.target) && !uprb.contains(e.target)){ uprm.classList.add('hidden'); }});
-  }
   // Prevent double submission by disabling submit button on submit
   const uprForm = document.querySelector('.userprayerrequest-content-paper form');
   if (uprForm) {

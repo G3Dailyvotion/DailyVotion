@@ -39,8 +39,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
-from .forms import JournalEntryForm, PrayerRequestForm, ReflectionForm, FeedbackForm
-from .models import JournalEntry, PrayerRequest, Reflection, Feedback
+from .forms import JournalEntryForm, PrayerRequestForm, ReflectionForm, FeedbackForm, ProfileForm
+from .models import JournalEntry, PrayerRequest, Reflection, Feedback, UserProfile
 
 
 def home(request):
@@ -109,6 +109,10 @@ def register(request):
 			first_name=first_name,
 			last_name=last_name,
 		)
+		
+		# Create UserProfile for the new user
+		UserProfile.objects.create(user=user)
+		
 		login(request, user)
 		return redirect('profile')
 
@@ -429,7 +433,66 @@ def journal(request):
 
 
 def edit_profile(request):
+<<<<<<< HEAD
 	return render(request, 'pages/edit_profile.html')
+=======
+	if not request.user.is_authenticated:
+		return redirect('login')
+	
+	try:
+		user_profile = UserProfile.objects.get(user=request.user)
+	except UserProfile.DoesNotExist:
+		user_profile = UserProfile(user=request.user)
+	
+	if request.method == 'POST':
+		form = ProfileForm(request.POST, request.FILES, instance=user_profile)
+		if form.is_valid():
+			# Update User model fields
+			if form.cleaned_data.get('full_name'):
+				full_name = form.cleaned_data['full_name'].strip()
+				parts = full_name.split()
+				request.user.first_name = parts[0]
+				request.user.last_name = ' '.join(parts[1:]) if len(parts) > 1 else ''
+			
+			if form.cleaned_data.get('username'):
+				new_username = form.cleaned_data['username'].strip()
+				if new_username != request.user.username:
+					if User.objects.filter(username__iexact=new_username).exists():
+						messages.error(request, 'This username is already taken.')
+						return render(request, 'pages/edit_profile.html', {'form': form})
+					request.user.username = new_username
+			
+			# Handle password change if provided
+			password1 = form.cleaned_data.get('password1')
+			password2 = form.cleaned_data.get('password2')
+			if password1 and password2:
+				if password1 != password2:
+					messages.error(request, 'Passwords do not match.')
+					return render(request, 'pages/edit_profile.html', {'form': form})
+				request.user.set_password(password1)
+				# We'll need to re-login the user after password change
+				updated_user = authenticate(username=request.user.username, password=password1)
+				login(request, updated_user)
+			
+			request.user.save()
+			
+			# Save the profile with the image
+			profile = form.save(commit=False)
+			profile.user = request.user
+			profile.save()
+			
+			messages.success(request, 'Profile updated successfully.')
+			return redirect('profile')
+	else:
+		# Pre-fill the form with current user data
+		initial_data = {
+			'full_name': f"{request.user.first_name} {request.user.last_name}".strip(),
+			'username': request.user.username,
+		}
+		form = ProfileForm(instance=user_profile, initial=initial_data)
+	
+	return render(request, 'pages/edit_profile.html', {'form': form})
+>>>>>>> d39b26a (Commit)
 
 
 def user_prayer_request(request):

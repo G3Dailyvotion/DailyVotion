@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="profilepage-container">
+<<<<<<< HEAD
   <div class="profilepage-topbar">
     <a href="{% url 'home' %}" class="profilepage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
       <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
@@ -22,11 +23,23 @@
       <div class="profilepage-dropdown-logout"><a class="logout-link" href="{% url 'logout' %}">Logout</a></div>
     </div>
   </div>
+=======
+>>>>>>> d39b26a (Commit)
 
   <div class="profilepage-main-vertical">
   <div class="profilepage-content-paper" style="box-shadow:0 8px 32px 0 rgba(0,0,0,0.22),0 2px 8px 0 rgba(0,0,0,0.14);">
       <div class="profilepage-user-vertical">
-  <img src="{% static 'pictures/Profilepic.jpg' %}" alt="" class="profilepage-avatar" />
+  {% if request.user.is_authenticated %}
+    {% with profile=request.user.profile %}
+      {% if profile and profile.image %}
+        <img src="{{ profile.image.url }}" alt="Profile Picture" class="profilepage-avatar" />
+      {% else %}
+        <img src="{% static 'pictures/Profilepic.jpg' %}" alt="Default Profile" class="profilepage-avatar" />
+      {% endif %}
+    {% endwith %}
+  {% else %}
+    <img src="{% static 'pictures/Profilepic.jpg' %}" alt="Default Profile" class="profilepage-avatar" />
+  {% endif %}
         <h2 class="profilepage-username">{{ request.user.get_full_name|default:request.user.username }}</h2>
         <p class="profilepage-userid">@{{ request.user.username }}</p>
       </div>
@@ -146,6 +159,7 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+<<<<<<< HEAD
   // Burger menu logic
   const pbtn = document.getElementById('profile-menu-btn');
   const pmenu = document.getElementById('profile-menu');
@@ -164,6 +178,31 @@
           pmenu.classList.add('hidden');
           pbtn.setAttribute('aria-expanded', 'false');
         }
+=======
+  // Verse of the Day modal logic
+  const verseBox = document.getElementById('verse-of-day');
+  const verseModal = document.getElementById('verse-modal');
+  if (verseBox && verseModal) {
+    verseBox.addEventListener('click', () => {
+      verseModal.classList.remove('hidden');
+    });
+    verseBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        verseModal.classList.remove('hidden');
+      }
+    });
+  }
+  // Recent Journal modal logic
+  const journalBox = document.getElementById('recent-journal-box');
+  const journalModal = document.getElementById('journal-modal');
+  if (journalBox && journalModal) {
+    journalBox.addEventListener('click', () => {
+      journalModal.classList.remove('hidden');
+    });
+    journalBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        journalModal.classList.remove('hidden');
+>>>>>>> d39b26a (Commit)
       }
     });
   }

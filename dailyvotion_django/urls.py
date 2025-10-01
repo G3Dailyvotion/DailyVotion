@@ -18,7 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import RedirectView
 from django.templatetags.static import static
+from django.conf import settings
+from django.conf.urls.static import static as django_static
 from pages import views as pages
+from django.conf import settings
+from django.conf.urls.static import static as django_static
 
 urlpatterns = [
     # Redirect legacy favicon.ico requests to our SVG favicon
@@ -49,3 +53,11 @@ urlpatterns = [
     path('gallery/', pages.gallery, name='gallery'),
     path('healthz', pages.healthz, name='healthz'),
 ]
+
+# Serve media files in development
+if settings.DEBUG:
+    urlpatterns += django_static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Add a pattern for media files in production (WhiteNoise will handle these)
+if not settings.DEBUG and settings.MEDIA_URL.startswith('/static/'):
+    pass  # No need to add patterns - WhiteNoise will serve from STATIC_ROOT

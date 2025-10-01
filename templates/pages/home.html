@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}DailyVotion - Home{% endblock %}
+{% block body_class %}homepage-body{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/HomePage.css' %}">
 {% endblock %}
 {% block content %}
+<!-- Corner menu button for homepage -->
+<button id="homepage-menu-button" class="homepage-menu-button" aria-label="Menu">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="white"/>
+  </svg>
+</button>
+
+<!-- Homepage content -->
 <div class="homepage-split">
   <div class="homepage-left">
     <h1 class="homepage-welcome">Welcome to DailyVotion</h1>
@@ -12,11 +21,97 @@
       "When the time is right, I the Lord will make it happen"<br />
       <span class="homepage-verse">Isaiah 60:22</span>
     </p>
-    <a class="homepage-getstarted" href="{% url 'login' %}">Get Started</a>
+  <a class="homepage-getstarted btn-softpulse" href="{% url 'login' %}">Get Started</a>
   </div>
   <div class="homepage-right">
     <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="Logo" class="homepage-logo-overlay" />
   </div>
+<<<<<<< HEAD
+  <div class="homepage-right">
+    <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="Logo" class="homepage-logo-overlay" />
+  </div>
+=======
+>>>>>>> d39b26a (Commit)
   <div class="homepage-bottombar">&copy; {{ now|date:'Y' }} DailyVotion</div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('homepage-menu-button');
+    
+    if (menuButton) {
+      // Create a dropdown menu
+      const menu = document.createElement('div');
+      menu.className = 'homepage-dropdown-menu';
+      menu.style.position = 'fixed';
+      menu.style.top = '80px';
+      menu.style.right = '20px';
+      menu.style.backgroundColor = '#008b8b';
+      menu.style.borderRadius = '8px';
+      menu.style.padding = '10px 0';
+      menu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+      menu.style.zIndex = '1100';
+      menu.style.display = 'none';
+      
+      // Create menu items
+      const menuItems = [
+        { text: 'Home', url: '/' },
+        { text: 'Login', url: '{% url "login" %}' },
+        { text: 'Register', url: '{% url "register" %}' },
+        { text: 'Admin', url: '{% url "admin_login" %}' },
+        { text: 'About', url: '{% url "about" %}' }
+      ];
+      
+      const menuList = document.createElement('ul');
+      menuList.style.listStyle = 'none';
+      menuList.style.margin = '0';
+      menuList.style.padding = '0';
+      
+      menuItems.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.style.color = 'white';
+        a.style.textDecoration = 'none';
+        a.style.padding = '10px 20px';
+        a.style.display = 'block';
+        a.style.fontWeight = 'bold';
+        a.style.whiteSpace = 'nowrap';
+        
+        a.addEventListener('mouseover', function() {
+          this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        });
+        
+        a.addEventListener('mouseout', function() {
+          this.style.backgroundColor = 'transparent';
+        });
+        
+        li.appendChild(a);
+        menuList.appendChild(li);
+      });
+      
+      menu.appendChild(menuList);
+      document.body.appendChild(menu);
+      
+      // Toggle menu visibility
+      menuButton.addEventListener('click', function() {
+        if (menu.style.display === 'none') {
+          menu.style.display = 'block';
+        } else {
+          menu.style.display = 'none';
+        }
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (e.target !== menuButton && !menuButton.contains(e.target) && !menu.contains(e.target)) {
+          menu.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}

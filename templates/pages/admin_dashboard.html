@@ -6,18 +6,6 @@
 {% endblock %}
 {% block content %}
 <div class="admindash-container">
-  <div class="admindash-topbar">
-    <div class="admindash-logo">DailyVotion</div>
-    <button class="admindash-menu-btn" id="adm-menu-btn" aria-label="Open menu">
-      <span class="admindash-menu-icon"></span>
-    </button>
-    <div id="adm-menu" class="admindash-dropdown-menu" style="display:none">
-      <ul class="list-reset">
-        <li><a class="admindash-link-btn" href="{% url 'home' %}">Logout</a></li>
-        <li><a class="admindash-link-btn" href="{% url 'about' %}">About</a></li>
-      </ul>
-    </div>
-  </div>
 
   <div class="admindash-main">
     <h1 class="admindash-title">Admin Dashboard</h1>
@@ -52,9 +40,4 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-<script>
-  const admbtn = document.getElementById('adm-menu-btn');
-  const admmenu = document.getElementById('adm-menu');
-  if (admbtn && admmenu) admbtn.addEventListener('click', ()=>{ admmenu.style.display = admmenu.style.display==='none'?'block':'none'; });
-</script>
 {% endblock %}

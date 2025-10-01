@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="gallerypage-container">
+<<<<<<< HEAD
   <div class="aboutpage-topbar" style="position: relative">
     <a href="/" class="aboutpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
       <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
@@ -21,6 +22,8 @@
       </ul>
     </div>
   </div>
+=======
+>>>>>>> d39b26a (Commit)
   <a href="/about" class="gallery-about-btn center-left-btn">&lt; - about</a>
 <style>
 .center-left-btn {
@@ -75,6 +78,7 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< HEAD
   // About-style burger menu logic
   const abtn = document.getElementById('about-menu-btn');
   const menu = document.getElementById('about-menu');
@@ -101,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', (e)=>{ if (menu.style.display === 'block' && !menu.contains(e.target) && !abtn.contains(e.target)) menu.style.display = 'none'; });
   }
 
+=======
+>>>>>>> d39b26a (Commit)
   // Gallery image click to fullscreen modal
   document.querySelectorAll('.gallery-img-modal').forEach(img => {
     img.addEventListener('click', function() {

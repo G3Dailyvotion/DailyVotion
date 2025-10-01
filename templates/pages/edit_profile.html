@@ -8,6 +8,7 @@
 <div class="editprofile-container" style="display:flex;justify-content:center;align-items:center;min-height:80vh;width:100vw;">
   <div class="editprofile-paper" style="margin:auto;max-width:480px;width:100%;background:#fff;border:1.5px solid #e0e0e0;box-shadow:0 8px 32px rgba(0,139,139,0.12);border-radius:18px;padding:2.5rem 2rem;">
     <h2 class="editprofile-title">Edit Profile</h2>
+<<<<<<< HEAD
     <form style="align-items:center;">
       <label>Change Name:</label>
         <input type="text" placeholder="New Name" class="editprofile-input" />
@@ -16,15 +17,59 @@
       <label>Change Password:</label>
       <div class="editprofile-password-field" style="width:100%;display:block;">
         <input type="password" placeholder="New Password" class="editprofile-input" />
+=======
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}"
+            {% if message.tags == 'success' %}
+              style="padding: 10px; margin-bottom: 15px; border-radius: 5px; background-color: #d4edda; color: #155724;"
+            {% elif message.tags == 'error' %}
+              style="padding: 10px; margin-bottom: 15px; border-radius: 5px; background-color: #f8d7da; color: #721c24;"
+            {% elif message.tags == 'info' %}
+              style="padding: 10px; margin-bottom: 15px; border-radius: 5px; background-color: #d1ecf1; color: #0c5460;"
+            {% else %}
+              style="padding: 10px; margin-bottom: 15px; border-radius: 5px;"
+            {% endif %}
+          >
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" style="align-items:center;">
+      {% csrf_token %}
+      <label>Change Name:</label>
+        <input type="text" name="full_name" value="{{ form.full_name.value|default:'' }}" placeholder="Full Name" class="editprofile-input" />
+      <label>Change Username:</label>
+        <input type="text" name="username" value="{{ form.username.value|default:'' }}" placeholder="Username" class="editprofile-input" />
+      <label>Change Password (leave blank to keep current password):</label>
+      <div class="editprofile-password-field" style="width:100%;display:block;">
+        <input type="password" name="password1" placeholder="New Password" class="editprofile-input" />
+>>>>>>> d39b26a (Commit)
         <span class="editprofile-eye">👁️‍🗨️</span>
       </div>
       <label>Confirm New Password:</label>
       <div class="editprofile-password-field" style="width:100%;display:block;">
+<<<<<<< HEAD
         <input type="password" placeholder="Confirm Password" class="editprofile-input" />
         <span class="editprofile-eye">👁️‍🗨️</span>
       </div>
       <label>Upload Profile Picture:</label>
         <input type="file" accept="image/*" class="editprofile-input" />
+=======
+        <input type="password" name="password2" placeholder="Confirm Password" class="editprofile-input" />
+        <span class="editprofile-eye">👁️‍🗨️</span>
+      </div>
+      <label>Upload Profile Picture:</label>
+      {% if form.instance and form.instance.image %}
+        <div style="margin-bottom: 10px;">
+          <img src="{{ form.instance.get_image_url }}" alt="Current Profile Picture" style="max-width: 100px; max-height: 100px; border-radius: 50%;">
+          <p>Current profile picture</p>
+        </div>
+      {% endif %}
+        {{ form.image }}
+>>>>>>> d39b26a (Commit)
       <div class="editprofile-btn-row">
         <button type="submit" class="editprofile-save-btn">Save Changes</button>
         <a href="{% url 'profile' %}" class="editprofile-cancel-btn">Cancel</a>

@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="userreflection-container">
+<<<<<<< HEAD
   <div class="userreflection-topbar" style="position: relative">
     <a href="{% url 'home' %}" class="userreflection-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
       <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
@@ -27,6 +28,9 @@
       </ul>
     </div>
   </div>
+=======
+  
+>>>>>>> d39b26a (Commit)
   <div class="userreflection-paper">
     <h2>Reflection &amp; Journal</h2>
     <div class="userreflection-verse"><strong>Philippians 4:13 - I can do all things through Christ who strengthens me.</strong></div>
@@ -51,12 +55,5 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-  const urfb=document.getElementById('urf-menu-btn');
-  const urfm=document.getElementById('urf-menu');
-  if(urfb&&urfm){
-    urfm.classList.add('hidden');
-    urfb.addEventListener('click',(e)=>{e.stopPropagation();urfm.classList.toggle('hidden');});
-    document.addEventListener('click',(e)=>{ if(!urfm.classList.contains('hidden') && !urfm.contains(e.target) && !urfb.contains(e.target)){ urfm.classList.add('hidden'); }});
-  }
 </script>
 {% endblock %}

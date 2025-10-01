@@ -10,8 +10,153 @@
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
   {% block head_css %}{% endblock %}
 </head>
-<body>
-  {% block content %}{% endblock %}
+<body class="{% block body_class %}{% endblock %}">
+  <!-- App Loading Overlay (visible by default; fades out on load) -->
+  <div id="app-loader" class="app-loader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="app-loader-box" role="presentation">
+      <div class="app-loader-spinner" aria-hidden="true"></div>
+      <div class="app-loader-text">Loading…</div>
+    </div>
+  </div>
+  <!-- Global Navigation Bar -->
+  <header class="{% block hide_navbar %}{% endblock %}">
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="navbar-logo">
+          <a href="{% url 'home' %}">
+            <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" class="navbar-logo-img">
+          </a>
+        </div>
+        
+        <button class="navbar-mobile-toggle" id="navbar-mobile-toggle" aria-label="Toggle menu">
+          <span class="navbar-mobile-icon"></span>
+        </button>
+        
+        <div class="navbar-menu" id="navbar-menu">
+          <ul class="navbar-items list-reset">
+            <li class="navbar-item"><a href="{% url 'home' %}">Home</a></li>
+            {% if request.user.is_authenticated %}
+              <li class="navbar-item"><a href="{% url 'profile' %}">Profile</a></li>
+              
+              {% with current_url=request.resolver_match.url_name %}
+              
+                {% if current_url != 'journal' and current_url != 'profile' %}
+              <li class="navbar-item"><a href="{% url 'journal' %}">Journal</a></li>
+              {% endif %}
+              
+                {% if current_url != 'user_prayer_request' and current_url != 'profile' %}
+              <li class="navbar-item"><a href="{% url 'user_prayer_request' %}">Prayer</a></li>
+              {% endif %}
+              
+                {% if current_url != 'user_reflection' and current_url != 'profile' %}
+              <li class="navbar-item"><a href="{% url 'user_reflection' %}">Reflection</a></li>
+              {% endif %}
+              
+              {% endwith %}
+              
+              <li class="navbar-item"><a href="{% url 'about' %}">About</a></li>
+              <li class="navbar-item navbar-logout"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+              <li class="navbar-item"><a href="{% url 'login' %}">Login</a></li>
+              <li class="navbar-item"><a href="{% url 'register' %}">Register</a></li>
+              <li class="navbar-item"><a href="{% url 'admin_login' %}">Admin</a></li>
+              <li class="navbar-item"><a href="{% url 'about' %}">About</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  {% block corner_menu %}{% endblock %}
+  
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
   {% block extra_js %}{% endblock %}
+
+  <!-- Global JavaScript for navbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('navbar-mobile-toggle');
+      const menu = document.getElementById('navbar-menu');
+      const loader = document.getElementById('app-loader');
+      let loaderTimer = null;
+      
+      if (toggleBtn && menu) {
+        toggleBtn.addEventListener('click', function() {
+          menu.classList.toggle('active');
+          toggleBtn.classList.toggle('active');
+          toggleBtn.setAttribute('aria-expanded', menu.classList.contains('active'));
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!menu.contains(e.target) && !toggleBtn.contains(e.target) && menu.classList.contains('active')) {
+            menu.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      // Loader helpers
+      function hideLoader() {
+        if (!loader) return;
+        loader.classList.add('hidden');
+      }
+      function showLoaderDelayed(delay = 200) {
+        if (!loader) return;
+        if (loaderTimer) clearTimeout(loaderTimer);
+        loaderTimer = setTimeout(() => {
+          loader.classList.remove('hidden');
+        }, delay);
+      }
+      function cancelPendingLoader() {
+        if (loaderTimer) { clearTimeout(loaderTimer); loaderTimer = null; }
+      }
+
+      // Initial: fade out loader when page is ready
+      // If navigation cache restores the page, ensure loader is hidden
+      hideLoader();
+      window.addEventListener('pageshow', () => hideLoader());
+
+      // Show loader when navigating via links (same tab, non-anchor)
+      document.addEventListener('click', function(e) {
+        const a = e.target.closest('a[href]');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || a.target === '_blank' || a.hasAttribute('download')) return;
+        showLoaderDelayed();
+      });
+      // Show loader on form submissions
+      document.addEventListener('submit', function(e) {
+        showLoaderDelayed(150);
+      });
+      // Cancel delayed loader if navigation is prevented
+      document.addEventListener('click', function(e) {
+        if (e.defaultPrevented) cancelPendingLoader();
+      }, true);
+
+      // Subtle click animation for buttons/links
+      function addPress(el) { el.classList.add('pressed'); setTimeout(()=>el.classList.remove('pressed'), 160); }
+      document.addEventListener('pointerdown', function(e) {
+        const el = e.target.closest('button, a[href]');
+        if (!el) return;
+        addPress(el);
+      });
+
+      // Track mouse position for .btn-softpulse radial highlight
+      document.addEventListener('pointermove', function(e){
+        const el = e.target.closest('.btn-softpulse');
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        el.style.setProperty('--mx', x + 'px');
+        el.style.setProperty('--my', y + 'px');
+      });
+    });
+  </script>
 </body>
 </html>

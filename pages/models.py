@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class TimeStampedModel(models.Model):
@@ -8,6 +12,35 @@ class TimeStampedModel(models.Model):
 
 	class Meta:
 		abstract = True
+		
+
+def profile_image_path(instance, filename):
+	# Generate a unique filename for each user profile picture
+	ext = filename.split('.')[-1]
+	new_filename = f"user_{instance.user.id}_profile.{ext}"
+	return os.path.join('profile_pictures', new_filename)
+
+
+class UserProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+	image = models.ImageField(upload_to=profile_image_path, null=True, blank=True)
+	bio = models.TextField(blank=True)
+	
+	def __str__(self):
+		return f"Profile: {self.user.username}"
+		
+	def get_image_url(self):
+		if self.image and hasattr(self.image, 'url'):
+			return self.image.url
+		return settings.STATIC_URL + 'pictures/Profilepic.jpg'
+
+
+# Signal to automatically create UserProfile for new users
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+	"""Create a UserProfile for every new User"""
+	if created:
+		UserProfile.objects.create(user=instance)
 
 
 class JournalEntry(TimeStampedModel):

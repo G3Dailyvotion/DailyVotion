@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Register - DailyVotion{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/User/UserRegister.css' %}">
 {% endblock %}
+{% block corner_menu %}
+<!-- Corner menu button for auth pages -->
+<button id="auth-menu-button" class="homepage-menu-button" aria-label="Menu">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="white"/>
+  </svg>
+</button>
+{% endblock %}
 {% block content %}
 <div class="registerpage-container">
+<<<<<<< HEAD
   <div class="registerpage-topbar">
     <div class="registerpage-logo">DailyVotion</div>
     <button class="registerpage-menu-btn" id="reg-menu-btn" aria-label="Open menu">
@@ -19,6 +29,8 @@
       </ul>
     </div>
   </div>
+=======
+>>>>>>> d39b26a (Commit)
   <div class="registerpage-main">
     <div class="registerpage-paper" style="box-shadow:0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);">
       <h2 class="registerpage-title">Create Your Account</h2>
@@ -41,7 +53,7 @@
           <input type="password" name="password2" placeholder="Confirm Password" id="rcpwd" required />
           <span class="registerpage-eye" id="rcpwd-eye" role="button">👁️‍🗨️</span>
         </div>
-        <button class="registerpage-registerbtn" type="button" id="open-terms">Sign Up</button>
+  <button class="registerpage-registerbtn btn-softpulse" type="button" id="open-terms">Sign Up</button>
       </form>
       <div class="registerpage-divider"></div>
       <div class="registerpage-login">
@@ -68,13 +80,18 @@
       </div>
       <div class="registerpage-modal-actions">
         <button type="button" class="registerpage-modal-close registerpage-modal-cancel">Cancel</button>
+<<<<<<< HEAD
         <button type="button" class="registerpage-modal-registerbtn" disabled>Register</button>
+=======
+  <button type="button" class="registerpage-modal-registerbtn btn-softpulse" disabled>Register</button>
+>>>>>>> d39b26a (Commit)
       </div>
     </div>
   </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< HEAD
   // Menu dropdown
   const menuBtn = document.getElementById('reg-menu-btn');
   const menu = document.getElementById('reg-menu');
@@ -136,6 +153,130 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+=======
+  // Corner menu setup
+  const menuButton = document.getElementById('auth-menu-button');
+  
+  if (menuButton) {
+    // Create a dropdown menu
+    const menu = document.createElement('div');
+    menu.className = 'auth-dropdown-menu';
+    menu.style.position = 'fixed';
+    menu.style.top = '80px';
+    menu.style.right = '20px';
+    menu.style.backgroundColor = '#008b8b';
+    menu.style.borderRadius = '8px';
+    menu.style.padding = '10px 0';
+    menu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    menu.style.zIndex = '1100';
+    menu.style.display = 'none';
+    
+    // Create menu items
+    const menuItems = [
+      { text: 'Home', url: '{% url "home" %}' },
+      { text: 'Login', url: '{% url "login" %}' },
+      { text: 'Register', url: '{% url "register" %}' },
+      { text: 'Admin', url: '{% url "admin_login" %}' },
+      { text: 'About', url: '{% url "about" %}' }
+    ];
+    
+    const menuList = document.createElement('ul');
+    menuList.style.listStyle = 'none';
+    menuList.style.margin = '0';
+    menuList.style.padding = '0';
+    
+    menuItems.forEach(item => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = item.url;
+      a.textContent = item.text;
+      a.style.color = 'white';
+      a.style.textDecoration = 'none';
+      a.style.padding = '10px 20px';
+      a.style.display = 'block';
+      a.style.fontWeight = 'bold';
+      a.style.whiteSpace = 'nowrap';
+      
+      a.addEventListener('mouseover', function() {
+        this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+      });
+      
+      a.addEventListener('mouseout', function() {
+        this.style.backgroundColor = 'transparent';
+      });
+      
+      li.appendChild(a);
+      menuList.appendChild(li);
+    });
+    
+    menu.appendChild(menuList);
+    document.body.appendChild(menu);
+    
+    // Toggle menu visibility
+    menuButton.addEventListener('click', function() {
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+      } else {
+        menu.style.display = 'none';
+      }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (e.target !== menuButton && !menuButton.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  }
+
+  // Modal logic
+  const regBtn = document.getElementById('open-terms');
+  const modal = document.getElementById('terms-modal');
+  const agree = document.getElementById('agree');
+  const confirmBtn = modal.querySelector('.registerpage-modal-registerbtn');
+  const cancelBtn = modal.querySelector('.registerpage-modal-close');
+  if (regBtn && modal) {
+    regBtn.addEventListener('click', function() {
+      modal.classList.remove('hidden');
+    });
+    if (agree && confirmBtn) {
+      agree.addEventListener('change', function() {
+        confirmBtn.disabled = !agree.checked;
+      });
+      confirmBtn.addEventListener('click', function() {
+        if (!confirmBtn.disabled) {
+          document.getElementById('register-form').submit();
+        }
+      });
+    }
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+      });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') modal.classList.add('hidden');
+    });
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  }
+
+  // Password show/hide
+  const rpwdEye = document.getElementById('rpwd-eye');
+  const rpwd = document.getElementById('rpwd');
+  if (rpwdEye && rpwd) {
+    rpwdEye.addEventListener('click', function() {
+      if (rpwd.type === 'password') {
+        rpwd.type = 'text';
+        rpwdEye.textContent = '👁️';
+      } else {
+        rpwd.type = 'password';
+        rpwdEye.textContent = '👁️‍🗨️';
+      }
+    });
+  }
+>>>>>>> d39b26a (Commit)
   const rcpwdEye = document.getElementById('rcpwd-eye');
   const rcpwd = document.getElementById('rcpwd');
   if (rcpwdEye && rcpwd) {
