@@ -11,11 +11,7 @@
       <div class="profilepage-user-vertical">
         {% if request.user.is_authenticated %}
           {% with profile=request.user.profile %}
-            {% if profile and profile.image %}
-              <img src="{{ profile.image.url }}" alt="Profile Picture" class="profilepage-avatar" />
-            {% else %}
-              <img src="{% static 'pictures/Profilepic.jpg' %}" alt="Default Profile" class="profilepage-avatar" />
-            {% endif %}
+            <img src="{{ profile.get_image_url }}" alt="Profile Picture" class="profilepage-avatar" />
           {% endwith %}
         {% else %}
           <img src="{% static 'pictures/Profilepic.jpg' %}" alt="Default Profile" class="profilepage-avatar" />

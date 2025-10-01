@@ -55,9 +55,5 @@ urlpatterns = [
 ]
 
 # Serve media files in development
-if settings.DEBUG:
-    urlpatterns += django_static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# Add a pattern for media files in production (WhiteNoise will handle these)
-if not settings.DEBUG and settings.MEDIA_URL.startswith('/static/'):
-    pass  # No need to add patterns - WhiteNoise will serve from STATIC_ROOT
+# Serve media files in both development and production (small uploads like profile pictures)
+urlpatterns += django_static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

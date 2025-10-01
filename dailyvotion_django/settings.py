@@ -186,19 +186,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files (user uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# On Render, media files need to be stored in a persistent storage location
-if os.getenv('RENDER_SERVICE_ID'):
-    # Use WhiteNoise to serve media files in production (not ideal for large files, but works for profile pictures)
-    WHITENOISE_ROOT = MEDIA_ROOT
-    
-    # Set cache headers for media files to avoid caching issues
-    WHITENOISE_MAX_AGE = 31536000  # 1 year
-    
-    # Configure media directory to be a subdirectory of staticfiles
-    # This ensures WhiteNoise can serve these files
-    MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
-    MEDIA_URL = '/static/media/'
+WHITENOISE_MAX_AGE = 31536000  # 1 year for static
 
 # Admin pre-auth configuration (single permanent code)
 # For best security, override via environment variable ADMIN_AUTH_CODE in production.
