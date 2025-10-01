@@ -186,6 +186,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files (user uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+os.makedirs(MEDIA_ROOT, exist_ok=True)
 WHITENOISE_MAX_AGE = 31536000  # 1 year for static
 
 # Admin pre-auth configuration (single permanent code)

@@ -15,7 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve as static_serve
 from django.views.generic import RedirectView
 from django.templatetags.static import static
 from django.conf import settings
@@ -57,3 +58,6 @@ urlpatterns = [
 # Serve media files in development
 # Serve media files in both development and production (small uploads like profile pictures)
 urlpatterns += django_static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', static_serve, {'document_root': settings.MEDIA_ROOT}),
+]
