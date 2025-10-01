@@ -433,17 +433,14 @@ def journal(request):
 
 
 def edit_profile(request):
-<<<<<<< HEAD
-	return render(request, 'pages/edit_profile.html')
-=======
 	if not request.user.is_authenticated:
 		return redirect('login')
-	
+
 	try:
 		user_profile = UserProfile.objects.get(user=request.user)
 	except UserProfile.DoesNotExist:
 		user_profile = UserProfile(user=request.user)
-	
+
 	if request.method == 'POST':
 		form = ProfileForm(request.POST, request.FILES, instance=user_profile)
 		if form.is_valid():
@@ -453,7 +450,7 @@ def edit_profile(request):
 				parts = full_name.split()
 				request.user.first_name = parts[0]
 				request.user.last_name = ' '.join(parts[1:]) if len(parts) > 1 else ''
-			
+
 			if form.cleaned_data.get('username'):
 				new_username = form.cleaned_data['username'].strip()
 				if new_username != request.user.username:
@@ -461,7 +458,7 @@ def edit_profile(request):
 						messages.error(request, 'This username is already taken.')
 						return render(request, 'pages/edit_profile.html', {'form': form})
 					request.user.username = new_username
-			
+
 			# Handle password change if provided
 			password1 = form.cleaned_data.get('password1')
 			password2 = form.cleaned_data.get('password2')
@@ -473,14 +470,14 @@ def edit_profile(request):
 				# We'll need to re-login the user after password change
 				updated_user = authenticate(username=request.user.username, password=password1)
 				login(request, updated_user)
-			
+
 			request.user.save()
-			
+
 			# Save the profile with the image
 			profile = form.save(commit=False)
 			profile.user = request.user
 			profile.save()
-			
+
 			messages.success(request, 'Profile updated successfully.')
 			return redirect('profile')
 	else:
@@ -490,9 +487,8 @@ def edit_profile(request):
 			'username': request.user.username,
 		}
 		form = ProfileForm(instance=user_profile, initial=initial_data)
-	
+
 	return render(request, 'pages/edit_profile.html', {'form': form})
->>>>>>> d39b26a (Commit)
 
 
 def user_prayer_request(request):

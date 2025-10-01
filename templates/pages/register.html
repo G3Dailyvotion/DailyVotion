@@ -15,22 +15,6 @@
 {% endblock %}
 {% block content %}
 <div class="registerpage-container">
-<<<<<<< HEAD
-  <div class="registerpage-topbar">
-    <div class="registerpage-logo">DailyVotion</div>
-    <button class="registerpage-menu-btn" id="reg-menu-btn" aria-label="Open menu">
-      <span class="registerpage-menu-icon"></span>
-    </button>
-    <div id="reg-menu" class="registerpage-dropdown-menu hidden">
-      <ul class="list-reset">
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'login' %}">Login</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-      </ul>
-    </div>
-  </div>
-=======
->>>>>>> d39b26a (Commit)
   <div class="registerpage-main">
     <div class="registerpage-paper" style="box-shadow:0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);">
       <h2 class="registerpage-title">Create Your Account</h2>
@@ -80,32 +64,13 @@
       </div>
       <div class="registerpage-modal-actions">
         <button type="button" class="registerpage-modal-close registerpage-modal-cancel">Cancel</button>
-<<<<<<< HEAD
-        <button type="button" class="registerpage-modal-registerbtn" disabled>Register</button>
-=======
   <button type="button" class="registerpage-modal-registerbtn btn-softpulse" disabled>Register</button>
->>>>>>> d39b26a (Commit)
       </div>
     </div>
   </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< HEAD
-  // Menu dropdown
-  const menuBtn = document.getElementById('reg-menu-btn');
-  const menu = document.getElementById('reg-menu');
-  menuBtn.addEventListener('click', function() {
-    menu.classList.toggle('hidden');
-    menuBtn.setAttribute('aria-expanded', !menu.classList.contains('hidden'));
-  });
-  document.addEventListener('click', function(e) {
-    if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !menuBtn.contains(e.target)) {
-      menu.classList.add('hidden');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
   // Modal logic
   const regBtn = document.getElementById('open-terms');
   const modal = document.getElementById('terms-modal');
@@ -138,22 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === modal) modal.classList.add('hidden');
     });
   }
-
-  // Password show/hide
-  const rpwdEye = document.getElementById('rpwd-eye');
-  const rpwd = document.getElementById('rpwd');
-  if (rpwdEye && rpwd) {
-    rpwdEye.addEventListener('click', function() {
-      if (rpwd.type === 'password') {
-        rpwd.type = 'text';
-        rpwdEye.textContent = '👁️';
-      } else {
-        rpwd.type = 'password';
-        rpwdEye.textContent = '👁️‍🗨️';
-      }
-    });
-  }
-=======
   // Corner menu setup
   const menuButton = document.getElementById('auth-menu-button');
   
@@ -229,39 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Modal logic
-  const regBtn = document.getElementById('open-terms');
-  const modal = document.getElementById('terms-modal');
-  const agree = document.getElementById('agree');
-  const confirmBtn = modal.querySelector('.registerpage-modal-registerbtn');
-  const cancelBtn = modal.querySelector('.registerpage-modal-close');
-  if (regBtn && modal) {
-    regBtn.addEventListener('click', function() {
-      modal.classList.remove('hidden');
-    });
-    if (agree && confirmBtn) {
-      agree.addEventListener('change', function() {
-        confirmBtn.disabled = !agree.checked;
-      });
-      confirmBtn.addEventListener('click', function() {
-        if (!confirmBtn.disabled) {
-          document.getElementById('register-form').submit();
-        }
-      });
-    }
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', function() {
-        modal.classList.add('hidden');
-      });
-    }
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') modal.classList.add('hidden');
-    });
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) modal.classList.add('hidden');
-    });
-  }
-
   // Password show/hide
   const rpwdEye = document.getElementById('rpwd-eye');
   const rpwd = document.getElementById('rpwd');
@@ -276,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
->>>>>>> d39b26a (Commit)
   const rcpwdEye = document.getElementById('rcpwd-eye');
   const rcpwd = document.getElementById('rcpwd');
   if (rcpwdEye && rcpwd) {

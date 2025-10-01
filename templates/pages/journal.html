@@ -4,23 +4,8 @@
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/User/UserJournal.css' %}">
 {% endblock %}
+
 {% block content %}
-<div class="journalpage-container">
-
-<<<<<<< HEAD
-  <div class="journalpage-topbar">
-    <a href="{% url 'home' %}" class="journalpage-logo-float" style="position:absolute;left:0px;top:-22px;z-index:10;">
-      <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" style="height:95px;width:auto;pointer-events:auto;" />
-    </a>
-    <button class="journalpage-menu-btn" id="jr-menu-btn" aria-label="Open menu"><span class="journalpage-menu-icon"></span></button>
-    <div id="jr-menu" class="journalpage-dropdown-menu hidden">
-      <ul class="list-reset">
-        <li><a href="{% url 'profile' %}">Profile</a></li>
-        <li><a href="{% url 'journal' %}">Journal</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-      </ul>
-    </div>
-  </div>
 
   <div class="journalpage-header-bg" style="position:relative;width:100%;height:170px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
     <img src="{% static 'pictures/JTVCF/for background picture/dating bg sa canva.jpg' %}"
@@ -41,30 +26,6 @@
       </div>
     </div>
   </div>
-
-=======
-
-  <div class="journalpage-header-bg" style="position:relative;width:100%;height:170px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">
-    <img src="{% static 'pictures/JTVCF/for background picture/dating bg sa canva.jpg' %}"
-         alt="Journal Header Background"
-         style="width:100%;height:220px;object-fit:cover;object-position:top;filter:brightness(0.92);position:absolute;top:0;left:0;z-index:1;">
-    <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}"
-      alt="DailyVotion Logo"
-      style="position:absolute;right:20px;top:-60px;z-index:2;height:300px;width:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.10));background:transparent;border-radius:0;padding:0;">
-    <div style="position:relative;z-index:2;width:100%;max-width:700px;margin-top:38px;text-align:center;">
-      <h1 class="journalpage-title" style="color:#fff;text-shadow:0 2px 16px rgba(0,0,0,0.25),0 1px 2px #008b8b;letter-spacing:1px;">SOAP Journal</h1>
-      <p class="journalpage-guide-main" style="color:#fff;font-size:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,0.18);margin:0.5rem 0 1.2rem;">Do your devotion using the SOAP method: Scripture, Observation, Application, Prayer.</p>
-      <div class="journalpage-date" style="justify-content:center;display:flex;align-items:center;gap:1.2rem;">
-        <div style="display:flex;align-items:center;gap:.5rem;">
-          <label for="id_date" style="color:#fff;text-shadow:0 1px 4px #008b8b;font-weight:600;">Date:</label>
-          {{ form.date }}
-        </div>
-        <a href="{% url 'journalentries' %}" class="journalpage-entries-btn" style="background:#fff;color:#008b8b;font-weight:600;padding:.5rem 1.1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,139,139,0.13);text-decoration:none;transition:background .18s;white-space:nowrap;">Journal Entries</a>
-      </div>
-    </div>
-  </div>
-
->>>>>>> d39b26a (Commit)
 
   <div class="journalpage-soap-grid" style="width:100%;max-width:1200px;margin:40px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:2.2rem;">
   <div class="journalpage-soap-box" style="background:#fff;border-radius:18px;padding:2rem 1.2rem 1.5rem;display:flex;flex-direction:column;align-items:stretch;min-height:370px;">
@@ -110,17 +71,6 @@
     if (box) {
       box.style.display = (box.style.display === 'none') ? 'block' : 'none';
     }
-<<<<<<< HEAD
-  }
-
-  const jmb=document.getElementById('jr-menu-btn');
-  const jm=document.getElementById('jr-menu');
-  if(jmb&&jm){
-    jm.classList.add('hidden');
-    jmb.addEventListener('click',(e)=>{e.stopPropagation();jm.classList.toggle('hidden');});
-    document.addEventListener('click',(e)=>{ if(!jm.classList.contains('hidden') && !jm.contains(e.target) && !jmb.contains(e.target)){ jm.classList.add('hidden'); }});
-=======
->>>>>>> d39b26a (Commit)
   }
   // Clear buttons: clear corresponding textarea by data-target
   document.querySelectorAll('.journalpage-clear-btn').forEach(btn=>{
