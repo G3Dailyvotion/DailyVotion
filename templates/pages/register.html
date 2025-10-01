@@ -73,13 +73,13 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Modal logic
   const regBtn = document.getElementById('open-terms');
-  const modal = document.getElementById('terms-modal');
+  const termsModal = document.getElementById('terms-modal');
   const agree = document.getElementById('agree');
-  const confirmBtn = modal.querySelector('.registerpage-modal-registerbtn');
-  const cancelBtn = modal.querySelector('.registerpage-modal-close');
-  if (regBtn && modal) {
+  const confirmBtn = termsModal ? termsModal.querySelector('.registerpage-modal-registerbtn') : null;
+  const cancelBtn = termsModal ? termsModal.querySelector('.registerpage-modal-close') : null;
+  if (regBtn && termsModal) {
     regBtn.addEventListener('click', function() {
-      modal.classList.remove('hidden');
+      termsModal.classList.remove('hidden');
     });
     if (agree && confirmBtn) {
       agree.addEventListener('change', function() {
@@ -93,14 +93,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (cancelBtn) {
       cancelBtn.addEventListener('click', function() {
-        modal.classList.add('hidden');
+        termsModal.classList.add('hidden');
       });
     }
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') modal.classList.add('hidden');
+      if (e.key === 'Escape') termsModal.classList.add('hidden');
     });
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) modal.classList.add('hidden');
+    termsModal.addEventListener('click', function(e) {
+      if (e.target === termsModal) termsModal.classList.add('hidden');
     });
   }
   // Corner menu setup

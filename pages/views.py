@@ -136,6 +136,12 @@ def profile(request):
 			MockReflection('Grateful for the blessings I have and the people around me.', '2025-09-28')
 		]
 	else:
+		# Ensure a UserProfile exists for authenticated users (older accounts may be missing one)
+		try:
+			UserProfile.objects.get_or_create(user=request.user)
+		except Exception:
+			# If something odd happens, continue gracefully; template falls back to default avatar
+			pass
 		recent_post = JournalEntry.objects.filter(user=request.user).order_by('-date', '-created_at').first()
 		recent_prayers = PrayerRequest.objects.filter(user=request.user).order_by('-created_at')[:5]
 		recent_reflections = Reflection.objects.filter(user=request.user).order_by('-created_at')[:5]
