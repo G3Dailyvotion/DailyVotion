@@ -182,6 +182,13 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
+# Session settings: keep users logged in across browser restarts
+# 30 days by default; can be overridden via env SESSION_COOKIE_AGE (seconds)
+SESSION_COOKIE_AGE = int(os.getenv('SESSION_COOKIE_AGE', str(60 * 60 * 24 * 30)))
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# Refresh the session expiry on each request to maintain activity-based persistence
+SESSION_SAVE_EVERY_REQUEST = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

@@ -68,6 +68,8 @@ def login_view(request):
 					user = None
 		if user is not None:
 			login(request, user)
+			# Keep user logged in for 30 days unless overridden by settings
+			request.session.set_expiry(60 * 60 * 24 * 30)
 			return redirect('profile')
 		messages.error(request, 'Invalid credentials. Please try again.')
 	return render(request, 'pages/login.html')
@@ -114,6 +116,8 @@ def register(request):
 		UserProfile.objects.create(user=user)
 		
 		login(request, user)
+		# Keep user logged in for 30 days
+		request.session.set_expiry(60 * 60 * 24 * 30)
 		return redirect('profile')
 
 	return render(request, 'pages/register.html')
@@ -182,7 +186,8 @@ def admin_login(request):
 			if remember:
 				request.session.set_expiry(60 * 60 * 24 * 14)  # 14 days
 			else:
-				request.session.set_expiry(0)  # Browser-session only
+				# Still persist session for admins for 7 days by default to keep consistency
+				request.session.set_expiry(60 * 60 * 24 * 7)
 			return redirect('admin_dashboard')
 
 		if user is None:
