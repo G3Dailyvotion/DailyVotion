@@ -70,6 +70,16 @@
 
   {% block corner_menu %}{% endblock %}
   
+  {% if messages %}
+  <div class="flash-container" role="status" aria-live="polite">
+    <ul class="flash-list list-reset">
+      {% for message in messages %}
+        <li class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   <main class="main-content">
     {% block content %}{% endblock %}
   </main>

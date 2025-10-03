@@ -68,6 +68,7 @@ def login_view(request):
 					user = None
 		if user is not None:
 			login(request, user)
+			messages.success(request, 'Logged in successfully.')
 			# Keep user logged in for 30 days unless overridden by settings
 			request.session.set_expiry(60 * 60 * 24 * 30)
 			return redirect('profile')
@@ -116,6 +117,7 @@ def register(request):
 		UserProfile.objects.create(user=user)
 		
 		login(request, user)
+		messages.success(request, 'Account created and you are now logged in.')
 		# Keep user logged in for 30 days
 		request.session.set_expiry(60 * 60 * 24 * 30)
 		return redirect('profile')
@@ -582,6 +584,7 @@ def logout_view(request):
 	except Exception:
 		pass
 	logout(request)
+	messages.info(request, 'You have been logged out.')
 	return redirect('home')
 
 # Create your views here.
