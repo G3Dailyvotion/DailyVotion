@@ -2,9 +2,13 @@
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env if present (for local development)
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -192,10 +196,3 @@ WHITENOISE_MAX_AGE = 31536000  # 1 year for static
 # Admin pre-auth configuration (single permanent code)
 # For best security, override via environment variable ADMIN_AUTH_CODE in production.
 ADMIN_AUTH_CODE = os.getenv('ADMIN_AUTH_CODE', 'DV-Admin').strip()
-
-# Email configuration (console in DEBUG, SMTP otherwise unless overridden)
-EMAIL_BACKEND = os.getenv(
-    'EMAIL_BACKEND',
-    'django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend'
-)
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@dailyvotion.local')
