@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}DailyVotion - Home{% endblock %}
-{% block body_class %}homepage-body{% endblock %}
+{% block body_class %}{% if not request.user.is_authenticated %}homepage-body{% endif %}{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/HomePage.css' %}">
 {% endblock %}
 {% block content %}
-<!-- Corner menu button for homepage -->
+{% if not request.user.is_authenticated %}
+<!-- Corner menu button for homepage (guests only) -->
 <button id="homepage-menu-button" class="homepage-menu-button" aria-label="Menu">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="white"/>
   </svg>
-</button>
+  </button>
+{% endif %}
 
 <!-- Homepage content -->
 <div class="homepage-split">
@@ -21,7 +23,11 @@
       "When the time is right, I the Lord will make it happen"<br />
       <span class="homepage-verse">Isaiah 60:22</span>
     </p>
-  <a class="homepage-getstarted btn-softpulse" href="{% url 'login' %}">Get Started</a>
+  {% if request.user.is_authenticated %}
+    <a class="homepage-getstarted btn-softpulse" href="{% url 'profile' %}">Go to Profile</a>
+  {% else %}
+    <a class="homepage-getstarted btn-softpulse" href="{% url 'login' %}">Get Started</a>
+  {% endif %}
   </div>
   <div class="homepage-right">
     <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="Logo" class="homepage-logo-overlay" />
@@ -34,7 +40,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.getElementById('homepage-menu-button');
-    
+
     if (menuButton) {
       // Create a dropdown menu
       const menu = document.createElement('div');
@@ -49,7 +55,7 @@
       menu.style.zIndex = '1100';
       menu.style.display = 'none';
       
-      // Create menu items
+      // Create menu items (guest only)
       const menuItems = [
         { text: 'Home', url: '/' },
         { text: 'Login', url: '{% url "login" %}' },
