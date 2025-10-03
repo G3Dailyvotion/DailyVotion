@@ -53,58 +53,34 @@
               {% if recent_post.scripture %}<p class="profilepage-content">{{ recent_post.scripture }}</p>{% endif %}
               {% if recent_post.observation %}<p class="profilepage-content">{{ recent_post.observation|truncatechars:160 }}</p>{% endif %}
             {% else %}
-              <p class="profilepage-date">Sep 29, 2025</p>
-              <p class="profilepage-content"><strong>Scripture:</strong> John 3:16</p>
-              <p class="profilepage-content"><strong>Observation:</strong> For God so loved the world that He gave His one and only Son...</p>
-              <p class="profilepage-content"><strong>Application:</strong> I am reminded to love others selflessly and share kindness every day.</p>
-              <p class="profilepage-content"><strong>Prayer:</strong> Lord, help me to live out Your love and be a blessing to those around me. Amen.</p>
+              <p class="profilepage-content">No journal entries yet.</p>
             {% endif %}
           </div>
         </a>
       </div>
 
       <div class="profilepage-section">
-        <a href="#" style="text-decoration:none;color:inherit;" onclick="document.getElementById('mock-prayer-modal').classList.remove('hidden');return false;">
-          <div class="profilepage-post profilepage-post-clickable" style="cursor:pointer;box-shadow:none;transition:box-shadow 0.2s;">
-            <h3 style="margin-top:0;">Recent Prayer Requests</h3>
-            {% if recent_prayers %}
-              <ul class="list-reset">
-                {% for p in recent_prayers %}
-                <li>
-                  <span class="profilepage-date">{{ p.created_at|date:'Y-m-d' }}</span>
-                  <div>{{ p.text|truncatechars:140 }}</div>
-                  {% if p.admin_response %}
-                    <div class="profilepage-post" style="margin-top:.5rem">
-                      <strong>Admin Response</strong>
-                      <div class="profilepage-date">{{ p.responded_at|date:'Y-m-d H:i' }}</div>
-                      <div>{{ p.admin_response|truncatechars:160 }}</div>
-                    </div>
-                  {% endif %}
-                </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <span class="profilepage-date">Sep 29, 2025</span>
-              <div><strong>Prayer Request:</strong> Please pray for my upcoming exams and for peace in my family.</div>
-              <div class="profilepage-post" style="margin-top:.5rem">
-                <strong>Admin Response</strong>
-                <div class="profilepage-date">Sep 29, 2025 10:00</div>
-                <div>We are praying for your exams and your family. Trust in God and do your best!</div>
-              </div>
-            {% endif %}
-          </div>
-        </a>
-        <div id="mock-prayer-modal" class="profilepage-modal hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;z-index:9999;">
-          <div style="background:#fff;padding:2rem 2.5rem;border-radius:16px;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,0.18);text-align:left;">
-            <h3 style="margin-top:0;">Prayer Request</h3>
-            <div><strong>Date:</strong> Sep 29, 2025</div>
-            <div><strong>Request:</strong> Please pray for my upcoming exams and for peace in my family.</div>
-            <hr style="margin:1.2rem 0;">
-            <h4 style="margin-bottom:0.5rem;">Admin Response</h4>
-            <div><strong>Date:</strong> Sep 29, 2025 10:00</div>
-            <div>We are praying for your exams and your family. Trust in God and do your best!</div>
-            <button onclick="document.getElementById('mock-prayer-modal').classList.add('hidden');" style="margin-top:1.5rem;padding:0.5rem 1.2rem;background:#008b8b;color:#fff;border:none;border-radius:6px;cursor:pointer;">Close</button>
-          </div>
+        <div class="profilepage-post" style="box-shadow:none;transition:box-shadow 0.2s;">
+          <h3 style="margin-top:0;">Recent Prayer Requests</h3>
+          {% if recent_prayers %}
+            <ul class="list-reset">
+              {% for p in recent_prayers %}
+              <li>
+                <span class="profilepage-date">{{ p.created_at|date:'Y-m-d' }}</span>
+                <div>{{ p.text|truncatechars:140 }}</div>
+                {% if p.admin_response %}
+                  <div class="profilepage-post" style="margin-top:.5rem">
+                    <strong>Admin Response</strong>
+                    <div class="profilepage-date">{{ p.responded_at|date:'Y-m-d H:i' }}</div>
+                    <div>{{ p.admin_response|truncatechars:160 }}</div>
+                  </div>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="profilepage-content">No prayer requests yet.</p>
+          {% endif %}
         </div>
       </div>
 
@@ -122,7 +98,7 @@
           </ul>
         </div>
         {% else %}
-        <div class="profilepage-post"><h3 style="margin-top:0;">Recent Reflections</h3><p>No reflections yet.</p></div>
+        <div class="profilepage-post"><h3 style="margin-top:0;">Recent Reflections</h3><p class="profilepage-content">No reflections yet.</p></div>
         {% endif %}
       </div>
     </div>
