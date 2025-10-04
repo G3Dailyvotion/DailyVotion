@@ -3,7 +3,7 @@ services:
     name: dailyvotion
     env: python
     plan: free
-    buildCommand: chmod +x build.sh && ./build.sh
+    buildCommand: chmod +x build.sh && ./build.sh && python manage.py collectstatic --noinput --clear
     startCommand: gunicorn dailyvotion_django.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
@@ -31,7 +31,7 @@ services:
           property: connectionString
     healthCheckPath: /healthz
     autoDeploy: true
-    preDeployCommand: python manage.py migrate && python manage.py collectstatic --noinput --clear
+    preDeployCommand: python manage.py migrate
 
 databases:
   - name: dailyvotion-db

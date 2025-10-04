@@ -4,10 +4,7 @@ set -euo pipefail
 # Install server dependencies
 pip install -r requirements.txt
 
-# Collect static files for WhiteNoise
-python manage.py collectstatic --noinput --clear
-
-# Create media directories (after collectstatic)
+# Create media directories (will be filled by collectstatic in buildCommand)
 mkdir -p staticfiles/media/profile_pictures
 
 # Run database migrations
