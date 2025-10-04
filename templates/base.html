@@ -7,11 +7,11 @@
   <title>{% block title %}DailyVotion{% endblock %}</title>
   <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}?v=1" />
   <link rel="manifest" href="{% static 'manifest.json' %}" />
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/button-effects.css' %}">
-  <link rel="stylesheet" href="{% static 'css/flash-messages.css' %}">
-  <link rel="stylesheet" href="{% static 'css/navbar-hidden.css' %}">
-  <link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/button-effects.css' %}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/flash-messages.css' %}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/navbar-hidden.css' %}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}?v={{ STATIC_VERSION }}">
   {% block head_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">

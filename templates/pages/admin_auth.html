@@ -4,9 +4,9 @@
 {% block body_class %}admin-page{% endblock %}
 {% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
-<link rel="stylesheet" href="{% static 'css/Admin/Adminauth.css' %}">
-<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
-<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/Adminauth.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}?v={{ STATIC_VERSION }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}

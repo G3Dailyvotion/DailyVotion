@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'dailyvotion_django.context_processors.static_version',
             ],
         },
     },
@@ -154,6 +155,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # WhiteNoise storage: use CompressedManifestStaticFilesStorage for better caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Version string for cache busting (can override via STATIC_VERSION env var)
+STATIC_VERSION = os.getenv('STATIC_VERSION', '2025-10-04')
 
 # CSRF trusted origins: include Render external URL
 CSRF_TRUSTED_ORIGINS = []
