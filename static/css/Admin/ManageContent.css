@@ -293,6 +293,13 @@
   border-color: var(--gray-300);
 }
 
+/* Selected state */
+.admin-user-item.selected {
+  background-color: var(--primary-50, #e0f7fa);
+  border-color: var(--primary-300, #5dbcbc);
+  box-shadow: 0 0 0 2px rgba(0,139,139,0.15);
+}
+
 .admin-user-details {
   display: flex;
   flex-direction: column;
@@ -312,8 +319,61 @@
 .admin-checkbox-label {
   display: flex;
   align-items: center;
-  gap: var(--spacing);
+  gap: 8px; /* tighter spacing to reduce horizontal space */
   cursor: pointer;
+}
+
+/* Compact user row & checkbox adjustments */
+.admin-user-item {
+  padding: 6px 12px; /* reduce vertical height */
+}
+
+/* Base size + color accent for native capable browsers */
+.admin-user-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--primary, #008b8b);
+  cursor: pointer;
+}
+
+/* Optional custom look for browsers that support appearance (keeps accessibility) */
+.admin-user-item input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1.5px solid var(--gray-400, #cbd5e1);
+  border-radius: 4px;
+  display: inline-grid;
+  place-content: center;
+  background: #fff;
+  transition: background .15s, border-color .15s, box-shadow .15s;
+}
+.admin-user-item input[type="checkbox"]:hover {
+  border-color: var(--primary-400, #26a3a3);
+}
+.admin-user-item input[type="checkbox"]:focus-visible {
+  outline: 2px solid rgba(0,139,139,0.45);
+  outline-offset: 2px;
+}
+.admin-user-item input[type="checkbox"]:checked {
+  background: var(--primary, #008b8b);
+  border-color: var(--primary, #008b8b);
+}
+.admin-user-item input[type="checkbox"]:checked::after {
+  content: "";
+  width: 6px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* Selected row still highlighted but with less visual weight */
+.admin-user-item.selected {
+  background-color: var(--primary-25, #f0fbfb);
+  box-shadow: 0 0 0 1px rgba(0,139,139,0.18);
 }
 
 .admin-checkbox-text {

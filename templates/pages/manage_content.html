@@ -4,9 +4,9 @@
 {% block body_class %}admin-page{% endblock %}
 {% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
-<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
-<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
-<link rel="stylesheet" href="{% static 'css/Admin/ManageContent.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/Admin/ManageContent.css' %}?v={{ STATIC_VERSION }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
@@ -183,9 +183,15 @@
     const noResults = document.getElementById('no-results');
     const userItems = document.querySelectorAll('.admin-user-item');
 
+    // Helper: returns NodeList of visible user checkboxes
+    function getVisibleUserCheckboxes() {
+      return Array.from(form.querySelectorAll('input[name="user_ids"]')).filter(cb => cb.closest('.admin-user-item').style.display !== 'none');
+    }
+
     // Function to update the selected recipients count
     function updateCount() {
       if(!form || !countEl) return;
+      // Count only checked boxes (global selection)
       const boxes = form.querySelectorAll('input[name="user_ids"]:checked');
       countEl.textContent = boxes.length.toString();
     }
@@ -221,12 +227,17 @@
           noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
         }
 
-        // Update select all checkbox state
-        if (selectAll && visibleCount === 0) {
-          selectAll.checked = false;
-          selectAll.disabled = true;
-        } else {
-          selectAll.disabled = false;
+        // Update select all checkbox state (consider only visible ones)
+        if (selectAll) {
+          const visibleBoxes = getVisibleUserCheckboxes();
+          if (visibleCount === 0) {
+            selectAll.checked = false;
+            selectAll.disabled = true;
+          } else {
+            selectAll.disabled = false;
+            // If every visible box is checked, mark selectAll
+            selectAll.checked = visibleBoxes.length > 0 && visibleBoxes.every(cb => cb.checked);
+          }
         }
       });
     }
@@ -244,16 +255,46 @@
     // Select All functionality
     if (selectAll && form) {
       selectAll.addEventListener('change', () => {
-        const boxes = form.querySelectorAll('input[name="user_ids"]');
-        // Only select visible checkboxes
-        boxes.forEach(b => {
-          if (b.closest('.admin-user-item').style.display !== 'none') {
-            b.checked = selectAll.checked;
-          }
-        });
+        const visibleBoxes = getVisibleUserCheckboxes();
+        visibleBoxes.forEach(b => { b.checked = selectAll.checked; });
         updateCount();
+        // Highlight rows
+        visibleBoxes.forEach(b => {
+          const row = b.closest('.admin-user-item');
+          if (row) row.classList.toggle('selected', b.checked);
+        });
       });
     }
+
+    // Make entire row clickable & highlight selection
+    userItems.forEach(item => {
+      const cb = item.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      item.addEventListener('click', (e) => {
+        // Avoid double toggling when directly clicking the checkbox
+        if (e.target.tagName.toLowerCase() !== 'input') {
+          cb.checked = !cb.checked;
+          cb.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        item.classList.toggle('selected', cb.checked);
+        updateCount();
+        // Adjust select-all state to reflect current visible selection
+        if (selectAll) {
+          const visibleBoxes = getVisibleUserCheckboxes();
+            selectAll.checked = visibleBoxes.length > 0 && visibleBoxes.every(b => b.checked);
+        }
+      });
+      // Initial highlight if pre-checked
+      if (cb.checked) item.classList.add('selected');
+      // When checkbox changes directly
+      cb.addEventListener('change', () => {
+        item.classList.toggle('selected', cb.checked);
+        if (selectAll) {
+          const visibleBoxes = getVisibleUserCheckboxes();
+          selectAll.checked = visibleBoxes.length > 0 && visibleBoxes.every(b => b.checked);
+        }
+      });
+    });
 
     // Add form validation
     if (form) {
