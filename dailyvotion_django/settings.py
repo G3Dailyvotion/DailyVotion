@@ -152,8 +152,8 @@ if _react_public.exists():
     STATICFILES_DIRS.append(_react_public)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise storage: use non-manifest to avoid runtime errors if collectstatic isn't run
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# WhiteNoise storage: use CompressedManifestStaticFilesStorage for better caching
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CSRF trusted origins: include Render external URL
 CSRF_TRUSTED_ORIGINS = []
