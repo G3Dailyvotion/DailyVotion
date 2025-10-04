@@ -1,42 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Prayer Request History - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/Manageprayerhistory.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
 <div class="manageprayerhistory-container">
-  <div class="manageprayerhistory-topbar" style="position: relative">
-    <div class="manageprayerhistory-logo">DailyVotion</div>
-    <button class="manageprayerhistory-menu-btn" id="mph-menu-btn" aria-label="Open menu" style="background:none;border:none;cursor:pointer;padding:8px;margin-left:auto;display:flex;align-items:center">
-      <span class="manageprayerhistory-menu-icon"><span></span><span></span></span>
-    </button>
-    <div id="mph-menu" class="manageprayerhistory-dropdown-menu" style="display:none">
-      <ul class="list-reset" style="display:flex;flex-direction:column">
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'manage_prayer' %}">&#8592; Back</a></li>
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageprayerhistory-link-btn" href="{% url 'home' %}">Logout</a></li>
-        <li style="padding:12px 20px"><a class="manageprayerhistory-link-btn" href="{% url 'about' %}">About</a></li>
-      </ul>
+  <!-- Admin Topbar -->
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion Admin</div>
+    <ul class="admindash-menu">
+      <li><a href="{% url 'manage_prayer' %}"><i class="fas fa-arrow-left"></i> Back to Prayers</a></li>
+      <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="manageprayerhistory-main">
+    <h1 class="manageprayerhistory-title">Prayer Request History</h1>
+
+    <div class="admin-nav">
+      <a href="{% url 'manage_prayer' %}" class="nav-link">
+        <i class="fas fa-arrow-left"></i> Back to Prayer Requests
+      </a>
+      <a href="{% url 'admin_dashboard' %}" class="nav-link">
+        <i class="fas fa-home"></i> Dashboard
+      </a>
+    </div>
+
+    <div class="prayer-history-cards">
+      {% for r in requests %}
+        <div class="prayer-card">
+          <div class="prayer-card-header">
+            <h3><i class="fas fa-user"></i> {{ r.user.get_full_name|default:r.user.username }}</h3>
+            <span class="prayer-date">{{ r.responded_at|date:'Y-m-d H:i' }}</span>
+          </div>
+          <div class="prayer-card-content">
+            <div class="prayer-request">
+              <h4><i class="fas fa-pray"></i> Request:</h4>
+              <p>{{ r.text }}</p>
+            </div>
+            <div class="prayer-response">
+              <h4><i class="fas fa-reply"></i> Admin Response:</h4>
+              <p>{{ r.admin_response }}</p>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="empty-state">
+          <i class="fas fa-history fa-3x"></i>
+          <p>No responded prayer requests yet.</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
-  <h1 class="manageprayerhistory-title">Prayer Request History</h1>
-  <ul class="manageprayerhistory-list list-reset">
-    {% for r in requests %}
-      <li class="manageprayerhistory-item">
-        <strong>Sender:</strong> {{ r.user.get_full_name|default:r.user.username }}<br>
-        <strong>Request:</strong> {{ r.text }}<br>
-        <strong>Response:</strong> {{ r.admin_response }}<br>
-        <small>{{ r.responded_at|date:'Y-m-d H:i' }}</small>
-      </li>
-    {% empty %}
-      <li class="manageprayerhistory-item">No responded requests yet.</li>
-    {% endfor %}
-  </ul>
 </div>
 {% endblock %}
 {% block extra_js %}
-<script>
-  const mphb=document.getElementById('mph-menu-btn');const mphm=document.getElementById('mph-menu');if(mphb&&mphm){mphb.addEventListener('click',()=>{mphm.style.display=mphm.style.display==='none'?'block':'none';});}
-</script>
+<!-- No extra JS needed as we're using the admin dashboard navigation -->
 {% endblock %}

@@ -20,7 +20,11 @@
       {% if reflections %}
       <ul class="list-reset">
         {% for r in reflections %}
-        <li class="userreflection-response-item"><strong>{{ request.user.get_full_name|default:request.user.username }}:</strong> {{ r.text }}<span class="userreflection-response-date">{{ r.created_at|date:'Y-m-d' }}</span></li>
+        <li class="userreflection-response-item">
+          <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+          <div>{{ r.text }}</div>
+          <span class="userreflection-response-date">{{ r.created_at|date:'Y-m-d' }}</span>
+        </li>
         {% endfor %}
       </ul>
       {% endif %}

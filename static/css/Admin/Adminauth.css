@@ -1,79 +1,174 @@
-/* Copied Adminauth.css */
+/* Modern Admin Authentication CSS */
+:root {
+  --primary: #008b8b;
+  --primary-dark: #007070;
+  --primary-light: #e0f7fa;
+  --gray-light: #f5f7f9;
+  --gray: #e0e0e0;
+  --text-dark: #333;
+  --text-light: #666;
+  --warning: #d9534f;
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+body.admin-page {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 .adminauth-container {
-  min-height: 100vh;
-  background: #e0f7fa; /* Light cyan */
+  min-height: calc(100vh - 60px); /* Account for topbar height */
+  background: linear-gradient(135deg, #e0f7fa 0%, #f5f7fa 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .adminauth-paper {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 8px 32px rgba(0,139,139,0.12);
-  border-radius: 18px;
-  padding: 2.5rem 2rem;
+  background: white;
+  border: none;
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: 2.5rem 2.5rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.adminauth-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--primary);
 }
 
 .adminauth-paper form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally */
+  align-items: center;
 }
 
 .adminauth-title {
-  color: #008b8b;
-  font-size: 1.5rem;
+  color: var(--primary);
+  font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
   text-align: center;
+  position: relative;
 }
 
 .adminauth-guide {
-  color: #555;
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
+  color: var(--text-light);
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  line-height: 1.5;
 }
 
 .adminauth-input {
   width: 100%;
   box-sizing: border-box;
-  border: 2px solid #008b8b;
-  border-radius: 8px;
-  font-size: 1rem;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
+  border: 2px solid var(--gray);
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.adminauth-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 139, 139, 0.2);
 }
 
 .adminauth-btn {
-  background: #008b8b;
-  color: #fff;
+  background: var(--primary);
+  color: white;
   border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: var(--radius);
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
-  width: 60%; /* Or use auto, or 180px for fixed width */
+  transition: var(--transition);
+  width: 100%;
   margin: 0 auto;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .adminauth-btn:hover {
-  background: #006d6d;
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 139, 139, 0.25);
 }
 
 .adminauth-warning {
-  color: #d9534f; /* Bootstrap red */
+  color: #856404;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  padding: 0.75rem;
+  background-color: #fff3cd;
+  border-radius: var(--radius);
+  border-left: 3px solid #ffc107;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Messages */
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  width: 100%;
+}
+
+.messages li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.messages li.error {
+  background-color: rgba(217, 83, 79, 0.1);
+  color: var(--warning);
+  border-left: 3px solid var(--warning);
+}
+
+.messages li.success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border-left: 3px solid #28a745;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .adminauth-paper {
+    padding: 2rem 1.5rem;
+  }
+
+  .adminauth-title {
+    font-size: 1.6rem;
+  }
 }

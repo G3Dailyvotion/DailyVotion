@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Manage Users - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/ManageUser.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
 <div class="manageuser-container-fresh">
-  <div class="manageuser-topbar" style="position: relative">
-    <div class="manageuser-logo-fresh">DailyVotion</div>
-    <button class="manageuser-menu-btn" id="mu-menu-btn" aria-label="Open menu">
-      <span class="manageuser-menu-icon">
-        <span></span>
-        <span></span>
-      </span>
-    </button>
-    <div id="mu-menu" class="manageuser-dropdown-menu" style="display:none">
-      <ul class="list-reset" style="display:flex;flex-direction:column">
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'admin_dashboard' %}">&#8592; Back</a></li>
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-        <li style="padding:12px 20px;border-bottom:1px solid #006d6d"><a class="manageuser-link-btn" href="{% url 'home' %}">Logout</a></li>
-        <li style="padding:12px 20px"><a class="manageuser-link-btn" href="{% url 'about' %}">About</a></li>
-      </ul>
-    </div>
+  <!-- Admin Topbar -->
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion Admin</div>
+    <ul class="admindash-menu">
+      <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
   </div>
+
   <div class="manageuser-main-fresh">
     <h1 class="manageuser-title">Manage Users</h1>
+
+    <div class="admin-nav">
+      <a href="{% url 'admin_dashboard' %}" class="nav-link">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
     <div class="manageuser-sections">
       <div class="manageuser-admins-fresh">
         <h2>Admin Accounts</h2>

@@ -1,175 +1,124 @@
-body, #root {
-  margin: 0;
-  padding: 0;
-}
-
+/* Modern User Management CSS */
 .manageuser-container-fresh {
   min-height: 100vh;
-  background: #f5f7fa;
+  background: var(--gray-light);
   font-family: 'Segoe UI', Arial, sans-serif;
   padding: 0;
-  overflow-y: auto;
-}
-
-.manageuser-topbar {
-  background-color: #008b8b;
-  padding: 12px 24px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-}
-
-.manageuser-logo-fresh {
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.manageuser-menu-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-}
-
-.manageuser-menu-icon {
-  display: block;
-  width: 28px;
-  height: 4px;
-  background: #fff;
-  border-radius: 2px;
-  position: relative;
-}
-.manageuser-menu-icon span {
-  position: absolute;
-  left: 0;
-  width: 28px;
-  height: 4px;
-  background: #fff;
-  border-radius: 2px;
-}
-.manageuser-menu-icon span:first-child {
-  top: -8px;
-}
-.manageuser-menu-icon span:last-child {
-  top: 8px;
-}
-
-.manageuser-dropdown-menu {
-  position: absolute;
-  top: 54px;
-  right: 32px;
-  background: #008b8b;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0,139,139,0.18);
-  z-index: 100;
-  min-width: 180px;
-}
-
-.manageuser-link-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  padding: 0;
+  flex-direction: column;
 }
 
 .manageuser-main-fresh {
-  padding: 1.5rem 2vw;
-  min-height: calc(100vh - 60px);
-  overflow-y: auto;
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .manageuser-title {
-  font-size: 1.7rem;
-  margin-bottom: 1.5rem;
-  color: #2d3e50;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
+  text-align: center;
 }
 
+/* User Sections Layout */
 .manageuser-sections {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  justify-content: center;
 }
 
+/* Admin and User Cards */
 .manageuser-admins-fresh,
 .manageuser-users-fresh {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.12), 0 1.5px 4px rgba(44, 62, 80, 0.08);
-  padding: 1.5rem 1.5rem;
-  flex: 0 1 370px;
-  min-width: 280px;
-  max-width: 420px;
-  transition: box-shadow 0.2s;
-  overflow-y: auto;
-  max-height: 70vh;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  transition: var(--transition);
 }
 
 .manageuser-admins-fresh:hover,
 .manageuser-users-fresh:hover {
-  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.18), 0 2px 8px rgba(44, 62, 80, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .manageuser-admins-fresh h2,
 .manageuser-users-fresh h2 {
-  color: #2d3e50;
-  margin-bottom: 0.7rem;
-  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-light);
 }
 
 .manageuser-admins-fresh ul,
 .manageuser-users-fresh ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
+/* User Item */
 .manageuser-user-item-fresh {
   margin-bottom: 1rem;
   padding: 1rem;
-  border-radius: 8px;
-  background: #f8fafc;
-  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.06);
-  border: 1px solid #eaeaea;
+  border-radius: var(--radius);
+  background: var(--gray-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   font-size: 1rem;
-  transition: box-shadow 0.2s;
+  transition: var(--transition);
+  border-left: 3px solid var(--primary);
 }
 
 .manageuser-user-item-fresh:hover {
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.12);
-  background: #f4f6fc;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* User Actions */
 .manageuser-actions-fresh {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .manageuser-actions-fresh button {
-  background: #2d3e50;
-  color: #fff;
+  background: var(--primary);
+  color: white;
   border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  margin-right: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  flex: 1;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .manageuser-actions-fresh button:hover {
-  background: #1a2533;
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 139, 139, 0.2);
+}
+
+.manageuser-actions-fresh form:last-child button {
+  background-color: #e74c3c;
+}
+
+.manageuser-actions-fresh form:last-child button:hover {
+  background-color: #c0392b;
 }
 
 .manageuser-actions-fresh label {
   font-size: 0.95rem;
-  color: #2d3e50;
+  color: var(--text-dark);
   margin-right: 0.4rem;
   cursor: pointer;
   display: inline-flex;
@@ -177,5 +126,25 @@ body, #root {
 }
 
 .manageuser-actions-fresh input[type="checkbox"] {
-  accent-color: #008b8b;
+  accent-color: var(--primary);
+}
+
+/* Empty state styling */
+.manageuser-user-item-fresh:only-child:not(:has(*)) {
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+  padding: 2rem;
+  border-left: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .manageuser-sections {
+    grid-template-columns: 1fr;
+  }
+
+  .manageuser-main-fresh {
+    padding: 1.5rem;
+  }
 }

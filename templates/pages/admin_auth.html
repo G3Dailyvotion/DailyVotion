@@ -1,19 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Admin Authentication - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/Adminauth.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
+<!-- Admin Topbar - Outside container -->
+<div class="admindash-topbar">
+  <div class="admindash-logo">DailyVotion Admin</div>
+  <ul class="admindash-menu">
+    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+  </ul>
+</div>
+
+<!-- Main content container -->
 <div class="adminauth-container">
   <div class="adminauth-paper">
     <h2 class="adminauth-title">Admin Code Authentication</h2>
-    <p class="adminauth-warning">Please, if you are not an admin and do not have an admin code, exit this page.</p>
+    <p class="adminauth-warning">
+      <i class="fas fa-exclamation-circle"></i>
+      Please, if you are not an admin and do not have an admin code, exit this page.
+    </p>
     <p class="adminauth-guide">Enter the Admin Authentication Code to continue</p>
     {% if messages %}
       <ul class="messages">
         {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
+          <li class="{{ message.tags }}">
+            {% if message.tags == 'error' %}<i class="fas fa-exclamation-triangle"></i>{% endif %}
+            {% if message.tags == 'success' %}<i class="fas fa-check-circle"></i>{% endif %}
+            {{ message }}
+          </li>
         {% endfor %}
       </ul>
     {% endif %}
@@ -23,8 +44,11 @@
       {% if created %}
         <input type="hidden" name="created" value="1" />
       {% endif %}
-      <input type="password" class="adminauth-input" name="code" required />
-      <button type="submit" class="adminauth-btn">Verify</button>
+      <input type="password" class="adminauth-input" name="code" placeholder="Enter authentication code" required />
+      <button type="submit" class="adminauth-btn">
+        <i class="fas fa-lock"></i> Verify
+      </button>
     </form>
   </div>
+</div>
 {% endblock %}

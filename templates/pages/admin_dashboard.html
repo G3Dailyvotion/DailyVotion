@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Admin Dashboard - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
 {% endblock %}
 {% block content %}
 <div class="admindash-container">
+  <!-- Admin Topbar -->
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion Admin</div>
+    <ul class="admindash-menu">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+  </div>
 
   <div class="admindash-main">
     <h1 class="admindash-title">Admin Dashboard</h1>
@@ -24,11 +34,6 @@
         <h2>Interactive Prayer</h2>
         <p>Oversee prayer requests, inspirational quotes, responses, and interactive features.</p>
   <a class="admindash-btn" href="{% url 'manage_prayer' %}">Manage Prayers</a>
-      </div>
-      <div class="admindash-card">
-        <h2>Attendance Management</h2>
-        <p>Monitor and manage user attendance records and related activities.</p>
-        <button class="admindash-btn">Manage Attendance</button>
       </div>
       <div class="admindash-card">
         <h2>Application Feedback</h2>

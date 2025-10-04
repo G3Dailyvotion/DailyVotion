@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Admin Login - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
 {% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/Adminlogin.css' %}">
-{% endblock %}
-{% block corner_menu %}
-<!-- Corner menu button for auth pages -->
-<button id="auth-menu-button" class="homepage-menu-button" aria-label="Menu">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="white"/>
-  </svg>
-</button>
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
 {% endblock %}
 {% block content %}
 <div class="adminlogin-container">
+  <!-- Admin Topbar -->
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion Admin</div>
+    <ul class="admindash-menu">
+      <li><a href="{% url 'home' %}">Home</a></li>
+    </ul>
+  </div>
   <div class="adminlogin-main">
     <div class="adminlogin-paper">
       <h2 class="adminlogin-title">Admin Login</h2>
@@ -53,7 +54,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     // Corner menu setup
     const menuButton = document.getElementById('auth-menu-button');
-    
+
     if (menuButton) {
       // Create a dropdown menu
       const menu = document.createElement('div');
@@ -67,7 +68,7 @@
       menu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
       menu.style.zIndex = '1100';
       menu.style.display = 'none';
-      
+
       // Create menu items
       const menuItems = [
         { text: 'Home', url: '{% url "home" %}' },
@@ -76,12 +77,12 @@
         { text: 'Admin', url: '{% url "admin_login" %}' },
         { text: 'About', url: '{% url "about" %}' }
       ];
-      
+
       const menuList = document.createElement('ul');
       menuList.style.listStyle = 'none';
       menuList.style.margin = '0';
       menuList.style.padding = '0';
-      
+
       menuItems.forEach(item => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -93,22 +94,22 @@
         a.style.display = 'block';
         a.style.fontWeight = 'bold';
         a.style.whiteSpace = 'nowrap';
-        
+
         a.addEventListener('mouseover', function() {
           this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
         });
-        
+
         a.addEventListener('mouseout', function() {
           this.style.backgroundColor = 'transparent';
         });
-        
+
         li.appendChild(a);
         menuList.appendChild(li);
       });
-      
+
       menu.appendChild(menuList);
       document.body.appendChild(menu);
-      
+
       // Toggle menu visibility
       menuButton.addEventListener('click', function() {
         if (menu.style.display === 'none') {
@@ -117,7 +118,7 @@
           menu.style.display = 'none';
         }
       });
-      
+
       // Close menu when clicking outside
       document.addEventListener('click', function(e) {
         if (e.target !== menuButton && !menuButton.contains(e.target) && !menu.contains(e.target)) {

@@ -1,100 +1,362 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Manage Content - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
 <link rel="stylesheet" href="{% static 'css/Admin/ManageContent.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
-<div class="managecontent-container">
-  <div class="managecontent-topbar position-relative">
-    <div class="managecontent-logo">DailyVotion</div>
-    <button class="managecontent-menu-btn btn-reset" id="mc-menu-btn" aria-label="Open menu">
-      <span class="managecontent-menu-icon">
-        <span class="managecontent-menu-icon-line"></span>
-        <span class="managecontent-menu-icon-line"></span>
-      </span>
-    </button>
-    <div id="mc-menu" class="managecontent-dropdown-menu hidden">
-      <ul class="managecontent-dropdown-list list-reset">
-        <li class="managecontent-dropdown-item">
-          <a class="managecontent-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a>
-        </li>
-        <li class="managecontent-dropdown-item">
-          <a class="managecontent-link-btn" href="{% url 'home' %}">Logout</a>
-        </li>
-        <li class="managecontent-dropdown-item">
-          <a class="managecontent-link-btn" href="{% url 'about' %}">About</a>
-        </li>
-      </ul>
+<!-- Admin Topbar -->
+<div class="admindash-topbar">
+  <div class="admindash-logo">DailyVotion Admin</div>
+  <ul class="admindash-menu">
+    <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</div>
+
+<!-- Main Content Area -->
+<div class="admin-content-wrapper">
+  <!-- Page Header -->
+  <div class="admin-page-header">
+    <div class="admin-page-title">
+      <h1><i class="fas fa-tasks"></i> Manage Content</h1>
+      <p>Send devotional content to users and view their reflections</p>
+    </div>
+    <div class="admin-page-actions">
+      <a href="{% url 'admin_dashboard' %}" class="admin-btn secondary">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
     </div>
   </div>
 
-  <div class="managecontent-main">
-    <form method="post" id="deliver-form">
-      {% csrf_token %}
-      <input type="hidden" name="action" value="deliver" />
+  <div class="admin-two-column-layout">
+    <!-- Left Column: User Selection and Content Creation -->
+    <div class="admin-column">
+      <form method="post" id="deliver-form" class="admin-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="deliver" />
 
-      <div class="managecontent-users">
-        <h2>User Accounts</h2>
-        <div class="managecontent-selectall"><label><input type="checkbox" id="mc-select-all" /> Select All</label></div>
-  <ul class="list-reset">
-          {% for u in users %}
-          <li class="managecontent-user-item">
-            <label>
-              <input type="checkbox" name="user_ids" value="{{ u.id }}" />
-              <strong class="ml-8">{{ u.get_full_name|default:u.username }}</strong><br />
-              <span class="ml-28">{{ u.email }}</span>
-            </label>
-          </li>
-          {% empty %}
-          <li class="managecontent-user-item">No users to show.</li>
-          {% endfor %}
-        </ul>
-      </div>
+        <!-- User Selection Panel -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <h2><i class="fas fa-users"></i> Select Recipients</h2>
+            <div class="admin-panel-actions">
+              <label class="admin-checkbox-label">
+                <input type="checkbox" id="mc-select-all">
+                <span class="admin-checkbox-text">Select All</span>
+              </label>
+            </div>
+          </div>
+          <div class="admin-search-container">
+            <div class="admin-search-input-wrapper">
+              <i class="fas fa-search admin-search-icon"></i>
+              <input type="text" id="user-search" class="admin-search-input" placeholder="Search users...">
+              <button type="button" class="admin-search-clear" id="clear-search"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <div class="admin-panel-body with-scroll">
+            <div class="admin-user-list">
+              {% for u in users %}
+              <div class="admin-user-item" data-name="{{ u.get_full_name|default:u.username|lower }}" data-email="{{ u.email|lower }}">
+                <label class="admin-checkbox-label user-select">
+                  <input type="checkbox" name="user_ids" value="{{ u.id }}" class="user-checkbox">
+                  <div class="admin-user-details">
+                    <span class="admin-user-name">{{ u.get_full_name|default:u.username }}</span>
+                    <span class="admin-user-email">{{ u.email }}</span>
+                  </div>
+                </label>
+              </div>
+              {% empty %}
+              <div class="admin-empty-state">
+                <i class="fas fa-users-slash"></i>
+                <p>No users available</p>
+              </div>
+              {% endfor %}
+              <div id="no-results" class="admin-empty-state" style="display: none;">
+                <i class="fas fa-search"></i>
+                <p>No users match your search</p>
+              </div>
+            </div>
+          </div>
+          <div class="admin-panel-footer">
+            <div class="admin-selection-counter">
+              <i class="fas fa-check-circle"></i> <span id="mc-count">0</span> users selected
+            </div>
+          </div>
+        </div>
 
-      <div class="managecontent-delivery">
-        <h2>Reflection & Journal</h2>
-          <div class="managecontent-recipients">Selected recipients: <span id="mc-count">0</span></div>
-          <label>Content:
-            <textarea class="managecontent-textarea" name="content" placeholder="Enter content here..."></textarea>
-          </label>
-          <button type="submit" class="managecontent-btn">Deliver</button>
-        <div class="managecontent-status"></div>
+        <!-- Content Creation Panel -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <h2><i class="fas fa-feather-alt"></i> Create Content</h2>
+          </div>
+          <div class="admin-panel-body">
+            <div class="admin-form-group">
+              <label for="content-message" class="admin-form-label">Message Content</label>
+              <div class="admin-message-toolbar">
+                <button type="button" class="admin-toolbar-btn" data-template="scripture"><i class="fas fa-bible"></i> Add Scripture</button>
+                <button type="button" class="admin-toolbar-btn" data-template="reflection"><i class="fas fa-feather"></i> Add Reflection Prompt</button>
+                <button type="button" class="admin-toolbar-btn" data-template="prayer"><i class="fas fa-pray"></i> Add Prayer Point</button>
+              </div>
+              <textarea
+                id="content-message"
+                name="content"
+                class="admin-form-textarea"
+                placeholder="Write your devotional content or reflection prompt here..."
+                rows="8"
+              ></textarea>
+              <div class="admin-char-counter">
+                <span id="char-count">0</span> characters
+              </div>
+              <p class="admin-form-help">This content will be delivered to all selected users as a reflection prompt</p>
+            </div>
+          </div>
+          <div class="admin-panel-footer">
+            <div class="admin-panel-footer-left">
+              <span class="admin-message-status" id="message-status"></span>
+            </div>
+            <div class="admin-panel-footer-right">
+              <button type="button" class="admin-btn secondary" id="clear-message">
+                <i class="fas fa-eraser"></i> Clear
+              </button>
+              <button type="submit" class="admin-btn primary">
+                <i class="fas fa-paper-plane"></i> Send to Selected Users
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: User Reflections -->
+    <div class="admin-column">
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <h2><i class="fas fa-comments"></i> User Reflections</h2>
+          <div class="admin-panel-actions">
+            <span class="admin-badge">Recent</span>
+          </div>
+        </div>
+        <div class="admin-panel-body with-scroll">
+          <div class="admin-reflection-list">
+            {% for r in recent_reflections %}
+            <div class="admin-reflection-card">
+              <div class="admin-reflection-header">
+                <div class="admin-reflection-user">
+                  <i class="fas fa-user-circle"></i>
+                  <span>{{ r.user.get_full_name|default:r.user.username }}</span>
+                </div>
+                <div class="admin-reflection-time">
+                  <i class="far fa-clock"></i> {{ r.created_at|date:'Y-m-d H:i' }}
+                </div>
+              </div>
+              <div class="admin-reflection-content">
+                {{ r.text }}
+              </div>
+            </div>
+            {% empty %}
+            <div class="admin-empty-state">
+              <i class="fas fa-comment-slash"></i>
+              <p>No reflections have been submitted yet</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-    </form>
-    <div class="managecontent-reflections">
-      <h2>User Reflections</h2>
-  <ul class="list-reset">
-          {% for r in recent_reflections %}
-          <li class="managecontent-reflection-item"><strong>{{ r.user.get_full_name|default:r.user.username }}:</strong> {{ r.text }}<span class="managecontent-reflection-date">{{ r.created_at|date:'Y-m-d H:i' }}</span></li>
-          {% empty %}
-          <li class="managecontent-reflection-item">No reflections yet.</li>
-          {% endfor %}
-        </ul>
     </div>
   </div>
 </div>
 {% endblock %}
 {% block extra_js %}
 <script>
-  const mbtn = document.getElementById('mc-menu-btn');
-  const mmenu = document.getElementById('mc-menu');
-  if (mbtn && mmenu) mbtn.addEventListener('click', ()=>{ mmenu.style.display = mmenu.style.display==='none'?'block':'none'; });
+  document.addEventListener('DOMContentLoaded', function() {
     const selectAll = document.getElementById('mc-select-all');
     const form = document.getElementById('deliver-form');
     const countEl = document.getElementById('mc-count');
-    function updateCount(){
-      if(!form||!countEl) return;
+    const searchInput = document.getElementById('user-search');
+    const clearSearch = document.getElementById('clear-search');
+    const noResults = document.getElementById('no-results');
+    const userItems = document.querySelectorAll('.admin-user-item');
+
+    // Function to update the selected recipients count
+    function updateCount() {
+      if(!form || !countEl) return;
       const boxes = form.querySelectorAll('input[name="user_ids"]:checked');
       countEl.textContent = boxes.length.toString();
     }
-    if (form) form.addEventListener('change', updateCount);
+
+    // Initialize count on page load
+    updateCount();
+
+    // Listen for changes on the form
+    if (form) {
+      form.addEventListener('change', updateCount);
+    }
+
+    // User search functionality
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        userItems.forEach(item => {
+          const name = item.dataset.name || '';
+          const email = item.dataset.email || '';
+
+          if (name.includes(searchTerm) || email.includes(searchTerm) || searchTerm === '') {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // Show/hide no results message
+        if (noResults) {
+          noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+        }
+
+        // Update select all checkbox state
+        if (selectAll && visibleCount === 0) {
+          selectAll.checked = false;
+          selectAll.disabled = true;
+        } else {
+          selectAll.disabled = false;
+        }
+      });
+    }
+
+    // Clear search
+    if (clearSearch && searchInput) {
+      clearSearch.addEventListener('click', function() {
+        searchInput.value = '';
+        // Trigger the input event to reset the list
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+      });
+    }
+
+    // Select All functionality
     if (selectAll && form) {
-      selectAll.addEventListener('change', ()=>{
+      selectAll.addEventListener('change', () => {
         const boxes = form.querySelectorAll('input[name="user_ids"]');
-        boxes.forEach(b=>{ b.checked = selectAll.checked; });
+        // Only select visible checkboxes
+        boxes.forEach(b => {
+          if (b.closest('.admin-user-item').style.display !== 'none') {
+            b.checked = selectAll.checked;
+          }
+        });
         updateCount();
       });
     }
+
+    // Add form validation
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const selectedUsers = form.querySelectorAll('input[name="user_ids"]:checked').length;
+        const contentField = document.getElementById('content-message');
+
+        if (selectedUsers === 0) {
+          e.preventDefault();
+          alert('Please select at least one recipient.');
+        } else if (!contentField.value.trim()) {
+          e.preventDefault();
+          alert('Please enter content to deliver.');
+          contentField.focus();
+        }
+      });
+    }
+
+    // Message content tools
+    const messageField = document.getElementById('content-message');
+    const charCount = document.getElementById('char-count');
+    const clearMessage = document.getElementById('clear-message');
+    const messageStatus = document.getElementById('message-status');
+    const toolbarBtns = document.querySelectorAll('.admin-toolbar-btn');
+
+    // Update character count
+    if (messageField && charCount) {
+      const updateCharCount = () => {
+        const count = messageField.value.length;
+        charCount.textContent = count;
+
+        // Update status message
+        if (messageStatus) {
+          if (count === 0) {
+            messageStatus.textContent = '';
+          } else if (count < 50) {
+            messageStatus.textContent = 'Message is quite short';
+            messageStatus.className = 'admin-message-status text-warning';
+          } else if (count > 1000) {
+            messageStatus.textContent = 'Message is quite long';
+            messageStatus.className = 'admin-message-status text-warning';
+          } else {
+            messageStatus.textContent = 'Message length is good';
+            messageStatus.className = 'admin-message-status text-success';
+          }
+        }
+      };
+
+      messageField.addEventListener('input', updateCharCount);
+      // Initial count
+      updateCharCount();
+    }
+
+    // Clear message button
+    if (clearMessage && messageField) {
+      clearMessage.addEventListener('click', () => {
+        if (messageField.value && confirm('Are you sure you want to clear the message content?')) {
+          messageField.value = '';
+          messageField.focus();
+          // Update char count
+          if (charCount) {
+            charCount.textContent = '0';
+          }
+          if (messageStatus) {
+            messageStatus.textContent = '';
+          }
+        }
+      });
+    }
+
+    // Template buttons
+    if (toolbarBtns && messageField) {
+      const templates = {
+        scripture: "📖 Scripture Focus: [Bible Reference]\n\n[Scripture text...]\n\nReflect on how this passage speaks to you today.",
+        reflection: "🤔 Reflection Question:\n\n[Question text...]\n\nTake a moment to consider this in your own life and share your thoughts.",
+        prayer: "🙏 Prayer Focus:\n\n[Prayer guidance...]\n\nHow can you incorporate this into your prayers today?"
+      };
+
+      toolbarBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const template = btn.dataset.template;
+          if (templates[template]) {
+            // If there's already content, add a line break
+            if (messageField.value.trim() !== '') {
+              messageField.value += '\n\n';
+            }
+            messageField.value += templates[template];
+            messageField.focus();
+
+            // Position cursor in the first placeholder
+            const cursorPos = messageField.value.indexOf('[');
+            if (cursorPos >= 0) {
+              messageField.setSelectionRange(cursorPos, cursorPos + messageField.value.substring(cursorPos).indexOf(']') + 1);
+            }
+
+            // Update character count
+            if (charCount) {
+              charCount.textContent = messageField.value.length;
+            }
+          }
+        });
+      });
+    }
+  });
 </script>
 {% endblock %}

@@ -1,44 +1,51 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Manage Feedback - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/Managefeedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
 <div class="managefeedback-container">
-  <div class="managefeedback-topbar" style="position: relative;">
-    <div class="managefeedback-logo">DailyVotion</div>
-    <button class="managefeedback-menu-btn" id="mf-menu-btn" aria-label="Open menu">
-      <span class="managefeedback-menu-icon"><span></span><span></span></span>
-    </button>
-    <div id="mf-menu" class="managefeedback-dropdown-menu" style="display:none">
-      <ul class="list-reset">
-        <li><a class="managefeedback-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-        <li><a class="managefeedback-link-btn" href="{% url 'home' %}">Logout</a></li>
-        <li><a class="managefeedback-link-btn" href="{% url 'about' %}">About</a></li>
-      </ul>
-    </div>
+  <!-- Admin Topbar -->
+  <div class="admindash-topbar">
+    <div class="admindash-logo">DailyVotion Admin</div>
+    <ul class="admindash-menu">
+      <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
   </div>
+
   <div class="managefeedback-main">
-    <div class="managefeedback-title">User Feedback & Reports</div>
+    <h1 class="managefeedback-title">User Feedback & Reports</h1>
+
+    <div class="admin-nav">
+      <a href="{% url 'admin_dashboard' %}" class="nav-link">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+
     <div class="managefeedback-list">
       {% for f in feedbacks %}
       <div class="managefeedback-item">
-        <div class="managefeedback-user">{{ f.user.get_full_name|default:f.user.username if f.user else 'Anonymous' }}</div>
+        <div class="managefeedback-user">
+          {{ f.user.get_full_name|default:f.user.username if f.user else 'Anonymous' }}
+          <i class="fas fa-comment"></i>
+        </div>
         <div class="managefeedback-text">{{ f.text }}</div>
         <div class="managefeedback-date">{{ f.created_at|date:'Y-m-d H:i' }}</div>
       </div>
       {% empty %}
-      <div class="managefeedback-item">No feedback yet.</div>
+      <div class="empty-state">
+        <i class="fas fa-comments fa-3x"></i>
+        <p>No feedback yet.</p>
+      </div>
       {% endfor %}
     </div>
   </div>
 </div>
-{% endblock %}
-{% block extra_js %}
-<script>
-  const fbtn = document.getElementById('mf-menu-btn');
-  const fmenu = document.getElementById('mf-menu');
-  if (fbtn && fmenu) fbtn.addEventListener('click', ()=>{ fmenu.style.display = fmenu.style.display==='none'?'block':'none'; });
-</script>
 {% endblock %}

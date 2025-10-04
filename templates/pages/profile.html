@@ -68,13 +68,6 @@
               <li>
                 <span class="profilepage-date">{{ p.created_at|date:'Y-m-d' }}</span>
                 <div>{{ p.text|truncatechars:140 }}</div>
-                {% if p.admin_response %}
-                  <div class="profilepage-post" style="margin-top:.5rem">
-                    <strong>Admin Response</strong>
-                    <div class="profilepage-date">{{ p.responded_at|date:'Y-m-d H:i' }}</div>
-                    <div>{{ p.admin_response|truncatechars:160 }}</div>
-                  </div>
-                {% endif %}
               </li>
               {% endfor %}
             </ul>

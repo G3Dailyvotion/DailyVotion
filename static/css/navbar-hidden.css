@@ -1,0 +1,7 @@
+.navbar-hidden {
+  display: none !important;
+}
+
+body.admin-page header {
+  display: none !important;
+}

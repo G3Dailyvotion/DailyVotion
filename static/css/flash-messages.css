@@ -1,0 +1,115 @@
+/* Flash messages styling */
+.flash-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px;
+  z-index: 1500;
+  pointer-events: none;
+}
+
+.flash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.flash {
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  position: relative;
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  animation: flash-slide-in 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
+.flash::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.flash::after {
+  content: '';
+  height: 12px;
+  width: 12px;
+  margin-right: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.flash-success {
+  background: rgba(236, 253, 240, 0.95);
+  color: #0e6245;
+  border: 1px solid rgba(177, 236, 193, 0.6);
+}
+.flash-success::before { background-color: #10b981; }
+.flash-success::after { background-color: #10b981; }
+
+.flash-error {
+  background: rgba(254, 242, 242, 0.95);
+  color: #991b1b;
+  border: 1px solid rgba(252, 165, 165, 0.6);
+}
+.flash-error::before { background-color: #ef4444; }
+.flash-error::after { background-color: #ef4444; }
+
+.flash-info {
+  background: rgba(236, 252, 255, 0.95);
+  color: #0e7490;
+  border: 1px solid rgba(165, 243, 252, 0.6);
+}
+.flash-info::before { background-color: #06b6d4; }
+.flash-info::after { background-color: #06b6d4; }
+
+.flash-warning {
+  background: rgba(255, 251, 235, 0.95);
+  color: #92400e;
+  border: 1px solid rgba(253, 224, 71, 0.6);
+}
+.flash-warning::before { background-color: #f59e0b; }
+.flash-warning::after { background-color: #f59e0b; }
+
+@keyframes flash-slide-in {
+  0% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes flash-fade-out {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .flash-container {
+    max-width: 92%;
+    padding: 0 8px;
+    top: 16px;
+  }
+
+  .flash {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+
+  .flash::after {
+    height: 10px;
+    width: 10px;
+    margin-right: 10px;
+  }
+}

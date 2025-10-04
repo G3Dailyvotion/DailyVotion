@@ -9,7 +9,7 @@
   <div class="userprayerrequest-main">
     <div class="userprayerrequest-content-paper">
       <div class="userprayerrequest-title">Add Prayer Request</div>
-      <div class="userprayerrequest-explanation">Type your prayer request below. It will be sent to the admin for review and response.</div>
+      <div class="userprayerrequest-explanation">Type your prayer request below. It will be stored privately in your account.</div>
       <form method="post">
         {% csrf_token %}
         {{ form.text }}
@@ -23,13 +23,6 @@
         <div class="userprayerrequest-item">
           <div class="userprayerrequest-date">{{ r.created_at|date:'Y-m-d' }}</div>
           <div>{{ r.text }}</div>
-          {% if r.admin_response %}
-            <button class="userprayerrequest-response-btn" type="button" onclick="this.nextElementSibling.classList.toggle('open')">View Admin Response</button>
-            <div class="userprayerrequest-response">
-              <div class="userprayerrequest-response-meta">Responded {{ r.responded_at|date:'Y-m-d H:i' }}</div>
-              <div>{{ r.admin_response }}</div>
-            </div>
-          {% endif %}
         </div>
         {% endfor %}
       </div>

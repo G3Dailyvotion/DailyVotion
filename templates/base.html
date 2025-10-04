@@ -8,6 +8,10 @@
   <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}?v=1" />
   <link rel="manifest" href="{% static 'manifest.json' %}" />
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/button-effects.css' %}">
+  <link rel="stylesheet" href="{% static 'css/flash-messages.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navbar-hidden.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Admin/admin-common.css' %}">
   {% block head_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -27,33 +31,33 @@
             <img src="{% static 'pictures/JTVCF/home page/logo v3.png' %}" alt="DailyVotion Logo" class="navbar-logo-img">
           </a>
         </div>
-        
+
         <button class="navbar-mobile-toggle" id="navbar-mobile-toggle" aria-label="Toggle menu">
           <span class="navbar-mobile-icon"></span>
         </button>
-        
+
         <div class="navbar-menu" id="navbar-menu">
           <ul class="navbar-items list-reset">
             <li class="navbar-item"><a href="{% url 'home' %}">Home</a></li>
             {% if request.user.is_authenticated %}
               <li class="navbar-item"><a href="{% url 'profile' %}">Profile</a></li>
-              
+
               {% with current_url=request.resolver_match.url_name %}
-              
+
                 {% if current_url != 'journal' and current_url != 'profile' %}
               <li class="navbar-item"><a href="{% url 'journal' %}">Journal</a></li>
               {% endif %}
-              
+
                 {% if current_url != 'user_prayer_request' and current_url != 'profile' %}
               <li class="navbar-item"><a href="{% url 'user_prayer_request' %}">Prayer</a></li>
               {% endif %}
-              
+
                 {% if current_url != 'user_reflection' and current_url != 'profile' %}
               <li class="navbar-item"><a href="{% url 'user_reflection' %}">Reflection</a></li>
               {% endif %}
-              
+
               {% endwith %}
-              
+
               <li class="navbar-item"><a href="{% url 'about' %}">About</a></li>
               <li class="navbar-item navbar-logout"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
@@ -69,12 +73,14 @@
   </header>
 
   {% block corner_menu %}{% endblock %}
-  
+
   {% if messages %}
   <div class="flash-container" role="status" aria-live="polite">
     <ul class="flash-list list-reset">
       {% for message in messages %}
-        <li class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</li>
+        <li class="flash flash-{{ message.tags|default:'info' }}" style="--delay: {{ forloop.counter0 }};" onclick="this.style.animation='flash-fade-out 0.3s forwards'">
+          {{ message }}
+        </li>
       {% endfor %}
     </ul>
   </div>
@@ -92,15 +98,42 @@
       const toggleBtn = document.getElementById('navbar-mobile-toggle');
       const menu = document.getElementById('navbar-menu');
       const loader = document.getElementById('app-loader');
+      const navbar = document.querySelector('.navbar');
+      const flashMessages = document.querySelectorAll('.flash');
       let loaderTimer = null;
-      
+      let lastScrollTop = 0;
+
+      // Handle flash messages
+      if (flashMessages.length > 0) {
+        // Make messages dismissable on click
+        flashMessages.forEach(flash => {
+          flash.addEventListener('click', function() {
+            this.style.animation = 'flash-fade-out 0.3s forwards';
+          });
+        });
+
+        // Auto-remove flash container after all messages are gone
+        setTimeout(() => {
+          const container = document.querySelector('.flash-container');
+          if (container) {
+            // Add a fade-out animation to the container
+            container.style.animation = 'flash-fade-out 0.5s forwards';
+            setTimeout(() => {
+              if (container.parentNode) {
+                container.parentNode.removeChild(container);
+              }
+            }, 500);
+          }
+        }, 5000); // Allow enough time for all messages to display and auto-hide
+      }
+
       if (toggleBtn && menu) {
         toggleBtn.addEventListener('click', function() {
           menu.classList.toggle('active');
           toggleBtn.classList.toggle('active');
           toggleBtn.setAttribute('aria-expanded', menu.classList.contains('active'));
         });
-        
+
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
           if (!menu.contains(e.target) && !toggleBtn.contains(e.target) && menu.classList.contains('active')) {
@@ -109,6 +142,49 @@
             toggleBtn.setAttribute('aria-expanded', 'false');
           }
         });
+      }
+
+      // Handle navbar scroll behavior with smart detection
+      if (navbar) {
+        let scrollTimer;
+        let scrollDistance = 0;
+        const scrollThreshold = 100; // minimum scroll to trigger
+        const scrollTimeout = 200;  // ms to consider continuous scrolling
+
+        window.addEventListener('scroll', function() {
+          const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+          const scrollDelta = currentScroll - lastScrollTop;
+
+          // Clear previous timer
+          clearTimeout(scrollTimer);
+
+          // Accumulate scroll distance within the timeout window
+          scrollDistance += scrollDelta;
+
+          // Set new timer
+          scrollTimer = setTimeout(() => {
+            // If scrolled down past threshold and not at the very top
+            if (scrollDistance > scrollThreshold && currentScroll > 150) {
+              navbar.classList.add('navbar-scrolled');
+            }
+            // If scrolled up or at top
+            else if (scrollDistance < -20 || currentScroll < 100) {
+              navbar.classList.remove('navbar-scrolled');
+            }
+
+            // Reset accumulated distance
+            scrollDistance = 0;
+          }, scrollTimeout);
+
+          lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        }, { passive: true });
+
+        // Always show navbar when user hovers near the top
+        document.addEventListener('mousemove', function(e) {
+          if (e.clientY < 80) {
+            navbar.classList.remove('navbar-scrolled');
+          }
+        }, { passive: true });
       }
 
       // Loader helpers

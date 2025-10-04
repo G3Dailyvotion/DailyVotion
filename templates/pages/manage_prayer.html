@@ -1,78 +1,235 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Manage Prayer - DailyVotion{% endblock %}
+{% block body_class %}admin-page{% endblock %}
+{% block hide_navbar %}navbar-hidden{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/Admin/Manageprayer.css' %}">
+<link rel="stylesheet" href="{% static 'css/Admin/AdminDashboard.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 {% block content %}
-<div class="manageprayer-container">
-  <div class="manageprayer-topbar position-relative">
-    <div class="manageprayer-logo">DailyVotion</div>
-  <button class="manageprayer-menu-btn btn-reset" id="mp-menu-btn" aria-label="Open menu">
-      <span class="manageprayer-menu-icon"><span></span><span></span></span>
-    </button>
-  <div id="mp-menu" class="manageprayer-dropdown-menu hidden">
-      <ul class="manageprayer-dropdown-list list-reset">
-        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'admin_dashboard' %}">&#8592; Back</a></li>
-        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'home' %}">Logout</a></li>
-        <li class="manageprayer-dropdown-item"><a class="manageprayer-link-btn" href="{% url 'about' %}">About</a></li>
-      </ul>
+<!-- Admin Topbar - Outside container -->
+<div class="admindash-topbar">
+  <div class="admindash-logo">DailyVotion Admin</div>
+  <ul class="admindash-menu">
+    <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</div>
+
+<div class="prayer-container">
+  <div class="prayer-header">
+    <h1>Manage Prayer Requests</h1>
+
+    <div class="admin-nav">
+      <a href="{% url 'admin_dashboard' %}" class="nav-link">
+        <i class="fas fa-arrow-left"></i> Dashboard
+      </a>
+      <a href="{% url 'manage_prayer_history' %}" class="nav-link">
+        <i class="fas fa-history"></i> View History
+      </a>
+    </div>
+
+    <div class="search-filter">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search users or prayer requests..." aria-label="Search">
+      </div>
+      <select id="status-filter" class="filter-select">
+        <option value="all">All Requests</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+      </select>
     </div>
   </div>
-  <h1 style="color:#008b8b;margin:2rem 0 1rem 0">Manage Prayer Requests</h1>
-  <div class="manageprayer-main">
-    <div class="manageprayer-requests">
-      <h2>Prayer Requests</h2>
-  <ul class="manageprayer-list list-reset">
-        {% for r in requests %}
-        <li class="manageprayer-request-item" data-request-id="{{ r.id }}">
-          <strong>{{ r.user.get_full_name|default:r.user.username }}</strong><br>
-          <span>{{ r.text }}</span>
-        </li>
-        {% empty %}
-        <li class="manageprayer-request-item">No pending prayer requests.</li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="manageprayer-response">
-      <h2>Respond to Request</h2>
-      <form class="manageprayer-response-form" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="respond" />
-        <input type="hidden" id="req-id" name="request_id" />
-        <label>
-          Response:
-          <textarea class="manageprayer-response-textarea" name="response" placeholder="Type your prayer response here..."></textarea>
-        </label>
-        <div class="manageprayer-actions">
-          <button class="manageprayer-btn" type="submit" id="mp-send" disabled>Send Response</button>
-          <a class="manageprayer-btn" href="{% url 'manage_prayer_history' %}">View History</a>
+
+  <div class="prayer-content">
+    {% regroup requests by user as user_requests_list %}
+
+    {% for user_group in user_requests_list %}
+    <div class="user-card">
+      <div class="user-header">
+        <h2 class="user-name">
+          {{ user_group.grouper.get_full_name|default:user_group.grouper.username }}
+          <span class="request-count">{{ user_group.list|length }}</span>
+        </h2>
+      </div>
+      <div class="request-list">
+        {% for request in user_group.list %}
+        <div class="request-card">
+          <div class="request-info">
+            <h3 class="request-title">Prayer Request #{{ request.id }}</h3>
+            <span class="request-date">{{ request.created_at|date:"M d, Y" }}</span>
+            <p class="request-text">{{ request.text }}</p>
+          </div>
+          <div class="request-actions">
+            <span class="status-badge pending">Pending</span>
+            <button class="reply-btn" data-request-id="{{ request.id }}">Reply</button>
+          </div>
+
+          <div class="reply-form" id="reply-form-{{ request.id }}" style="display: none;">
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="respond" />
+              <input type="hidden" name="request_id" value="{{ request.id }}" />
+
+              <div class="form-group">
+                <label for="response-{{ request.id }}">Your Response:</label>
+                <textarea
+                  id="response-{{ request.id }}"
+                  name="response"
+                  placeholder="Write your response here..."
+                  required></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                  <i class="fas fa-paper-plane"></i> Send Response
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
-      <div class="manageprayer-status"></div>
+        {% endfor %}
+      </div>
     </div>
+    {% empty %}
+    <div class="empty-state">
+      <i class="fas fa-inbox fa-3x"></i>
+      <p>No pending prayer requests at this time.</p>
+    </div>
+    {% endfor %}  <!-- Pagination -->
+  {% if requests.has_other_pages %}
+  <div class="pagination">
+    {% if requests.has_previous %}
+    <a href="?page={{ requests.previous_page_number }}" class="page-btn">
+      <i class="fas fa-chevron-left"></i>
+    </a>
+    {% else %}
+    <span class="page-btn disabled">
+      <i class="fas fa-chevron-left"></i>
+    </span>
+    {% endif %}
+
+    {% for i in requests.paginator.page_range %}
+      {% if requests.number == i %}
+      <span class="page-btn active">{{ i }}</span>
+      {% else %}
+      <a href="?page={{ i }}" class="page-btn">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if requests.has_next %}
+    <a href="?page={{ requests.next_page_number }}" class="page-btn">
+      <i class="fas fa-chevron-right"></i>
+    </a>
+    {% else %}
+    <span class="page-btn disabled">
+      <i class="fas fa-chevron-right"></i>
+    </span>
+    {% endif %}
   </div>
+  {% endif %}
+</div>
 </div>
 {% endblock %}
 {% block extra_js %}
 <script>
-  const mpb=document.getElementById('mp-menu-btn');
-  const mpm=document.getElementById('mp-menu');
-  if(mpb&&mpm){
-    mpm.classList.add('hidden');
-    mpb.addEventListener('click',()=>{mpm.classList.toggle('hidden');});
-  }
-  // Click request to set it active for response
-  const items = document.querySelectorAll('.manageprayer-request-item[data-request-id]');
-  const hiddenId = document.getElementById('req-id');
-  const sendBtn = document.getElementById('mp-send');
-  items.forEach(it=>{
-    it.addEventListener('click', ()=>{
-      items.forEach(n=>n.classList.remove('active'));
-      it.classList.add('active');
-      if(hiddenId) hiddenId.value = it.getAttribute('data-request-id');
-      if(sendBtn) sendBtn.disabled = false;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const userCards = document.querySelectorAll('.user-card');
+
+        userCards.forEach(card => {
+          const userName = card.querySelector('.user-name').textContent.toLowerCase();
+          const requests = card.querySelectorAll('.request-card');
+          let showUser = false;
+
+          // Search in user name
+          if (userName.includes(searchTerm)) {
+            showUser = true;
+          } else {
+            // Search in requests
+            requests.forEach(request => {
+              const requestText = request.querySelector('.request-text').textContent.toLowerCase();
+              if (requestText.includes(searchTerm)) {
+                showUser = true;
+              }
+            });
+          }
+
+          card.style.display = showUser ? 'block' : 'none';
+        });
+      });
+    }
+
+    // Status filter
+    const statusFilter = document.getElementById('status-filter');
+    if (statusFilter) {
+      statusFilter.addEventListener('change', function() {
+        const selectedStatus = this.value.toLowerCase();
+
+        if (selectedStatus === 'all') {
+          document.querySelectorAll('.request-card').forEach(request => {
+            request.style.display = 'block';
+          });
+
+          document.querySelectorAll('.user-card').forEach(card => {
+            card.style.display = 'block';
+          });
+        } else {
+          document.querySelectorAll('.request-card').forEach(request => {
+            const statusBadge = request.querySelector('.status-badge');
+            const status = statusBadge ? statusBadge.classList.contains(selectedStatus) : false;
+            request.style.display = status ? 'block' : 'none';
+          });
+
+          document.querySelectorAll('.user-card').forEach(card => {
+            const visibleRequests = card.querySelectorAll('.request-card[style="display: block"]');
+            card.style.display = visibleRequests.length > 0 ? 'block' : 'none';
+          });
+        }
+      });
+    }
+
+    // Reply button functionality
+    document.querySelectorAll('.reply-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const requestId = this.getAttribute('data-request-id');
+        const replyForm = document.getElementById('reply-form-' + requestId);
+
+        if (replyForm) {
+          if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+            // Hide any other open forms
+            document.querySelectorAll('.reply-form').forEach(form => {
+              if (form !== replyForm) {
+                form.style.display = 'none';
+              }
+            });
+
+            // Show this form with animation
+            replyForm.style.display = 'block';
+            replyForm.classList.add('form-visible');
+
+            // Focus the textarea
+            setTimeout(() => {
+              const textarea = replyForm.querySelector('textarea');
+              if (textarea) textarea.focus();
+            }, 100);
+          } else {
+            // Hide with animation
+            replyForm.classList.remove('form-visible');
+            setTimeout(() => {
+              replyForm.style.display = 'none';
+            }, 200);
+          }
+        }
+      });
     });
   });
 </script>
