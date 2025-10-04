@@ -31,7 +31,7 @@ services:
           property: connectionString
     healthCheckPath: /healthz
     autoDeploy: true
-    preDeployCommand: python manage.py migrate
+    preDeployCommand: python manage.py migrate && python manage.py collectstatic --noinput
 
 databases:
   - name: dailyvotion-db
