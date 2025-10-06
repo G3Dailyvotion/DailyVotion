@@ -113,8 +113,9 @@ def register(request):
 			last_name=last_name,
 		)
 		
-		# Create UserProfile for the new user
-		UserProfile.objects.create(user=user)
+		# Signal will automatically create UserProfile
+		# Get profile or create if it doesn't exist (shouldn't happen due to signal)
+		UserProfile.objects.get_or_create(user=user)
 		
 		login(request, user)
 		messages.success(request, 'Account created and you are now logged in.')
