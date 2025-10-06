@@ -3,8 +3,15 @@
   min-height: 100vh;
   background: #e0f7fa;
   display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.adminregister-container.flex-column {
+  flex-direction: column;
+}
+
+.adminregister-container.flex-column .adminregister-paper {
+  margin: auto;
+  margin-top: 2rem;
 }
 
 .adminregister-paper {
